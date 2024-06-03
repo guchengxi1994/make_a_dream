@@ -1,0 +1,29 @@
+# dart run package_rename
+package_rename_config:
+  android:
+    app_name: Make a dream
+    package_name: cn.xiaoshuyui.make_a_dream
+
+  ios:
+    app_name: Make a dream
+    bundle_name: make_a_dream
+    package_name: cn.xiaoshuyui.make_a_dream
+
+  web:
+    app_name: Make a dream
+    short_app_name: make_a_dream
+    description: FOR FUN.
+
+  linux:
+    app_name: Make a dream
+    package_name: cn.xiaoshuyui.make_a_dream
+    exe_name: makeadream-linux-x64
+
+  windows:
+    app_name: Make a dream
+    organization: Xiaoshuyui
+    exe_name: makeadream
+
+  macos:
+    app_name: Make a dream
+    package_name: cn.xiaoshuyui.make_a_dream
