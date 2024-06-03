@@ -19,6 +19,7 @@ class MentorNpcNotifier extends AutoDisposeNotifier<(String, bool)> {
 
   void introduce() {
     final stream = aiClient.stream([
+      ...aiClient.systemMessages,
       ChatMessage.system("你是这个游戏的制作人，会为玩家介绍一些简单的游戏功能。"),
       ChatMessage.humanText("很高兴第一次见到你,请问我要怎么做呢？")
     ]);
@@ -30,8 +31,8 @@ class MentorNpcNotifier extends AutoDisposeNotifier<(String, bool)> {
         controller.jumpTo(controller.position.maxScrollExtent);
       },
       onDone: () {
-        controller.jumpTo(controller.position.maxScrollExtent);
         state = (state.$1, true);
+        controller.jumpTo(controller.position.maxScrollExtent);
       },
     );
   }

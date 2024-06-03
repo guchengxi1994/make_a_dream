@@ -4,7 +4,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:make_a_dream/game/npcs/mentor.dart';
+import 'package:make_a_dream/game/npcs/mentor_npc.dart';
 
 import '../player.dart';
 
@@ -34,13 +34,13 @@ class SimplePlayerPage extends ConsumerWidget {
         )
       ],
       player: SinglePlayer(
-        position: Vector2(tileSize * 7, tileSize * 6),
+        position: Vector2(tileSize * 6.8, tileSize * 6),
       ),
       components: [
         MentorNpc(
-          position: Vector2(tileSize * 3, tileSize * 3),
+          position: Vector2(tileSize * 6.9, tileSize * 3),
           size: Vector2.all(18),
-        )
+        ),
       ],
       cameraConfig: CameraConfig(
         zoom: getZoomFromMaxVisibleTile(context, tileSize, 20),

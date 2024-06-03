@@ -20,6 +20,7 @@ void main() async {
 
   AiClient aiClient = AiClient();
   aiClient.initOpenAi(DevUtils.env);
+  aiClient.initGameModel(DevUtils.prompt);
 
   if (!kIsWeb) {
     await Flame.device.setLandscape();

@@ -18,6 +18,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   isar: *isar_version
   isar_flutter_libs: *isar_version # dart run build_runner build
+  json_annotation: ^4.9.0 # dart run build_runner build
   langchain_lib:
     git:
       url: https://github.com/guchengxi1994/langchain_lib
@@ -32,6 +33,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   isar_generator: *isar_version
+  json_serializable: ^6.8.0
   package_rename: ^1.6.0   # dart run package_rename
   
 flutter:

@@ -8,26 +8,47 @@ class MentorNpc extends SimpleNpc {
   MentorNpc({required super.position, required super.size})
       : super(
             animation: PersonSpritesheet(path: "mentor.png").simpleAnimation(),
-            speed: 0);
+            speed: 0,
+            initDirection: Direction.down);
 
   bool isInDialog = false;
 
+  late final TextPaint _textConfig = TextPaint(
+    style: TextStyle(color: Colors.white, fontSize: width / 4),
+  );
+
+  double xCenter = 0;
+  double yCenter = 0;
+
   @override
   Future<void> onLoad() {
-    add(RectangleHitbox(size: size / 4, position: size / 4));
+    String text = "mentor";
+    final textSize = _textConfig.getLineMetrics(text).size;
+    xCenter = (width - textSize.x) / 2;
+    yCenter = (height - textSize.y) / 2;
+    add(
+      TextComponent(
+        text: text,
+        position: Vector2(xCenter, -0.5 * yCenter),
+        textRenderer: _textConfig,
+      ),
+    );
+
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
     super.update(dt);
+
     if (gameRef.player != null &&
-        gameRef.player!.position.distanceTo(position) < 10) {
-      if (!isInDialog) {
-        gameRef.player!.stopMove();
-        _showTalk();
-        isInDialog = true;
-      }
+        gameRef.player!.position.distanceTo(position) < 10 &&
+        !isInDialog) {
+      moveToPosition(gameRef.player!.position);
+
+      gameRef.player!.stopMove();
+      _showTalk();
+      isInDialog = true;
     }
   }
 
