@@ -38,3 +38,46 @@ target_include_directories(${BINARY_NAME} PRIVATE "${CMAKE_SOURCE_DIR}")
 
 # Run the Flutter tool portions of the build. This must not be removed.
 add_dependencies(${BINARY_NAME} flutter_assemble)
+
+
+get_filename_component(P1 ${CMAKE_CURRENT_BINARY_DIR} DIRECTORY)
+message(STATUS "P1 ==> " ${P1})
+
+string(REPLACE "/build/windows/x64" "" ROOT_DIR ${P1})
+
+message(STATUS "ROOT_DIR ==> " ${ROOT_DIR})
+
+# create .env if .env not exists
+set(ENV_PATH ${ROOT_DIR}/env.json)
+set(PROMPT_PATH ${ROOT_DIR}/prompts.json)
+
+if(NOT EXISTS ${ENV_PATH})
+    set(MULTILINE_TEXT
+        "
+        {
+          \"models\": [
+              {
+                  \"tag\": \"text-model\",
+                  \"llm-base\": \"https://****/v1\",
+                  \"llm-model-name\": \"****\",
+                  \"llm-sk\": \"****\"
+              }
+          ]
+      }
+        "
+    )
+    file(WRITE ${ENV_PATH} ${MULTILINE_TEXT})
+    message("File did not exist, so it was created.")
+else()
+    message("File already exists.")
+endif()
+
+add_custom_target(copy-runtime-files ALL
+  COMMAND ${CMAKE_COMMAND} -E copy ${ENV_PATH} ${P1}/runner/Debug/env.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${ENV_PATH} ${P1}/runner/Release/env.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${ENV_PATH} ${P1}/runner/Profile/env.json
+
+  COMMAND ${CMAKE_COMMAND} -E copy ${PROMPT_PATH} ${P1}/runner/Debug/prompts.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${PROMPT_PATH} ${P1}/runner/Release/prompts.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${PROMPT_PATH} ${P1}/runner/Profile/prompts.json
+)

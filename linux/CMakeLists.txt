@@ -143,3 +143,42 @@ if(NOT CMAKE_BUILD_TYPE MATCHES "Debug")
   install(FILES "${AOT_LIBRARY}" DESTINATION "${INSTALL_BUNDLE_LIB_DIR}"
     COMPONENT Runtime)
 endif()
+
+
+get_filename_component(P1 ${CMAKE_CURRENT_BINARY_DIR} DIRECTORY)
+message(STATUS "P1 ==> " ${P1})
+string(REPLACE "/build/linux/x64" "" ROOT_DIR ${P1})
+message(STATUS "ROOT_DIR ==> " ${ROOT_DIR})
+
+set(ENV_PATH ${ROOT_DIR}/env.json)
+
+if(NOT EXISTS ${ENV_PATH})
+    set(MULTILINE_TEXT
+    "
+    {
+      \"models\": [
+          {
+              \"tag\": \"text-model\",
+              \"llm-base\": \"https://****/v1\",
+              \"llm-model-name\": \"****\",
+              \"llm-sk\": \"****\"
+          }
+      ]
+  }
+    "
+    )
+    file(WRITE ${ENV_PATH} ${MULTILINE_TEXT})
+    message("File did not exist, so it was created.")
+else()
+    message("File already exists.")
+endif()
+
+install(FILES "${ENV_PATH}"
+    DESTINATION "${P1}/debug/bundle/"
+    COMPONENT Runtime)
+install(FILES "${ENV_PATH}"
+    DESTINATION "${P1}/release/bundle/"
+    COMPONENT Runtime)
+install(FILES "${ENV_PATH}"
+    DESTINATION "${P1}/profile/bundle/"
+    COMPONENT Runtime)
