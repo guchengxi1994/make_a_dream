@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:isar/isar.dart';
 
 part 'player_record.g.dart';
@@ -31,6 +33,10 @@ class PlayerAbility {
   late double /* 智力 ,根据智力可以获取更高级别的知识*/ intelligence = 32;
 }
 
+extension ToChartA on PlayerAbility {
+  Widget toChart() {}
+}
+
 @embedded
 class PlayerKnowledge {
   late double math = 0;
@@ -42,3 +48,5 @@ class PlayerKnowledge {
   late double /* 生物 */ biography = 0;
   late double /* IT */ it = 0;
 }
+
+extension ToChartK on PlayerKnowledge {}

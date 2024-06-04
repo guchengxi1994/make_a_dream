@@ -16,6 +16,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter:
     sdk: flutter
+  flutter_layout_grid: ^2.0.7
+  flutter_radar_chart: ^0.2.1
   flutter_riverpod: ^2.5.1
   isar: *isar_version
   isar_flutter_libs: *isar_version # dart run build_runner build
