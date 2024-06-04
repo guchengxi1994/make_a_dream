@@ -11,6 +11,7 @@ environment:
 isar_version: &isar_version 3.1.0
 
 dependencies:
+  blur: ^4.0.0
   bonfire: ^3.9.3
   cupertino_icons: ^1.0.6
   flutter:
@@ -23,13 +24,14 @@ dependencies:
     git:
       url: https://github.com/guchengxi1994/langchain_lib
   markdown_widget: ^2.3.2+6
+  path_provider: ^2.1.2
   riverpod: ^2.5.1
   
 
 dev_dependencies:
   build_runner: any
   flutter_launcher_icons: "^0.13.1"
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
   isar_generator: *isar_version
@@ -42,6 +44,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/opening/
     - assets/images/tiled/punnyworld/
 
 icon_path : &icon_path "assets/icon.png"
