@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:langchain_lib/langchain_lib.dart';
 import 'package:make_a_dream/game/npcs/ai_client.dart';
+import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
 
 class MentorNpcNotifier extends AutoDisposeNotifier<(String, bool)> {
   final ScrollController controller = ScrollController();
@@ -22,8 +23,10 @@ class MentorNpcNotifier extends AutoDisposeNotifier<(String, bool)> {
 
     final stream = aiClient.stream([
       ...aiClient.systemMessages,
+      SystemChatMessage(
+          content: "玩家的名字是${ref.read(playerProvider).current?.name}"),
       ChatMessage.system(mentor.role),
-      ChatMessage.humanText("很高兴第一次见到你,请问我要怎么做呢？")
+      ChatMessage.humanText("请介绍一下游戏内容。")
     ]);
 
     stream.listen(
