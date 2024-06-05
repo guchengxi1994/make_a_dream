@@ -1,5 +1,6 @@
 import 'package:isar/isar.dart';
-import 'package:make_a_dream/common/logger.dart';
+import 'package:make_a_dream/common/logger_utils.dart';
+import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_record.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -25,5 +26,5 @@ class IsarDatabase {
     );
   }
 
-  late List<CollectionSchema<Object>> schemas = [PlayerRecordSchema];
+  late List<CollectionSchema<Object>> schemas = [PlayerRecordSchema, NpcSchema];
 }

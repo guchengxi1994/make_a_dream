@@ -1,0 +1,53 @@
+{
+    "plots": [
+        {
+            "npc": "mentor",
+            "plot": [
+                {
+                    "content": "introduce",
+                    "type": "once",
+                    "id": 1,
+                    "related-achievement": 1,
+                    "requirements": {
+                        "endurance": 0,
+                        "intelligence": 0,
+                        "strength": 0,
+                        "attunement": 0,
+                        "dexterity": 0,
+                        "vitality": 0,
+                        "math": 0,
+                        "language": 0,
+                        "history": 0,
+                        "geography": 0,
+                        "chemistry": 0,
+                        "physics": 0,
+                        "biography": 0,
+                        "it": 0
+                    }
+                },
+                {
+                    "content": "quiz",
+                    "type": "repeat",
+                    "id": 2,
+                    "related-achievement": null,
+                    "requirements": {
+                        "endurance": 0,
+                        "intelligence": 0,
+                        "strength": 0,
+                        "attunement": 0,
+                        "dexterity": 0,
+                        "vitality": 0,
+                        "math": 0,
+                        "language": 0,
+                        "history": 0,
+                        "geography": 0,
+                        "chemistry": 0,
+                        "physics": 0,
+                        "biography": 0,
+                        "it": 0
+                    }
+                }
+            ]
+        }
+    ]
+}

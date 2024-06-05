@@ -36,7 +36,7 @@ class _MixedButtonState extends State<MixedButton> {
 
         while (isPressed) {
           widget.onLongPressed();
-          await Future.delayed(const Duration(milliseconds: 500));
+          await Future.delayed(const Duration(milliseconds: 250));
         }
       },
       child: InkWell(

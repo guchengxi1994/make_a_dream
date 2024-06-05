@@ -50,6 +50,8 @@ message(STATUS "ROOT_DIR ==> " ${ROOT_DIR})
 # create .env if .env not exists
 set(ENV_PATH ${ROOT_DIR}/env.json)
 set(PROMPT_PATH ${ROOT_DIR}/prompts.json)
+set(ACH_PATH ${ROOT_DIR}/achievements.json)
+set(PLOT_PATH ${ROOT_DIR}/plot.json)
 
 if(NOT EXISTS ${ENV_PATH})
     set(MULTILINE_TEXT
@@ -80,4 +82,12 @@ add_custom_target(copy-runtime-files ALL
   COMMAND ${CMAKE_COMMAND} -E copy ${PROMPT_PATH} ${P1}/runner/Debug/prompts.json
   COMMAND ${CMAKE_COMMAND} -E copy ${PROMPT_PATH} ${P1}/runner/Release/prompts.json
   COMMAND ${CMAKE_COMMAND} -E copy ${PROMPT_PATH} ${P1}/runner/Profile/prompts.json
+
+  COMMAND ${CMAKE_COMMAND} -E copy ${ACH_PATH} ${P1}/runner/Debug/achievements.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${ACH_PATH} ${P1}/runner/Release/achievements.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${ACH_PATH} ${P1}/runner/Profile/achievements.json
+
+  COMMAND ${CMAKE_COMMAND} -E copy ${PLOT_PATH} ${P1}/runner/Debug/plot.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${PLOT_PATH} ${P1}/runner/Release/plot.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${PLOT_PATH} ${P1}/runner/Profile/plot.json
 )

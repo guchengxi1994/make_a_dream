@@ -2,13 +2,13 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:make_a_dream/common/routers.dart';
+import 'package:make_a_dream/global/routers.dart';
 // ignore: depend_on_referenced_packages
 import 'package:logging/logging.dart';
 import 'package:make_a_dream/isar/database.dart';
 
 import 'common/dev_utils.dart';
-import 'game/npcs/ai_client.dart';
+import 'global/ai_client.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +22,8 @@ void main() async {
   AiClient aiClient = AiClient();
   aiClient.initOpenAi(DevUtils.env);
   aiClient.initGameModel(DevUtils.prompt);
+  aiClient.initPlot(DevUtils.plot);
+  aiClient.initAchievements(DevUtils.achievements);
 
   IsarDatabase database = IsarDatabase();
   await database.initialDatabase();

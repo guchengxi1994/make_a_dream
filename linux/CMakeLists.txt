@@ -151,6 +151,9 @@ string(REPLACE "/build/linux/x64" "" ROOT_DIR ${P1})
 message(STATUS "ROOT_DIR ==> " ${ROOT_DIR})
 
 set(ENV_PATH ${ROOT_DIR}/env.json)
+set(PROMPT_PATH ${ROOT_DIR}/prompts.json)
+set(ACH_PATH ${ROOT_DIR}/achievements.json)
+set(PLOT_PATH ${ROOT_DIR}/plot.json)
 
 if(NOT EXISTS ${ENV_PATH})
     set(MULTILINE_TEXT
@@ -180,5 +183,35 @@ install(FILES "${ENV_PATH}"
     DESTINATION "${P1}/release/bundle/"
     COMPONENT Runtime)
 install(FILES "${ENV_PATH}"
+    DESTINATION "${P1}/profile/bundle/"
+    COMPONENT Runtime)
+
+install(FILES "${PLOT_PATH}"
+    DESTINATION "${P1}/debug/bundle/"
+    COMPONENT Runtime)
+install(FILES "${PLOT_PATH}"
+    DESTINATION "${P1}/release/bundle/"
+    COMPONENT Runtime)
+install(FILES "${PLOT_PATH}"
+    DESTINATION "${P1}/profile/bundle/"
+    COMPONENT Runtime)
+
+install(FILES "${PROMPT_PATH}"
+    DESTINATION "${P1}/debug/bundle/"
+    COMPONENT Runtime)
+install(FILES "${PROMPT_PATH}"
+    DESTINATION "${P1}/release/bundle/"
+    COMPONENT Runtime)
+install(FILES "${PROMPT_PATH}"
+    DESTINATION "${P1}/profile/bundle/"
+    COMPONENT Runtime)
+
+install(FILES "${ACH_PATH}"
+    DESTINATION "${P1}/debug/bundle/"
+    COMPONENT Runtime)
+install(FILES "${ACH_PATH}"
+    DESTINATION "${P1}/release/bundle/"
+    COMPONENT Runtime)
+install(FILES "${ACH_PATH}"
     DESTINATION "${P1}/profile/bundle/"
     COMPONENT Runtime)

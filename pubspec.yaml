@@ -2,7 +2,7 @@ name: make_a_dream
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 0.0.1
 
 
 environment:
@@ -42,6 +42,10 @@ dev_dependencies:
   isar_generator: *isar_version
   json_serializable: ^6.8.0
   package_rename: ^1.6.0   # dart run package_rename
+
+
+dependency_overrides:
+  analyzer: ^6.4.1
   
 flutter:
 
