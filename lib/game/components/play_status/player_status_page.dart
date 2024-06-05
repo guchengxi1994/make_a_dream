@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/components/play_status/avatar_widget.dart';
 import 'package:make_a_dream/isar/player_record.dart';
 import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
 
 import 'ability_adjust_form.dart';
+import 'achievements_widget.dart';
+import 'play_duration_widget.dart';
 
 class PlayerStatusPage extends ConsumerStatefulWidget {
   const PlayerStatusPage({super.key});
@@ -45,9 +48,11 @@ ability-adjust ability-adjust achievement achievement
               children: [
                 state.current!.ability.toChart().inGridArea('ability'),
                 state.current!.knowledge.toChart().inGridArea('knowledge'),
-                Container().inGridArea("avatar"),
-                Container().inGridArea("game_time"),
-                Container().inGridArea("achievement"),
+                AvatarWidget(
+                  path: state.current!.avatar,
+                ).inGridArea("avatar"),
+                const PlayDurationWidget().inGridArea("game_time"),
+                const AchievementsWidget().inGridArea("achievement"),
                 AbilityAdjustForm(
                   record: state.current!,
                 ).inGridArea("ability-adjust")

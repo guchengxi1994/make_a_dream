@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/global/notifiers/duration_notifier.dart';
 import 'package:make_a_dream/opening_page/components/buttons.dart';
 import 'package:make_a_dream/opening_page/notifiers/blur_notifier.dart';
 
@@ -12,6 +13,12 @@ class OpeningPage extends ConsumerStatefulWidget {
 }
 
 class _OpeningPageState extends ConsumerState<OpeningPage> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(durationNotifier);
+  }
+
   @override
   Widget build(BuildContext context) {
     final blurState = ref.watch(blurProvider);

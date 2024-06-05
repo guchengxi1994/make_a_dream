@@ -14,8 +14,10 @@ dependencies:
   blur: ^4.0.0
   bonfire: ^3.9.3
   cupertino_icons: ^1.0.6
+  date_time_format: ^2.0.1
   flutter:
     sdk: flutter
+  flutter_expandable_fab: ^2.0.0
   flutter_layout_grid: ^2.0.7
   flutter_radar_chart: ^0.2.1
   flutter_riverpod: ^2.5.1
@@ -28,6 +30,7 @@ dependencies:
   markdown_widget: ^2.3.2+6
   path_provider: ^2.1.2
   riverpod: ^2.5.1
+  toastification: ^2.0.0
   
 
 dev_dependencies:
@@ -45,9 +48,10 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/avatars/
     - assets/images/
-    - assets/opening/
     - assets/images/tiled/punnyworld/
+    - assets/opening/
 
 icon_path : &icon_path "assets/icon.png"
 

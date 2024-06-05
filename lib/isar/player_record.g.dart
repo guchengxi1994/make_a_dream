@@ -23,29 +23,45 @@ const PlayerRecordSchema = CollectionSchema(
       type: IsarType.object,
       target: r'PlayerAbility',
     ),
-    r'attributes': PropertySchema(
+    r'achievements': PropertySchema(
       id: 1,
+      name: r'achievements',
+      type: IsarType.objectList,
+      target: r'Achievement',
+    ),
+    r'attributes': PropertySchema(
+      id: 2,
       name: r'attributes',
       type: IsarType.long,
     ),
     r'avatar': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'avatar',
       type: IsarType.string,
     ),
     r'createAt': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'createAt',
       type: IsarType.long,
     ),
+    r'duration': PropertySchema(
+      id: 5,
+      name: r'duration',
+      type: IsarType.long,
+    ),
     r'knowledge': PropertySchema(
-      id: 4,
+      id: 6,
       name: r'knowledge',
       type: IsarType.object,
       target: r'PlayerKnowledge',
     ),
+    r'lastSaved': PropertySchema(
+      id: 7,
+      name: r'lastSaved',
+      type: IsarType.long,
+    ),
     r'name': PropertySchema(
-      id: 5,
+      id: 8,
       name: r'name',
       type: IsarType.string,
     )
@@ -59,7 +75,8 @@ const PlayerRecordSchema = CollectionSchema(
   links: {},
   embeddedSchemas: {
     r'PlayerAbility': PlayerAbilitySchema,
-    r'PlayerKnowledge': PlayerKnowledgeSchema
+    r'PlayerKnowledge': PlayerKnowledgeSchema,
+    r'Achievement': AchievementSchema
   },
   getId: _playerRecordGetId,
   getLinks: _playerRecordGetLinks,
@@ -76,6 +93,14 @@ int _playerRecordEstimateSize(
   bytesCount += 3 +
       PlayerAbilitySchema.estimateSize(
           object.ability, allOffsets[PlayerAbility]!, allOffsets);
+  bytesCount += 3 + object.achievements.length * 3;
+  {
+    final offsets = allOffsets[Achievement]!;
+    for (var i = 0; i < object.achievements.length; i++) {
+      final value = object.achievements[i];
+      bytesCount += AchievementSchema.estimateSize(value, offsets, allOffsets);
+    }
+  }
   {
     final value = object.avatar;
     if (value != null) {
@@ -101,16 +126,24 @@ void _playerRecordSerialize(
     PlayerAbilitySchema.serialize,
     object.ability,
   );
-  writer.writeLong(offsets[1], object.attributes);
-  writer.writeString(offsets[2], object.avatar);
-  writer.writeLong(offsets[3], object.createAt);
+  writer.writeObjectList<Achievement>(
+    offsets[1],
+    allOffsets,
+    AchievementSchema.serialize,
+    object.achievements,
+  );
+  writer.writeLong(offsets[2], object.attributes);
+  writer.writeString(offsets[3], object.avatar);
+  writer.writeLong(offsets[4], object.createAt);
+  writer.writeLong(offsets[5], object.duration);
   writer.writeObject<PlayerKnowledge>(
-    offsets[4],
+    offsets[6],
     allOffsets,
     PlayerKnowledgeSchema.serialize,
     object.knowledge,
   );
-  writer.writeString(offsets[5], object.name);
+  writer.writeLong(offsets[7], object.lastSaved);
+  writer.writeString(offsets[8], object.name);
 }
 
 PlayerRecord _playerRecordDeserialize(
@@ -126,17 +159,26 @@ PlayerRecord _playerRecordDeserialize(
         allOffsets,
       ) ??
       PlayerAbility();
-  object.attributes = reader.readLong(offsets[1]);
-  object.avatar = reader.readStringOrNull(offsets[2]);
-  object.createAt = reader.readLong(offsets[3]);
+  object.achievements = reader.readObjectList<Achievement>(
+        offsets[1],
+        AchievementSchema.deserialize,
+        allOffsets,
+        Achievement(),
+      ) ??
+      [];
+  object.attributes = reader.readLong(offsets[2]);
+  object.avatar = reader.readStringOrNull(offsets[3]);
+  object.createAt = reader.readLong(offsets[4]);
+  object.duration = reader.readLong(offsets[5]);
   object.id = id;
   object.knowledge = reader.readObjectOrNull<PlayerKnowledge>(
-        offsets[4],
+        offsets[6],
         PlayerKnowledgeSchema.deserialize,
         allOffsets,
       ) ??
       PlayerKnowledge();
-  object.name = reader.readString(offsets[5]);
+  object.lastSaved = reader.readLongOrNull(offsets[7]);
+  object.name = reader.readString(offsets[8]);
   return object;
 }
 
@@ -155,19 +197,31 @@ P _playerRecordDeserializeProp<P>(
           ) ??
           PlayerAbility()) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
+      return (reader.readObjectList<Achievement>(
+            offset,
+            AchievementSchema.deserialize,
+            allOffsets,
+            Achievement(),
+          ) ??
+          []) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
-    case 3:
       return (reader.readLong(offset)) as P;
+    case 3:
+      return (reader.readStringOrNull(offset)) as P;
     case 4:
+      return (reader.readLong(offset)) as P;
+    case 5:
+      return (reader.readLong(offset)) as P;
+    case 6:
       return (reader.readObjectOrNull<PlayerKnowledge>(
             offset,
             PlayerKnowledgeSchema.deserialize,
             allOffsets,
           ) ??
           PlayerKnowledge()) as P;
-    case 5:
+    case 7:
+      return (reader.readLongOrNull(offset)) as P;
+    case 8:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -268,6 +322,95 @@ extension PlayerRecordQueryWhere
 
 extension PlayerRecordQueryFilter
     on QueryBuilder<PlayerRecord, PlayerRecord, QFilterCondition> {
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      achievementsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'achievements',
+        length,
+        true,
+        length,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      achievementsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'achievements',
+        0,
+        true,
+        0,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      achievementsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'achievements',
+        0,
+        false,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      achievementsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'achievements',
+        0,
+        true,
+        length,
+        include,
+      );
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      achievementsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'achievements',
+        length,
+        include,
+        999999,
+        true,
+      );
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      achievementsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.listLength(
+        r'achievements',
+        lower,
+        includeLower,
+        upper,
+        includeUpper,
+      );
+    });
+  }
+
   QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
       attributesEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
@@ -533,6 +676,62 @@ extension PlayerRecordQueryFilter
     });
   }
 
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      durationEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'duration',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      durationGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'duration',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      durationLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'duration',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      durationBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'duration',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition> idEqualTo(
       Id value) {
     return QueryBuilder.apply(this, (query) {
@@ -578,6 +777,80 @@ extension PlayerRecordQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      lastSavedIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'lastSaved',
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      lastSavedIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'lastSaved',
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      lastSavedEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastSaved',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      lastSavedGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'lastSaved',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      lastSavedLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'lastSaved',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      lastSavedBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'lastSaved',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -730,6 +1003,13 @@ extension PlayerRecordQueryObject
     });
   }
 
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      achievementsElement(FilterQuery<Achievement> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.object(q, r'achievements');
+    });
+  }
+
   QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition> knowledge(
       FilterQuery<PlayerKnowledge> q) {
     return QueryBuilder.apply(this, (query) {
@@ -777,6 +1057,30 @@ extension PlayerRecordQuerySortBy
   QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByCreateAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByDuration() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByDurationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByLastSaved() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastSaved', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByLastSavedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastSaved', Sort.desc);
     });
   }
 
@@ -832,6 +1136,18 @@ extension PlayerRecordQuerySortThenBy
     });
   }
 
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByDuration() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByDurationDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'duration', Sort.desc);
+    });
+  }
+
   QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -841,6 +1157,18 @@ extension PlayerRecordQuerySortThenBy
   QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByLastSaved() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastSaved', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByLastSavedDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastSaved', Sort.desc);
     });
   }
 
@@ -878,6 +1206,18 @@ extension PlayerRecordQueryWhereDistinct
     });
   }
 
+  QueryBuilder<PlayerRecord, PlayerRecord, QDistinct> distinctByDuration() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'duration');
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QDistinct> distinctByLastSaved() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastSaved');
+    });
+  }
+
   QueryBuilder<PlayerRecord, PlayerRecord, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -901,6 +1241,13 @@ extension PlayerRecordQueryProperty
     });
   }
 
+  QueryBuilder<PlayerRecord, List<Achievement>, QQueryOperations>
+      achievementsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'achievements');
+    });
+  }
+
   QueryBuilder<PlayerRecord, int, QQueryOperations> attributesProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'attributes');
@@ -919,10 +1266,22 @@ extension PlayerRecordQueryProperty
     });
   }
 
+  QueryBuilder<PlayerRecord, int, QQueryOperations> durationProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'duration');
+    });
+  }
+
   QueryBuilder<PlayerRecord, PlayerKnowledge, QQueryOperations>
       knowledgeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'knowledge');
+    });
+  }
+
+  QueryBuilder<PlayerRecord, int?, QQueryOperations> lastSavedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastSaved');
     });
   }
 
@@ -936,6 +1295,584 @@ extension PlayerRecordQueryProperty
 // **************************************************************************
 // IsarEmbeddedGenerator
 // **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+const AchievementSchema = Schema(
+  name: r'Achievement',
+  id: -1511299366265280024,
+  properties: {
+    r'createAt': PropertySchema(
+      id: 0,
+      name: r'createAt',
+      type: IsarType.long,
+    ),
+    r'description': PropertySchema(
+      id: 1,
+      name: r'description',
+      type: IsarType.string,
+    ),
+    r'iconPath': PropertySchema(
+      id: 2,
+      name: r'iconPath',
+      type: IsarType.string,
+    ),
+    r'name': PropertySchema(
+      id: 3,
+      name: r'name',
+      type: IsarType.string,
+    )
+  },
+  estimateSize: _achievementEstimateSize,
+  serialize: _achievementSerialize,
+  deserialize: _achievementDeserialize,
+  deserializeProp: _achievementDeserializeProp,
+);
+
+int _achievementEstimateSize(
+  Achievement object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  bytesCount += 3 + object.description.length * 3;
+  {
+    final value = object.iconPath;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.name.length * 3;
+  return bytesCount;
+}
+
+void _achievementSerialize(
+  Achievement object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.createAt);
+  writer.writeString(offsets[1], object.description);
+  writer.writeString(offsets[2], object.iconPath);
+  writer.writeString(offsets[3], object.name);
+}
+
+Achievement _achievementDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = Achievement();
+  object.createAt = reader.readLong(offsets[0]);
+  object.description = reader.readString(offsets[1]);
+  object.iconPath = reader.readStringOrNull(offsets[2]);
+  object.name = reader.readString(offsets[3]);
+  return object;
+}
+
+P _achievementDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLong(offset)) as P;
+    case 1:
+      return (reader.readString(offset)) as P;
+    case 2:
+      return (reader.readStringOrNull(offset)) as P;
+    case 3:
+      return (reader.readString(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+extension AchievementQueryFilter
+    on QueryBuilder<Achievement, Achievement, QFilterCondition> {
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> createAtEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      createAtGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      createAtLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> createAtBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'description',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'description',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      descriptionIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      iconPathIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'iconPath',
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      iconPathIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'iconPath',
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> iconPathEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'iconPath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      iconPathGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'iconPath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      iconPathLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'iconPath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> iconPathBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'iconPath',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      iconPathStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'iconPath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      iconPathEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'iconPath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      iconPathContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'iconPath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> iconPathMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'iconPath',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      iconPathIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'iconPath',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      iconPathIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'iconPath',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> nameEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> nameGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> nameLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> nameBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'name',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> nameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> nameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> nameContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> nameMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'name',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> nameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      nameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+}
+
+extension AchievementQueryObject
+    on QueryBuilder<Achievement, Achievement, QFilterCondition> {}
 
 // coverage:ignore-file
 // ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types

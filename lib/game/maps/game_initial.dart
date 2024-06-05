@@ -5,7 +5,6 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:make_a_dream/game/components/setting_button.dart';
 import 'package:make_a_dream/game/npcs/mentor_npc.dart';
 import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
 
@@ -52,7 +51,7 @@ class GameInitialPage extends ConsumerWidget {
         ),
         backgroundColor: const Color(0xff20a0b4),
         overlayBuilderMap: {
-          'setting': (ctx, game) => const SettingButton(),
+          // 'setting': (ctx, game) => const SettingButton(),
           'miniMap': (context, game) => MiniMap(
                 game: game,
                 margin: const EdgeInsets.all(20),
@@ -63,7 +62,7 @@ class GameInitialPage extends ConsumerWidget {
                 border: Border.all(color: Colors.white.withOpacity(0.5)),
               ),
         },
-        initialActiveOverlays: const ['setting', 'miniMap'],
+        initialActiveOverlays: const ['miniMap'],
       );
     });
   }

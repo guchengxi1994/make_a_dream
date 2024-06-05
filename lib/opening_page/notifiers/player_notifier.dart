@@ -28,6 +28,13 @@ class PlayerNotifier extends Notifier<PlayerState> {
     state = state.copyWith(current: record);
   }
 
+  changeAndUpdate(PlayerRecord record) async {
+    state = state.copyWith(current: record);
+    await database.isar!.writeTxn(() async {
+      await database.isar!.playerRecords.put(record);
+    });
+  }
+
   Future createNewRecord(String name) async {
     PlayerRecord record = PlayerRecord()..name = name;
     await database.isar!.writeTxn(() async {

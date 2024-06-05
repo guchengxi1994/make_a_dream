@@ -21,6 +21,23 @@ class PlayerRecord {
   late PlayerAbility ability = PlayerAbility();
 
   late PlayerKnowledge knowledge = PlayerKnowledge();
+
+  /// 获得的生就
+  /// TODO 能不能通过大模型生成呢？
+  late List<Achievement> achievements = [];
+
+  /// 进行的时间；in seconds
+  int duration = 0;
+
+  int? lastSaved;
+}
+
+@embedded
+class Achievement {
+  late String name;
+  String? iconPath;
+  late String description;
+  int createAt = DateTime.now().millisecondsSinceEpoch;
 }
 
 const ticks = [20, 40, 60, 80, 100];
