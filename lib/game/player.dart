@@ -43,5 +43,7 @@ class SinglePlayer extends SimplePlayer with BlockMovementCollision {
     super.onMove(speed, displacement, direction, angle);
     gameRef.player!.speed = record.ability.dexterity;
     removeWhere((v) => v is TextComponent && v.text == record.name);
+
+    // print("current ${position}");
   }
 }

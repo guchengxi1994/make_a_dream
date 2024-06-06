@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
+import 'package:make_a_dream/isar/npc.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class MentorTalkDialog extends ConsumerStatefulWidget {
@@ -15,7 +16,14 @@ class _MentorTalkDialogState extends ConsumerState<MentorTalkDialog> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((v) {
-      ref.read(mentorProvider.notifier).introduce();
+      if (ref.read(mentorProvider).npcStage == NpcStage.unknow) {
+        ref.read(mentorProvider.notifier).introduce();
+      } else {
+        ref.read(mentorProvider.notifier).talk();
+      }
+
+      /// this section is for test
+      // ref.read(mentorProvider.notifier).talk();
     });
   }
 
@@ -48,12 +56,12 @@ class _MentorTalkDialogState extends ConsumerState<MentorTalkDialog> {
                         controller:
                             ref.read(mentorProvider.notifier).controller,
                         child: MarkdownBlock(
-                          data: state.$1,
+                          data: state.dialog,
                           selectable: false,
                           config: MarkdownConfig.defaultConfig,
                         ),
                       )),
-                      if (state.$2)
+                      if (state.conversationDone && state.dialog != "")
                         SizedBox(
                           height: 40,
                           child: Row(
@@ -61,7 +69,9 @@ class _MentorTalkDialogState extends ConsumerState<MentorTalkDialog> {
                               const Expanded(child: SizedBox()),
                               TextButton(
                                   onPressed: () {
-                                    ref.read(mentorProvider.notifier).reset();
+                                    ref
+                                        .read(mentorProvider.notifier)
+                                        .resetDialog();
                                     Navigator.of(context).pop();
                                   },
                                   child: const Text("Got it"))

@@ -17,8 +17,15 @@ class Plots {
 class Plot {
   final String npc;
   final List<PlotEvent> plot;
+  @JsonKey(name: "map-router")
+  final String mapRouter;
+  final List<double> position;
 
-  Plot({required this.npc, required this.plot});
+  Plot(
+      {required this.npc,
+      required this.plot,
+      required this.mapRouter,
+      required this.position});
 
   factory Plot.fromJson(Map<String, dynamic> json) => _$PlotFromJson(json);
   Map<String, dynamic> toJson() => _$PlotToJson(this);
@@ -31,19 +38,16 @@ class PlotEvent {
   final int id;
   @JsonKey(name: "related-achievement")
   final int? relatedAchievement;
-  @JsonKey(name: "map-router")
-  final String mapRouter;
-  final List<double> position;
+
   final Requirements requirements;
 
-  PlotEvent(
-      {required this.content,
-      required this.type,
-      required this.id,
-      required this.relatedAchievement,
-      required this.requirements,
-      required this.mapRouter,
-      required this.position});
+  PlotEvent({
+    required this.content,
+    required this.type,
+    required this.id,
+    required this.relatedAchievement,
+    required this.requirements,
+  });
 
   factory PlotEvent.fromJson(Map<String, dynamic> json) =>
       _$PlotEventFromJson(json);

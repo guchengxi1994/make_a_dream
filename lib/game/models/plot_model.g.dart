@@ -21,11 +21,17 @@ Plot _$PlotFromJson(Map<String, dynamic> json) => Plot(
       plot: (json['plot'] as List<dynamic>)
           .map((e) => PlotEvent.fromJson(e as Map<String, dynamic>))
           .toList(),
+      mapRouter: json['map-router'] as String,
+      position: (json['position'] as List<dynamic>)
+          .map((e) => (e as num).toDouble())
+          .toList(),
     );
 
 Map<String, dynamic> _$PlotToJson(Plot instance) => <String, dynamic>{
       'npc': instance.npc,
       'plot': instance.plot,
+      'map-router': instance.mapRouter,
+      'position': instance.position,
     };
 
 PlotEvent _$PlotEventFromJson(Map<String, dynamic> json) => PlotEvent(
@@ -35,10 +41,6 @@ PlotEvent _$PlotEventFromJson(Map<String, dynamic> json) => PlotEvent(
       relatedAchievement: (json['related-achievement'] as num?)?.toInt(),
       requirements:
           Requirements.fromJson(json['requirements'] as Map<String, dynamic>),
-      mapRouter: json['map-router'] as String,
-      position: (json['position'] as List<dynamic>)
-          .map((e) => (e as num).toDouble())
-          .toList(),
     );
 
 Map<String, dynamic> _$PlotEventToJson(PlotEvent instance) => <String, dynamic>{
@@ -46,8 +48,6 @@ Map<String, dynamic> _$PlotEventToJson(PlotEvent instance) => <String, dynamic>{
       'type': instance.type,
       'id': instance.id,
       'related-achievement': instance.relatedAchievement,
-      'map-router': instance.mapRouter,
-      'position': instance.position,
       'requirements': instance.requirements,
     };
 

@@ -1,15 +1,20 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:make_a_dream/game/components/mentor_talk_dialog.dart';
+import 'package:make_a_dream/game/notifiers/mentor_npc_state.dart';
 
 import 'package:make_a_dream/game/util.dart';
 
 class MentorNpc extends SimpleNpc {
-  MentorNpc({required super.position, required super.size})
+  MentorNpc({required super.size, required this.state})
       : super(
             animation: PersonSpritesheet(path: "mentor.png").simpleAnimation(),
             speed: 0,
-            initDirection: Direction.down);
+            initDirection: Direction.down,
+            position: Vector2(tileSize * state.plot.position[0],
+                tileSize * state.plot.position[1]));
+
+  final MentorNpcState state;
 
   bool isInDialog = false;
 
@@ -41,6 +46,8 @@ class MentorNpc extends SimpleNpc {
   void update(double dt) {
     super.update(dt);
 
+    // print("update");
+
     if (gameRef.player != null &&
         gameRef.player!.position.distanceTo(position) < 10 &&
         !isInDialog) {
@@ -60,6 +67,26 @@ class MentorNpc extends SimpleNpc {
           return const Center(
             child: MentorTalkDialog(),
           );
-        });
+        }).then((_) {
+      // print(gameRef.player!.position);
+      // gameRef.player!.moveToPosition(Vector2(0, 10));
+      // gameRef.player!.translate(
+      //   Vector2(0, 10),
+      // );
+      _movePlayerToTarget();
+      isInDialog = false;
+    });
+  }
+
+  /// [moveToPosition] 方法有点问题，达不到
+  /// 移动人物的目的，只能用 [translate]
+  _movePlayerToTarget() {
+    final current = gameRef.player!.position;
+    final target = Vector2(tileSize * state.plot.position[0],
+        tileSize * (state.plot.position[1] + 1));
+    final trans = Vector2(target.x - current.x, target.y - current.y);
+    gameRef.player!.translate(
+      trans,
+    );
   }
 }
