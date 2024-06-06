@@ -35,13 +35,14 @@ class PlayerNotifier extends Notifier<PlayerState> {
     });
   }
 
-  Future createNewRecord(String name) async {
+  Future<int> createNewRecord(String name) async {
     PlayerRecord record = PlayerRecord()..name = name;
     await database.isar!.writeTxn(() async {
       await database.isar!.playerRecords.put(record);
     });
 
     state = state.copyWith(current: record);
+    return record.id;
   }
 }
 

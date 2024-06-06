@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/maps/game_initial_route.dart';
+import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/opening_page/components/create_player_dialog.dart';
 import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
 
@@ -43,8 +44,11 @@ class OpeningScreenButtons extends ConsumerWidget {
                       ref
                           .read(playerProvider.notifier)
                           .createNewRecord(name)
-                          .then((_) {
-                        GameInitialRoute.open(context);
+                          .then((id) {
+                        AiClient aiClient = AiClient();
+                        aiClient.initialAllNpcs(id).then((_) {
+                          GameInitialRoute.open(context);
+                        });
                       });
                     }
                   },

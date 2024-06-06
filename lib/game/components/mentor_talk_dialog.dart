@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
-import 'package:make_a_dream/isar/npc.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class MentorTalkDialog extends ConsumerStatefulWidget {
@@ -16,11 +15,7 @@ class _MentorTalkDialogState extends ConsumerState<MentorTalkDialog> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((v) {
-      if (ref.read(mentorProvider).npcStage == NpcStage.unknow) {
-        ref.read(mentorProvider.notifier).introduce();
-      } else {
-        ref.read(mentorProvider.notifier).talk();
-      }
+      ref.read(mentorProvider.notifier).plot();
 
       /// this section is for test
       // ref.read(mentorProvider.notifier).talk();

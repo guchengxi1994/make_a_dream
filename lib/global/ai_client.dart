@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:isar/isar.dart';
 import 'package:langchain_lib/langchain_lib.dart';
 import 'package:make_a_dream/game/models/achievement_model.dart';
 import 'package:make_a_dream/game/models/game_model.dart';
 import 'package:make_a_dream/game/models/plot_model.dart';
+import 'package:make_a_dream/isar/database.dart';
+import 'package:make_a_dream/isar/npc.dart' as n;
+import 'package:make_a_dream/isar/player_record.dart';
 
 class AiClient {
   AiClient._();
@@ -15,6 +19,7 @@ class AiClient {
   late GameModel model;
   late Plots plots;
   late AchievementsList achievementsList;
+  late IsarDatabase database = IsarDatabase();
 
   initGameModel(String path) {
     File file = File(path);
@@ -34,6 +39,24 @@ class AiClient {
 
   initOpenAi(String path) {
     OpenaiClient.fromEnv(path);
+  }
+
+  Future initialAllNpcs(int playerId) async {
+    await database.isar!.writeTxn(() async {
+      final List<n.Npc> npcs = [];
+      for (final i in plots.plots) {
+        final npc = n.Npc()..name = i.npc;
+        npcs.add(npc);
+      }
+      final player = await database.isar!.playerRecords
+          .where()
+          .idEqualTo(playerId)
+          .findFirst();
+
+      await database.isar!.npcs.putAll(npcs);
+      player!.npcs.addAll(npcs);
+      await player.npcs.save();
+    });
   }
 
   late final List<SystemChatMessage> systemMessages = [
