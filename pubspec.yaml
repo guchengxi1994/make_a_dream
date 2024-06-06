@@ -15,6 +15,7 @@ dependencies:
   bonfire: ^3.9.3
   cupertino_icons: ^1.0.6
   date_time_format: ^2.0.1
+  extended_image: ^8.2.1
   flutter:
     sdk: flutter
   flutter_expandable_fab: ^2.0.0

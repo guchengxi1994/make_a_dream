@@ -76,9 +76,18 @@ class MentorNpcNotifier extends AutoDisposeNotifier<MentorNpcState> {
         conversationDone: true);
   }
 
-  void plot() {
-    switch (state.npcStage) {
-      case NpcStage.unknow:
+  Future<void> plot() async {
+    final _plot = aiClient.plots.plots.where((v) => v.npc == "mentor").first;
+
+    if (state.npcStage == NpcStage.unknow) {
+      /// 未触发过对话，查找有没有 [introduce] 的节点
+      final event = _plot.plot
+          .where((v) => v.content == "introduce" && v.type == "once")
+          .firstOrNull;
+      if (event == null) {
+        return;
+      } else {
+        /// 触发对话
         final stream = aiClient.stream([
           ...aiClient.systemMessages,
           SystemChatMessage(
@@ -93,13 +102,24 @@ class MentorNpcNotifier extends AutoDisposeNotifier<MentorNpcState> {
             controller.jumpTo(controller.position.maxScrollExtent);
           },
           onDone: () async {
-            /// TODO 这里要存一份对话数据
-
             final playerId = ref.read(playerProvider).current!.id;
             final player = isarDatabase.isar!.playerRecords
                 .where()
                 .idEqualTo(playerId)
                 .findFirstSync()!;
+            if (event.relatedAchievement != null) {
+              /// 找到对应的 [achievement]
+              final achievement = aiClient.achievementsList.achievements
+                  .where((v) => v.id == event.relatedAchievement)
+                  .firstOrNull;
+              if (achievement != null) {
+                player.achievements = List.from(player.achievements)
+                  ..add(Achievement()
+                    ..description = achievement.description
+                    ..name = achievement.name
+                    ..iconPath = achievement.image);
+              }
+            }
 
             final _npc = player.npcs.where((v) => v.name == "mentor").first;
             _npc.history = List.from(_npc.history)
@@ -119,15 +139,27 @@ class MentorNpcNotifier extends AutoDisposeNotifier<MentorNpcState> {
             controller.jumpTo(controller.position.maxScrollExtent);
           },
         );
+      }
+    } else {
+      final playerId = ref.read(playerProvider).current!.id;
+      final player = isarDatabase.isar!.playerRecords
+          .where()
+          .idEqualTo(playerId)
+          .findFirstSync()!;
 
-        break;
-      default:
+      final _npc = player.npcs.where((v) => v.name == "mentor").first;
+      _npc.history = List.from(_npc.history)
+        ..add(History()
+          ..content = "what can I help you ${player.name}?"
+          ..type = HistoryType.npc);
 
-        /// TODO 这里要存一份对话数据
-        state = state.copyWith(
-            dialog:
-                "what can I help you ${ref.read(playerProvider).current!.name}?",
-            conversationDone: true);
+      await isarDatabase.isar!.writeTxn(() async {
+        await isarDatabase.isar!.npcs.put(_npc);
+        await player.npcs.save();
+      });
+      state = state.copyWith(
+          dialog: "what can I help you ${player.name}?",
+          conversationDone: true);
     }
   }
 }

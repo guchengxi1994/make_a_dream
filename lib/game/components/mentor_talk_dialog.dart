@@ -16,9 +16,6 @@ class _MentorTalkDialogState extends ConsumerState<MentorTalkDialog> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((v) {
       ref.read(mentorProvider.notifier).plot();
-
-      /// this section is for test
-      // ref.read(mentorProvider.notifier).talk();
     });
   }
 
@@ -63,6 +60,7 @@ class _MentorTalkDialogState extends ConsumerState<MentorTalkDialog> {
                             children: [
                               const Expanded(child: SizedBox()),
                               TextButton(
+                                  autofocus: true,
                                   onPressed: () {
                                     ref
                                         .read(mentorProvider.notifier)
