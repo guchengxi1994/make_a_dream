@@ -6,7 +6,7 @@ part 'npc.g.dart';
 class Npc {
   Id id = Isar.autoIncrement;
 
-  @Index(unique: true)
+  // @Index(unique: true)
   late String name;
 
   late List<History> history = [];

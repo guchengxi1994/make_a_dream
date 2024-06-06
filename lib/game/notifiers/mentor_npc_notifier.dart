@@ -5,14 +5,13 @@ import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
 
 class MentorNpcNotifier extends AutoDisposeNotifier<(String, bool)> {
+  final AiClient aiClient = AiClient();
   final ScrollController controller = ScrollController();
 
   @override
   (String, bool) build() {
     return ("", false);
   }
-
-  final AiClient aiClient = AiClient();
 
   reset() {
     state = ("", false);

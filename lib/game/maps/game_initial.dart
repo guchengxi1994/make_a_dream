@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/npcs/mentor_npc.dart';
+import 'package:make_a_dream/game/util.dart';
 import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
 
 import '../player.dart';
 
 class GameInitialPage extends ConsumerWidget {
   const GameInitialPage({super.key});
-  static const tileSize = 16.0;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playerState = ref.watch(playerProvider);

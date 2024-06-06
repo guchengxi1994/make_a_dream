@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:isar/isar.dart';
+import 'package:make_a_dream/isar/npc.dart';
 
 part 'player_record.g.dart';
 
@@ -29,7 +30,12 @@ class PlayerRecord {
   /// 进行的时间；in seconds
   int duration = 0;
 
+  /// 进行的游戏天数
+  int days = 0;
+
   int? lastSaved;
+
+  IsarLinks<Npc> npcs = IsarLinks();
 }
 
 @embedded

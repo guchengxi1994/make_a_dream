@@ -1,6 +1,8 @@
 // copied from `bonfire` example
 import 'package:bonfire/bonfire.dart';
 
+const tileSize = 16.0;
+
 enum PersonAttackEnum {
   meeleDown,
   meeleUp,

@@ -44,24 +44,29 @@ const PlayerRecordSchema = CollectionSchema(
       name: r'createAt',
       type: IsarType.long,
     ),
-    r'duration': PropertySchema(
+    r'days': PropertySchema(
       id: 5,
+      name: r'days',
+      type: IsarType.long,
+    ),
+    r'duration': PropertySchema(
+      id: 6,
       name: r'duration',
       type: IsarType.long,
     ),
     r'knowledge': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'knowledge',
       type: IsarType.object,
       target: r'PlayerKnowledge',
     ),
     r'lastSaved': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'lastSaved',
       type: IsarType.long,
     ),
     r'name': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'name',
       type: IsarType.string,
     )
@@ -72,7 +77,14 @@ const PlayerRecordSchema = CollectionSchema(
   deserializeProp: _playerRecordDeserializeProp,
   idName: r'id',
   indexes: {},
-  links: {},
+  links: {
+    r'npcs': LinkSchema(
+      id: 4371022021236823550,
+      name: r'npcs',
+      target: r'Npc',
+      single: false,
+    )
+  },
   embeddedSchemas: {
     r'PlayerAbility': PlayerAbilitySchema,
     r'PlayerKnowledge': PlayerKnowledgeSchema,
@@ -135,15 +147,16 @@ void _playerRecordSerialize(
   writer.writeLong(offsets[2], object.attributes);
   writer.writeString(offsets[3], object.avatar);
   writer.writeLong(offsets[4], object.createAt);
-  writer.writeLong(offsets[5], object.duration);
+  writer.writeLong(offsets[5], object.days);
+  writer.writeLong(offsets[6], object.duration);
   writer.writeObject<PlayerKnowledge>(
-    offsets[6],
+    offsets[7],
     allOffsets,
     PlayerKnowledgeSchema.serialize,
     object.knowledge,
   );
-  writer.writeLong(offsets[7], object.lastSaved);
-  writer.writeString(offsets[8], object.name);
+  writer.writeLong(offsets[8], object.lastSaved);
+  writer.writeString(offsets[9], object.name);
 }
 
 PlayerRecord _playerRecordDeserialize(
@@ -169,16 +182,17 @@ PlayerRecord _playerRecordDeserialize(
   object.attributes = reader.readLong(offsets[2]);
   object.avatar = reader.readStringOrNull(offsets[3]);
   object.createAt = reader.readLong(offsets[4]);
-  object.duration = reader.readLong(offsets[5]);
+  object.days = reader.readLong(offsets[5]);
+  object.duration = reader.readLong(offsets[6]);
   object.id = id;
   object.knowledge = reader.readObjectOrNull<PlayerKnowledge>(
-        offsets[6],
+        offsets[7],
         PlayerKnowledgeSchema.deserialize,
         allOffsets,
       ) ??
       PlayerKnowledge();
-  object.lastSaved = reader.readLongOrNull(offsets[7]);
-  object.name = reader.readString(offsets[8]);
+  object.lastSaved = reader.readLongOrNull(offsets[8]);
+  object.name = reader.readString(offsets[9]);
   return object;
 }
 
@@ -213,15 +227,17 @@ P _playerRecordDeserializeProp<P>(
     case 5:
       return (reader.readLong(offset)) as P;
     case 6:
+      return (reader.readLong(offset)) as P;
+    case 7:
       return (reader.readObjectOrNull<PlayerKnowledge>(
             offset,
             PlayerKnowledgeSchema.deserialize,
             allOffsets,
           ) ??
           PlayerKnowledge()) as P;
-    case 7:
-      return (reader.readLongOrNull(offset)) as P;
     case 8:
+      return (reader.readLongOrNull(offset)) as P;
+    case 9:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -233,12 +249,13 @@ Id _playerRecordGetId(PlayerRecord object) {
 }
 
 List<IsarLinkBase<dynamic>> _playerRecordGetLinks(PlayerRecord object) {
-  return [];
+  return [object.npcs];
 }
 
 void _playerRecordAttach(
     IsarCollection<dynamic> col, Id id, PlayerRecord object) {
   object.id = id;
+  object.npcs.attach(col, col.isar.collection<Npc>(), r'npcs', id);
 }
 
 extension PlayerRecordQueryWhereSort
@@ -676,6 +693,60 @@ extension PlayerRecordQueryFilter
     });
   }
 
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition> daysEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'days',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      daysGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'days',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition> daysLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'days',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition> daysBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'days',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
       durationEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
@@ -1019,7 +1090,68 @@ extension PlayerRecordQueryObject
 }
 
 extension PlayerRecordQueryLinks
-    on QueryBuilder<PlayerRecord, PlayerRecord, QFilterCondition> {}
+    on QueryBuilder<PlayerRecord, PlayerRecord, QFilterCondition> {
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition> npcs(
+      FilterQuery<Npc> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'npcs');
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      npcsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'npcs', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      npcsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'npcs', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      npcsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'npcs', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      npcsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'npcs', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      npcsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'npcs', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      npcsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'npcs', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
 
 extension PlayerRecordQuerySortBy
     on QueryBuilder<PlayerRecord, PlayerRecord, QSortBy> {
@@ -1057,6 +1189,18 @@ extension PlayerRecordQuerySortBy
   QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByCreateAtDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'days', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByDaysDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'days', Sort.desc);
     });
   }
 
@@ -1136,6 +1280,18 @@ extension PlayerRecordQuerySortThenBy
     });
   }
 
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'days', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByDaysDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'days', Sort.desc);
+    });
+  }
+
   QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByDuration() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'duration', Sort.asc);
@@ -1206,6 +1362,12 @@ extension PlayerRecordQueryWhereDistinct
     });
   }
 
+  QueryBuilder<PlayerRecord, PlayerRecord, QDistinct> distinctByDays() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'days');
+    });
+  }
+
   QueryBuilder<PlayerRecord, PlayerRecord, QDistinct> distinctByDuration() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'duration');
@@ -1263,6 +1425,12 @@ extension PlayerRecordQueryProperty
   QueryBuilder<PlayerRecord, int, QQueryOperations> createAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createAt');
+    });
+  }
+
+  QueryBuilder<PlayerRecord, int, QQueryOperations> daysProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'days');
     });
   }
 

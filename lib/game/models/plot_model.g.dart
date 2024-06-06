@@ -32,16 +32,22 @@ PlotEvent _$PlotEventFromJson(Map<String, dynamic> json) => PlotEvent(
       content: json['content'] as String,
       type: json['type'] as String,
       id: (json['id'] as num).toInt(),
-      relatedAchievement: (json['relatedAchievement'] as num?)?.toInt(),
+      relatedAchievement: (json['related-achievement'] as num?)?.toInt(),
       requirements:
           Requirements.fromJson(json['requirements'] as Map<String, dynamic>),
+      mapRouter: json['map-router'] as String,
+      position: (json['position'] as List<dynamic>)
+          .map((e) => (e as num).toDouble())
+          .toList(),
     );
 
 Map<String, dynamic> _$PlotEventToJson(PlotEvent instance) => <String, dynamic>{
       'content': instance.content,
       'type': instance.type,
       'id': instance.id,
-      'relatedAchievement': instance.relatedAchievement,
+      'related-achievement': instance.relatedAchievement,
+      'map-router': instance.mapRouter,
+      'position': instance.position,
       'requirements': instance.requirements,
     };
 
@@ -60,6 +66,7 @@ Requirements _$RequirementsFromJson(Map<String, dynamic> json) => Requirements(
       physics: (json['physics'] as num).toInt(),
       biography: (json['biography'] as num).toInt(),
       it: (json['it'] as num).toInt(),
+      likability: (json['likability'] as num).toInt(),
     );
 
 Map<String, dynamic> _$RequirementsToJson(Requirements instance) =>
@@ -78,4 +85,5 @@ Map<String, dynamic> _$RequirementsToJson(Requirements instance) =>
       'physics': instance.physics,
       'biography': instance.biography,
       'it': instance.it,
+      'likability': instance.likability,
     };
