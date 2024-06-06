@@ -6,6 +6,7 @@ import 'package:make_a_dream/global/routers.dart';
 // ignore: depend_on_referenced_packages
 import 'package:logging/logging.dart';
 import 'package:make_a_dream/isar/database.dart';
+import 'package:toastification/toastification.dart';
 
 import 'common/dev_utils.dart';
 import 'global/ai_client.dart';
@@ -39,10 +40,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderScope(
-        child: MaterialApp(
+        child: ToastificationWrapper(
+            child: MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: GameInitialPage(),
       routes: AppRouters.routes,
-    ));
+    )));
   }
 }

@@ -11,6 +11,7 @@ environment:
 isar_version: &isar_version 3.1.0
 
 dependencies:
+  badges: ^3.1.2
   blur: ^4.0.0
   bonfire: ^3.9.3
   cupertino_icons: ^1.0.6

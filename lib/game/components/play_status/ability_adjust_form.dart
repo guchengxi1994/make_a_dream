@@ -417,11 +417,14 @@ class _AbilityAdjustFormState extends ConsumerState<AbilityAdjustForm> {
   Widget _wrapper(String text, Widget? progress) {
     return Row(
       children: [
-        SizedBox(
-          width: 200,
-          child: Text(
-            text,
-            style: style,
+        Tooltip(
+          message: progress == null ? "" : "某种特殊的能力，可能和解锁某些内容有关",
+          child: SizedBox(
+            width: 200,
+            child: Text(
+              text,
+              style: style,
+            ),
           ),
         ),
         progress ?? const SizedBox()

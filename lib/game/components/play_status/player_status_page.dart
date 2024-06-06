@@ -52,7 +52,9 @@ ability-adjust ability-adjust achievement achievement
                   path: state.current!.avatar,
                 ).inGridArea("avatar"),
                 const PlayDurationWidget().inGridArea("game_time"),
-                const AchievementsWidget().inGridArea("achievement"),
+                AchievementsWidget(
+                  collection: state.current!.achievements.toSet(),
+                ).inGridArea("achievement"),
                 AbilityAdjustForm(
                   record: state.current!,
                 ).inGridArea("ability-adjust")

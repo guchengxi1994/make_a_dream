@@ -44,6 +44,17 @@ class Achievement {
   String? iconPath;
   late String description;
   int createAt = DateTime.now().millisecondsSinceEpoch;
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! Achievement) {
+      return false;
+    }
+    return name == other.name;
+  }
+
+  @override
+  int get hashCode => name.hashCode;
 }
 
 const ticks = [20, 40, 60, 80, 100];

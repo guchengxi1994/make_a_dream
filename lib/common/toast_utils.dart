@@ -4,7 +4,7 @@ import 'package:toastification/toastification.dart';
 class ToastUtils {
   ToastUtils._();
 
-  static void sucess(BuildContext context,
+  static void achievement(BuildContext? context,
       {required String title, String? descryption, VoidCallback? onTap}) {
     toastification.show(
       context: context,
@@ -16,14 +16,14 @@ class ToastUtils {
       description: descryption != null
           ? RichText(text: TextSpan(text: descryption))
           : null,
-      alignment: Alignment.topRight,
+      alignment: Alignment.topCenter,
       direction: TextDirection.ltr,
       animationDuration: const Duration(milliseconds: 300),
       animationBuilder: (context, animation, alignment, child) {
         return FadeTransition(opacity: animation, child: child);
       },
       icon: const Icon(
-        Icons.check,
+        Icons.star_border,
         color: Colors.green,
       ),
       primaryColor: Colors.green,
@@ -55,7 +55,7 @@ class ToastUtils {
     );
   }
 
-  static void error(BuildContext context,
+  static void mission(BuildContext? context,
       {required String title, String? descryption, VoidCallback? onTap}) {
     toastification.show(
       context: context,
@@ -67,17 +67,17 @@ class ToastUtils {
       description: descryption != null
           ? RichText(text: TextSpan(text: descryption))
           : null,
-      alignment: Alignment.topRight,
+      alignment: Alignment.topCenter,
       direction: TextDirection.ltr,
       animationDuration: const Duration(milliseconds: 300),
       animationBuilder: (context, animation, alignment, child) {
         return FadeTransition(opacity: animation, child: child);
       },
       icon: const Icon(
-        Icons.clear,
-        color: Colors.red,
+        Icons.task,
+        color: Colors.blue,
       ),
-      primaryColor: Colors.red,
+      primaryColor: Colors.blue,
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),

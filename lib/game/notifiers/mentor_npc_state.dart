@@ -4,14 +4,14 @@ import 'package:make_a_dream/isar/npc.dart';
 
 class MentorNpcState extends BaseNpcState {
   MentorNpcState(
-      {required super.name,
-      required super.plot,
+      {required super.plot,
       required super.role,
+      required super.npc,
       this.dialog = "",
-      this.npcStage = NpcStage.unknow,
+      // this.npcStage = NpcStage.unknow,
       this.conversationDone = false});
   final String dialog;
-  final NpcStage npcStage;
+  // final NpcStage npcStage;
   final bool conversationDone;
 
   MentorNpcState copyWith(
@@ -20,13 +20,13 @@ class MentorNpcState extends BaseNpcState {
       Plot? plot,
       String? dialog,
       NpcStage? npcStage,
-      bool? conversationDone}) {
+      bool? conversationDone,
+      Npc? npc}) {
     return MentorNpcState(
-        name: name ?? this.name,
         plot: plot ?? this.plot,
         role: role ?? this.role,
         dialog: dialog ?? this.dialog,
-        npcStage: npcStage ?? this.npcStage,
-        conversationDone: conversationDone ?? this.conversationDone);
+        conversationDone: conversationDone ?? this.conversationDone,
+        npc: npc ?? this.npc);
   }
 }
