@@ -48,6 +48,8 @@ dev_dependencies:
 
 dependency_overrides:
   analyzer: ^6.4.1
+  bonfire:
+    path: D:/github_repo/bonfire-master
   
 flutter:
 

@@ -145,7 +145,13 @@ class MentorNpcNotifier extends AutoDisposeNotifier<MentorNpcState> {
     }
   }
 
-  addLikability(int i) {}
+  addLikability(int i) {
+    if (i == 0) {
+      return;
+    }
+
+    /// TODO complete me
+  }
 }
 
 final mentorProvider =
