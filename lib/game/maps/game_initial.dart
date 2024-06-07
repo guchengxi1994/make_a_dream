@@ -5,6 +5,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/decorations/initial_map_door.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
 import 'package:make_a_dream/game/npcs/mentor_npc.dart';
 import 'package:make_a_dream/game/util.dart';
@@ -22,8 +23,11 @@ class GameInitialPage extends ConsumerWidget {
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
         map: WorldMapByTiled(
-          WorldMapReader.fromAsset('tiled/punnyworld/simple_map.tmj'),
-        ),
+            WorldMapReader.fromAsset('tiled/punnyworld/simple_map.tmj'),
+            objectsBuilder: {
+              "door": (p) =>
+                  InitialMapDoor(position: p.position, size: p.size, ref: ref)
+            }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)
             Joystick(directional: JoystickDirectional()),

@@ -10,7 +10,7 @@ class ToastUtils {
       context: context,
       type: ToastificationType.success,
       style: ToastificationStyle.flatColored,
-      autoCloseDuration: const Duration(seconds: 2),
+      autoCloseDuration: const Duration(seconds: 10),
       title: Text(title),
       // you can also use RichText widget for title and description parameters
       description: descryption != null

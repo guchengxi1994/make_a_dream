@@ -1,11 +1,9 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:bonfire/map/base/layer.dart';
 import 'package:flutter/material.dart';
 import 'package:make_a_dream/game/components/mentor_talk_dialog.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_state.dart';
 
 import 'package:make_a_dream/game/util.dart';
-import 'package:make_a_dream/isar/npc.dart';
 
 class MentorNpc extends SimpleNpc {
   MentorNpc({required super.size, required this.state})
@@ -45,34 +43,6 @@ class MentorNpc extends SimpleNpc {
   }
 
   @override
-  void onMount() {
-    super.onMount();
-    if (state.npc.stage != NpcStage.unknow) {
-      final entry =
-          gameRef.map.layers.where((v) => v.name == "entry").firstOrNull;
-      if (entry != null) {
-        final layers = List<Layer>.from(gameRef.map.layers);
-        final entryCopy = Layer(
-            id: entry.id,
-            tiles: entry.tiles,
-            name: entry.name,
-            layerClass: entry.layerClass,
-            visible: true,
-            position: entry.position,
-            offset: entry.offset,
-            opacity: 1,
-            properties: entry.properties,
-            priority: entry.priority);
-        layers.removeWhere((v) => v.id == entry.id);
-
-        layers.add(entryCopy);
-
-        gameRef.map.updateLayers(layers);
-      }
-    }
-  }
-
-  @override
   void update(double dt) {
     super.update(dt);
 
@@ -105,9 +75,6 @@ class MentorNpc extends SimpleNpc {
       // );
       _movePlayerToTarget();
       isInDialog = false;
-      for (final i in gameRef.map.layers) {
-        print("${i.name}   ${i.opacity}");
-      }
     });
   }
 

@@ -48,8 +48,6 @@ dev_dependencies:
 
 dependency_overrides:
   analyzer: ^6.4.1
-  bonfire:
-    path: D:/github_repo/bonfire-master
   
 flutter:
 
@@ -59,6 +57,7 @@ flutter:
     - assets/avatars/
     - assets/images/
     - assets/images/tiled/punnyworld/
+    - assets/images/items/
     - assets/opening/
 
 icon_path : &icon_path "assets/icon.png"
