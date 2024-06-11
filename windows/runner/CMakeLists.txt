@@ -53,6 +53,10 @@ set(PROMPT_PATH ${ROOT_DIR}/prompts.json)
 set(ACH_PATH ${ROOT_DIR}/achievements.json)
 set(PLOT_PATH ${ROOT_DIR}/plot.json)
 
+set(MSVCP_PATH ${ROOT_DIR}/dlls/msvcp140.dll)
+set(VCRUNTIME ${ROOT_DIR}/dlls/vcruntime140.dll)
+set(VCRUNTIME2 ${ROOT_DIR}/dlls/vcruntime140_1.dll)
+
 if(NOT EXISTS ${ENV_PATH})
     set(MULTILINE_TEXT
         "
@@ -90,4 +94,9 @@ add_custom_target(copy-runtime-files ALL
   COMMAND ${CMAKE_COMMAND} -E copy ${PLOT_PATH} ${P1}/runner/Debug/plot.json
   COMMAND ${CMAKE_COMMAND} -E copy ${PLOT_PATH} ${P1}/runner/Release/plot.json
   COMMAND ${CMAKE_COMMAND} -E copy ${PLOT_PATH} ${P1}/runner/Profile/plot.json
+
+
+  COMMAND ${CMAKE_COMMAND} -E copy ${MSVCP_PATH} ${P1}/runner/Release/msvcp140.dll
+  COMMAND ${CMAKE_COMMAND} -E copy ${VCRUNTIME} ${P1}/runner/Release/vcruntime140.dll
+  COMMAND ${CMAKE_COMMAND} -E copy ${VCRUNTIME2} ${P1}/runner/Release/vcruntime140_1.dll
 )

@@ -10,7 +10,7 @@ import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
 typedef OnTap = void Function(BuildContext context, WidgetRef ref);
 
 class ButtonModel {
-  final String debugLabel;
+  final int debugLabel;
   final String content;
   final OnTap? onTap;
   ButtonModel(
@@ -42,7 +42,7 @@ class ButtonState {
 class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
   static List<ButtonModel> defaultModels = [
     ButtonModel(
-      debugLabel: "1",
+      debugLabel: 1,
       content: "起",
       onTap: (context, ref) async {
         final String? name = await showGeneralDialog(
@@ -68,7 +68,7 @@ class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
     ),
     ButtonModel(
       content: "承",
-      debugLabel: "2",
+      debugLabel: 2,
       onTap: (context, ref) {
         final playerState = ref.read(playerProvider);
         final last = playerState.records.lastOrNull;
@@ -80,10 +80,10 @@ class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
         GameInitialRoute.open(context);
       },
     ),
-    ButtonModel(content: "转", debugLabel: "3", onTap: null),
+    ButtonModel(content: "转", debugLabel: 3, onTap: null),
     ButtonModel(
         content: "合",
-        debugLabel: "4",
+        debugLabel: 4,
         onTap: (_, __) {
           exit(0);
         }),
@@ -100,12 +100,63 @@ class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
     }
   }
 
-  changeStateWithDebugLabel(String label) {
+  changeStateWithDebugLabel(int label) {
     if (state.current == null || state.current!.debugLabel != label) {
       final c = defaultModels.where((v) => v.debugLabel == label).first;
 
       state = state.copyWith(current: c);
     }
+  }
+
+  ButtonModel getById(int id) {
+    return defaultModels.where((v) => v.debugLabel == id).first;
+  }
+
+  void next() {
+    if (state.current == null) {
+      return;
+    }
+
+    int id = state.current!.debugLabel + 1;
+    if (id == 5) {
+      id = 1;
+    }
+    while (true) {
+      if (getById(id).onTap == null) {
+        id++;
+      } else {
+        break;
+      }
+    }
+    if (id == 5) {
+      id = 1;
+    }
+
+    changeStateWithDebugLabel(id);
+  }
+
+  void previous() {
+    if (state.current == null) {
+      return;
+    }
+
+    int id = state.current!.debugLabel - 1;
+    if (id == 0) {
+      id = 4;
+    }
+    while (true) {
+      if (getById(id).onTap == null) {
+        id--;
+      } else {
+        break;
+      }
+    }
+
+    if (id == 0) {
+      id = 4;
+    }
+
+    changeStateWithDebugLabel(id);
   }
 }
 
