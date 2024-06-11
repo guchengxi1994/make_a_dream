@@ -69,7 +69,7 @@ class MentorNpc extends SimpleNpc {
           );
         }).then((_) {
       // print(gameRef.player!.position);
-      // gameRef.player!.moveToPosition(Vector2(0, 10));
+      // gameRef.player!.moveToPosition(Vector2(tileSize * 4, tileSize * 5));
       // gameRef.player!.translate(
       //   Vector2(0, 10),
       // );

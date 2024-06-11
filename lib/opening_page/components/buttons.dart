@@ -1,19 +1,36 @@
-import 'dart:io';
-
+import 'package:bonfire/parallax/camera_parallax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:make_a_dream/game/maps/game_initial_route.dart';
-import 'package:make_a_dream/global/ai_client.dart';
-import 'package:make_a_dream/opening_page/components/create_player_dialog.dart';
-import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
+import 'package:make_a_dream/common/logger_utils.dart';
+import 'package:make_a_dream/opening_page/notifiers/buttons_notifier.dart';
 
-class OpeningScreenButtons extends ConsumerWidget {
+class OpeningScreenButtons extends ConsumerStatefulWidget {
   const OpeningScreenButtons({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final playerState = ref.watch(playerProvider);
+  ConsumerState<OpeningScreenButtons> createState() =>
+      _OpeningScreenButtonsState();
+}
 
+class _OpeningScreenButtonsState extends ConsumerState<OpeningScreenButtons> {
+  final FocusNode _focusNode1 = FocusNode(debugLabel: "1");
+  final FocusNode _focusNode2 = FocusNode(debugLabel: "2");
+  final FocusNode _focusNode3 = FocusNode(debugLabel: "3");
+  final FocusNode _focusNode4 = FocusNode(debugLabel: "4");
+
+  late final nodeList = [_focusNode1, _focusNode2, _focusNode3, _focusNode4];
+
+  @override
+  void dispose() {
+    _focusNode1.dispose();
+    _focusNode2.dispose();
+    _focusNode3.dispose();
+    _focusNode4.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Align(
@@ -24,128 +41,78 @@ class OpeningScreenButtons extends ConsumerWidget {
           decoration: BoxDecoration(color: Colors.lightBlue.withOpacity(0.1)),
           // padding: const EdgeInsets.only(bottom: 20),
           alignment: Alignment.center,
-          child: FittedBox(
-            child: Column(children: [
-              _Button(
-                  content: "起",
-                  onTap: () async {
-                    final String? name = await showGeneralDialog(
-                        barrierColor: Colors.transparent,
-                        barrierDismissible: true,
-                        barrierLabel: "new-player",
-                        context: context,
-                        pageBuilder: (c, _, __) {
-                          return Center(
-                            child: CreatePlayerDialog(),
-                          );
-                        });
-
-                    if (name != null) {
-                      ref
-                          .read(playerProvider.notifier)
-                          .createNewRecord(name)
-                          .then((id) {
-                        AiClient aiClient = AiClient();
-                        aiClient.initialAllNpcs(id).then((_) {
-                          GameInitialRoute.open(context);
-                        });
-                      });
-                    }
-                  },
-                  enable: true),
-              _Button(
-                  content: "承",
-                  onTap: () {
-                    final last = playerState.records.lastOrNull;
-                    if (last == null) {
-                      return;
-                    }
-
-                    ref.read(playerProvider.notifier).changeCurrent(last);
-                    GameInitialRoute.open(context);
-                  },
-                  enable: playerState.records.isNotEmpty),
-              _Button(content: "转", onTap: () {}, enable: false),
-              _Button(
-                  content: "合",
-                  onTap: () {
-                    // SystemNavigator.pop();
-                    exit(0);
-                  },
-                  enable: true),
-            ]),
-          ),
+          child: FocusTraversalGroup(
+              policy: WidgetOrderTraversalPolicy(
+                requestFocusCallback: (node,
+                    {alignment, alignmentPolicy, curve, duration}) {
+                  // print(node.debugLabel);
+                  logger.info("[flutter] switch to ${node.debugLabel}");
+                  ref
+                      .read(buttonProvider.notifier)
+                      .changeStateWithDebugLabel(node.debugLabel!);
+                },
+              ),
+              child: FittedBox(
+                child: Column(
+                    children: ButtonsNotifier.defaultModels
+                        .mapIndexed(
+                            (i, v) => _Button(node: nodeList[i], model: v))
+                        .toList()),
+              )),
         ),
       ),
     );
   }
 }
 
-class _Button extends StatefulWidget {
-  const _Button(
-      {required this.content, required this.onTap, required this.enable});
-  final VoidCallback onTap;
-  final String content;
-  final bool enable;
+class _Button extends ConsumerWidget {
+  const _Button({required this.node, required this.model});
+  final ButtonModel model;
+  final FocusNode node;
 
   @override
-  State<_Button> createState() => __ButtonState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(buttonProvider);
+    bool focused = model.debugLabel == state.current?.debugLabel;
 
-class __ButtonState extends State<_Button> {
-  bool onHover = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.enable
-        ? MouseRegion(
-            onEnter: (event) {
-              setState(() {
-                onHover = true;
-              });
+    return Focus(
+        focusNode: node,
+        autofocus: focused,
+        child: MouseRegion(
+          onEnter: (event) {
+            ref
+                .read(buttonProvider.notifier)
+                .changeStateWithDebugLabel(model.debugLabel);
+          },
+          onExit: (event) {
+            ref.read(buttonProvider.notifier).changeState(null);
+          },
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onTap: () {
+              if (model.onTap != null) {
+                model.onTap!(context, ref);
+              }
             },
-            onExit: (event) {
-              setState(() {
-                onHover = false;
-              });
-            },
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () {
-                widget.onTap();
-              },
-              child: Container(
-                width: 200,
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: onHover
-                        ? Colors.lightBlue.withOpacity(0.5)
-                        : Colors.transparent),
-                child: Center(
-                  child: Text(
-                    widget.content,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30),
-                  ),
+            child: Container(
+              width: 200,
+              height: 50,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: focused
+                      ? Colors.lightBlue.withOpacity(0.5)
+                      : Colors.transparent),
+              child: Center(
+                child: Text(
+                  model.content,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30),
                 ),
               ),
             ),
-          )
-        : SizedBox(
-            width: 200,
-            height: 50,
-            child: Center(
-              child: Text(
-                widget.content,
-                style: const TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30),
-              ),
-            ),
-          );
+          ),
+        ));
   }
 }
