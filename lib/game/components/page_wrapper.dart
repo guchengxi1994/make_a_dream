@@ -22,7 +22,7 @@ class PageWrapper extends ConsumerWidget {
           children: [
             FloatingActionButton.small(
               tooltip: "status",
-              heroTag: "",
+              heroTag: "status",
               onPressed: () {
                 final state = _key.currentState;
                 if (state != null) {
@@ -41,7 +41,7 @@ class PageWrapper extends ConsumerWidget {
             ),
             FloatingActionButton.small(
               tooltip: "setting",
-              heroTag: "",
+              heroTag: "setting",
               onPressed: () {},
               child: const Icon(Icons.settings),
             ),

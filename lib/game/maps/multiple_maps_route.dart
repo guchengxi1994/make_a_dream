@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:make_a_dream/opening_page/openging_page.dart';
+import 'package:make_a_dream/game/maps/multiple_maps.dart';
 
-class OpengingPageRouter {
-  static const String routeName = "/";
+class MultipleMapsRoute {
+  static const String routeName = '/maps';
 
   static Map<String, WidgetBuilder> get builder {
     return {
-      routeName: (context) => const OpeningPage(),
+      routeName: (context) => const MultipleMaps(),
     };
   }
 

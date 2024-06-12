@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:make_a_dream/game/maps/game_initial_route.dart';
+import 'package:make_a_dream/game/maps/multiple_maps_route.dart';
 import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/opening_page/components/create_player_dialog.dart';
 import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
@@ -60,7 +60,7 @@ class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
           ref.read(playerProvider.notifier).createNewRecord(name).then((id) {
             AiClient aiClient = AiClient();
             aiClient.initialAllNpcs(id).then((_) {
-              GameInitialRoute.open(context);
+              MultipleMapsRoute.open(context);
             });
           });
         }
@@ -77,7 +77,7 @@ class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
         }
 
         ref.read(playerProvider.notifier).changeCurrent(last);
-        GameInitialRoute.open(context);
+        MultipleMapsRoute.open(context);
       },
     ),
     ButtonModel(content: "转", debugLabel: 3, onTap: null),
