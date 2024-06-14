@@ -1,7 +1,7 @@
 from PIL import Image
 import os
 
-def resize_images(directory, output_dir, size=(16, 16)):
+def resize_images(directory, output_dir, size=(48, 48)):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -14,4 +14,4 @@ def resize_images(directory, output_dir, size=(16, 16)):
                 im_resized.save(new_image_path)
 
 # 使用方法
-resize_images(r'D:\github_repo\resources\ground', r'D:\github_repo\resources\ground\16')
+resize_images(r'D:\github_repo\resources\ground-grass-road-floor', r'D:\github_repo\resources\ground-grass-road-floor\48')
