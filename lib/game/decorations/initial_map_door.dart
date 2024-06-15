@@ -1,8 +1,9 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:make_a_dream/game/maps/building_of_sages_route.dart';
+import 'package:make_a_dream/game/maps/city_of_dream_route.dart';
 import 'package:make_a_dream/game/maps/multiple_map_notifier.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
+import 'package:make_a_dream/game/util.dart';
 import 'package:make_a_dream/isar/npc.dart';
 
 class InitialMapDoor extends GameDecoration with Sensor {
@@ -33,13 +34,12 @@ class InitialMapDoor extends GameDecoration with Sensor {
 
   @override
   void onContact(GameComponent component) {
-    // print(component.position);
     if (gameRef.player != null &&
-        gameRef.player!.position.distanceTo(position) < 10 &&
+        gameRef.player!.position.distanceTo(position) < contactDistance &&
         ref.read(mentorProvider).npc.stage == NpcStage.meet) {
       ref
           .read(multipleMapProvider.notifier)
-          .switchTo(BuildingOfSagesRoute.routeName);
+          .switchTo(CityOfDreamRoute.routeName);
     }
     super.onContact(component);
   }

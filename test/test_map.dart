@@ -1,6 +1,5 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import 'package:make_a_dream/game/decorations/air_wall.dart';
 import 'package:make_a_dream/game/util.dart';
 
 class HumanPlayer extends SimplePlayer with BlockMovementCollision {
@@ -26,18 +25,16 @@ class SimplePlayerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BonfireWidget(
-      map: WorldMapByTiled(
-          WorldMapReader.fromAsset('tiled/maps/buildings_of_sage.tmj'),
-          objectsBuilder: {"air_wall": (p) => AirWall(p.position, p.size)}),
+      map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/city.tmj')),
       playerControllers: [
         Joystick(directional: JoystickDirectional()),
         Keyboard(),
       ],
       player: HumanPlayer(
-        position: Vector2(0, 0),
+        position: Vector2(32, 32),
       ),
       cameraConfig: CameraConfig(
-        zoom: 3,
+        zoom: 2,
       ),
       backgroundColor: const Color(0xff20a0b4),
     );

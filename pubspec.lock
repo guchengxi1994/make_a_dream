@@ -69,10 +69,10 @@ packages:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: "57758407633404c4be4c6e9d76106a99be5dbd061a84edb3c42af56b3bdf37d5"
+      sha256: f06f21346731c14d8f983fe6bc983326f1d59d5568a5ba059a69011ee24f05a1
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.9.4"
+    version: "3.9.5"
   boolean_selector:
     dependency: transitive
     description:

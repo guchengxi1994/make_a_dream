@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/page_wrapper.dart';
 import 'package:make_a_dream/game/maps/building_of_sages.dart';
+import 'package:make_a_dream/game/maps/city_of_dream.dart';
+import 'package:make_a_dream/game/maps/city_of_dream_route.dart';
 import 'package:make_a_dream/game/maps/game_initial.dart';
 import 'package:make_a_dream/game/maps/game_initial_route.dart';
 import 'package:make_a_dream/game/maps/multiple_map_notifier.dart';
@@ -27,6 +29,8 @@ class MultipleMaps extends ConsumerWidget {
   _renderWidget(String state) {
     if (state == GameInitialRoute.routeName) {
       return const GameInitialPage();
+    } else if (state == CityOfDreamRoute.routeName) {
+      return const CityOfDream();
     } else {
       return const BuildingOfSages();
     }

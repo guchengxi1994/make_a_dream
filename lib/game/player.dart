@@ -7,7 +7,7 @@ class SinglePlayer extends SimplePlayer with BlockMovementCollision {
   SinglePlayer({required super.position, required this.record})
       : super(
             animation: PersonSpritesheet().simpleAnimation(),
-            size: Vector2.all(24),
+            size: Vector2.all(12),
             speed: record.ability.dexterity,
             initDirection: Direction.up);
 
