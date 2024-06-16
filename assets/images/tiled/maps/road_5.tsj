@@ -1,0 +1,14 @@
+{ "columns":3,
+ "image":"road_48\/brown_tiles.png",
+ "imageheight":48,
+ "imagewidth":48,
+ "margin":0,
+ "name":"road_4",
+ "spacing":0,
+ "tilecount":9,
+ "tiledversion":"1.10.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}

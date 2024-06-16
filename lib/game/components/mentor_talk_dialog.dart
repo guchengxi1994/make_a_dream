@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/components/avatar_widget.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
@@ -40,37 +41,50 @@ class _MentorTalkDialogState extends ConsumerState<MentorTalkDialog> {
                       color: Colors.white.withOpacity(0.7),
                       border: Border.all(width: 3),
                       borderRadius: BorderRadius.circular(20)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Row(
                     children: [
-                      Expanded(
-                          child: SingleChildScrollView(
-                        controller:
-                            ref.read(mentorProvider.notifier).controller,
-                        child: MarkdownBlock(
-                          data: state.dialog,
-                          selectable: false,
-                          config: MarkdownConfig.defaultConfig,
+                      SizedBox(
+                        width: 200,
+                        height: 200,
+                        child: NpcAvatarWidget(
+                          avatar: "",
+                          name: state.npc.name,
                         ),
-                      )),
-                      if (state.conversationDone && state.dialog != "")
-                        SizedBox(
-                          height: 40,
-                          child: Row(
-                            children: [
-                              const Expanded(child: SizedBox()),
-                              TextButton(
-                                  autofocus: true,
-                                  onPressed: () {
-                                    ref
-                                        .read(mentorProvider.notifier)
-                                        .resetDialog();
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("Got it"))
-                            ],
-                          ),
-                        )
+                      ),
+                      Expanded(
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              child: SingleChildScrollView(
+                            controller:
+                                ref.read(mentorProvider.notifier).controller,
+                            child: MarkdownBlock(
+                              data: state.dialog,
+                              selectable: false,
+                              config: MarkdownConfig.defaultConfig,
+                            ),
+                          )),
+                          if (state.conversationDone && state.dialog != "")
+                            SizedBox(
+                              height: 40,
+                              child: Row(
+                                children: [
+                                  const Expanded(child: SizedBox()),
+                                  TextButton(
+                                      autofocus: true,
+                                      onPressed: () {
+                                        ref
+                                            .read(mentorProvider.notifier)
+                                            .resetDialog();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Got it"))
+                                ],
+                              ),
+                            )
+                        ],
+                      ))
                     ],
                   ),
                 ))

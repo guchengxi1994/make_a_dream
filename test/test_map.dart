@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:make_a_dream/game/util.dart';
@@ -24,20 +26,35 @@ class SimplePlayerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BonfireWidget(
-      map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/city.tmj')),
-      playerControllers: [
-        Joystick(directional: JoystickDirectional()),
-        Keyboard(),
-      ],
-      player: HumanPlayer(
-        position: Vector2(32, 32),
-      ),
-      cameraConfig: CameraConfig(
-        zoom: 2,
-      ),
-      backgroundColor: const Color(0xff20a0b4),
-    );
+    return LayoutBuilder(builder: (c, con) {
+      return BonfireWidget(
+        map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/city.tmj')),
+        playerControllers: [
+          Joystick(directional: JoystickDirectional()),
+          Keyboard(),
+        ],
+        player: HumanPlayer(
+          position: Vector2(32, 32),
+        ),
+        cameraConfig: CameraConfig(
+          zoom: 2,
+        ),
+        overlayBuilderMap: {
+          // 'setting': (ctx, game) => const SettingButton(),
+          'miniMap': (context, game) => MiniMap(
+                game: game,
+                margin: const EdgeInsets.all(20),
+                borderRadius: BorderRadius.circular(10),
+                size: Vector2.all(
+                  min(con.maxHeight, con.maxWidth) / 3,
+                ),
+                border: Border.all(color: Colors.white.withOpacity(0.5)),
+              ),
+        },
+        initialActiveOverlays: const ['miniMap'],
+        backgroundColor: const Color(0xff20a0b4),
+      );
+    });
   }
 }
 
