@@ -25,6 +25,7 @@ void main() async {
   aiClient.initGameModel(DevUtils.prompt);
   aiClient.initPlot(DevUtils.plot);
   aiClient.initAchievements(DevUtils.achievements);
+  aiClient.initQuiz(DevUtils.roleQuiz);
 
   IsarDatabase database = IsarDatabase();
   await database.initialDatabase();

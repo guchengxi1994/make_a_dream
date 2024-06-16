@@ -1,0 +1,52 @@
+{
+    "quiz": [
+        {
+            "id": 1,
+            "question": "你是一个...",
+            "options": [
+                {
+                    "text": "资深游戏玩家",
+                    "result": "intelligence_10;strength_10;attunement_10;dexterity_10;vitality_10"
+                },
+                {
+                    "text": "小学生",
+                    "result": "math_1;language_1;history_1;geography_1;chemistry_1;physics_1;biography_1;it_1"
+                },
+                {
+                    "text": "初中生",
+                    "result": "math_5;language_5;history_5;geography_5;chemistry_5;physics_5;biography_5;it_1"
+                },
+                {
+                    "text": "高中生",
+                    "result": "math_10;language_10;history_10;geography_10;chemistry_10;physics_10;biography_10;it_1"
+                },
+                {
+                    "text": "大学文科生",
+                    "result": "math_10;language_20;history_20;geography_10;chemistry_10;physics_10;biography_10;it_1"
+                },
+                {
+                    "text": "大学理科生",
+                    "result": "math_20;language_10;history_10;geography_20;chemistry_20;physics_20;biography_20;it_10"
+                },
+                {
+                    "text": "程序员",
+                    "result": "math_20;language_1;history_1;geography_1;chemistry_1;physics_1;biography_1;it_30"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "question": "你喜欢...",
+            "options": [
+                {
+                    "text": "游戏",
+                    "result": ""
+                },
+                {
+                    "text": "音乐",
+                    "result": ""
+                }
+            ]
+        }
+    ]
+}

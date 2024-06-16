@@ -1481,13 +1481,18 @@ const AchievementSchema = Schema(
       name: r'description',
       type: IsarType.string,
     ),
-    r'iconPath': PropertySchema(
+    r'hashCode': PropertySchema(
       id: 2,
+      name: r'hashCode',
+      type: IsarType.long,
+    ),
+    r'iconPath': PropertySchema(
+      id: 3,
       name: r'iconPath',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'name',
       type: IsarType.string,
     )
@@ -1523,8 +1528,9 @@ void _achievementSerialize(
 ) {
   writer.writeLong(offsets[0], object.createAt);
   writer.writeString(offsets[1], object.description);
-  writer.writeString(offsets[2], object.iconPath);
-  writer.writeString(offsets[3], object.name);
+  writer.writeLong(offsets[2], object.hashCode);
+  writer.writeString(offsets[3], object.iconPath);
+  writer.writeString(offsets[4], object.name);
 }
 
 Achievement _achievementDeserialize(
@@ -1536,8 +1542,8 @@ Achievement _achievementDeserialize(
   final object = Achievement();
   object.createAt = reader.readLong(offsets[0]);
   object.description = reader.readString(offsets[1]);
-  object.iconPath = reader.readStringOrNull(offsets[2]);
-  object.name = reader.readString(offsets[3]);
+  object.iconPath = reader.readStringOrNull(offsets[3]);
+  object.name = reader.readString(offsets[4]);
   return object;
 }
 
@@ -1553,8 +1559,10 @@ P _achievementDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1750,6 +1758,61 @@ extension AchievementQueryFilter
       return query.addFilterCondition(FilterCondition.greaterThan(
         property: r'description',
         value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> hashCodeEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      hashCodeGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition>
+      hashCodeLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'hashCode',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Achievement, Achievement, QAfterFilterCondition> hashCodeBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'hashCode',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
       ));
     });
   }
