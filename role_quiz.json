@@ -40,11 +40,27 @@
             "options": [
                 {
                     "text": "游戏",
-                    "result": ""
+                    "result": "intelligence_10"
                 },
                 {
                     "text": "音乐",
-                    "result": ""
+                    "result": "attunement_3"
+                },
+                {
+                    "text": "室内运动",
+                    "result": "strength_10"
+                },
+                {
+                    "text": "田径运动",
+                    "result": "dexterity_10"
+                },
+                {
+                    "text": "水上运动",
+                    "result": "vitality_10"
+                },
+                {
+                    "text": "吃吃喝喝",
+                    "result": "endurance_10"
                 }
             ]
         }

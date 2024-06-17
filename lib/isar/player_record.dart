@@ -68,6 +68,65 @@ class PlayerAbility {
   late double /* 力量 */ strength = 0;
   late double /* 敏捷, move speed */ dexterity = 32;
   late double /* 智力 ,根据智力可以获取更高级别的知识*/ intelligence = 0;
+
+  PlayerAbility operator +(Object other) {
+    if (other is! PlayerAbility) {
+      return this;
+    }
+
+    return PlayerAbility()
+      ..endurance = endurance + other.endurance
+      ..attunement = attunement + other.attunement
+      ..strength = strength + other.strength
+      ..dexterity = dexterity + other.dexterity
+      ..intelligence = intelligence + other.intelligence
+      ..vitality = vitality + other.vitality;
+  }
+
+  static PlayerAbility fromString(String s) {
+    var list = s.split(";");
+    PlayerAbility result = PlayerAbility()
+      ..attunement = 0
+      ..dexterity = 0
+      ..endurance = 0
+      ..intelligence = 0
+      ..strength = 0
+      ..vitality = 0;
+    if (list.isEmpty) {
+      return result;
+    }
+
+    for (final i in list) {
+      final s = i.split("_");
+      if (s.length != 2) {
+        continue;
+      }
+      final name = s[0];
+      final value = double.tryParse(s[1]) ?? 0;
+      switch (name) {
+        case "endurance":
+          result.endurance = value;
+          break;
+        case "vitality":
+          result.vitality = value;
+          break;
+        case "attunement":
+          result.attunement = value;
+          break;
+        case "strength":
+          result.strength = value;
+          break;
+        case "dexterity":
+          result.dexterity = value;
+          break;
+        case "intelligence":
+          result.intelligence = value;
+          break;
+      }
+    }
+
+    return result;
+  }
 }
 
 extension ToChartA on PlayerAbility {
@@ -104,6 +163,71 @@ class PlayerKnowledge {
   late double /* 物理 */ physics = 0;
   late double /* 生物 */ biography = 0;
   late double /* IT */ it = 0;
+
+  PlayerKnowledge operator +(Object other) {
+    if (other is! PlayerKnowledge) {
+      return this;
+    }
+
+    return PlayerKnowledge()
+      ..math = math + other.math
+      ..language = language + other.language
+      ..history = history + other.history
+      ..geography = geography + other.geography
+      ..chemistry = chemistry + other.chemistry
+      ..biography = biography + other.biography
+      ..it = it + other.it
+      ..physics = physics + other.physics;
+  }
+
+  static PlayerKnowledge fromString(String s) {
+    var list = s.split(";");
+    PlayerKnowledge result = PlayerKnowledge()
+      ..math = 0
+      ..language = 0
+      ..history = 0
+      ..geography = 0
+      ..chemistry = 0
+      ..biography = 0
+      ..it = 0
+      ..physics = 0;
+
+    if (list.isEmpty) {
+      return result;
+    }
+
+    for (final i in list) {
+      final s = i.split("_");
+      if (s.length != 2) {
+        continue;
+      }
+      final name = s[0];
+      final value = double.tryParse(s[1]) ?? 0;
+      switch (name) {
+        case "math":
+          result.math = value;
+          break;
+        case "language":
+          result.language = value;
+          break;
+        case "history":
+          result.history = value;
+          break;
+        case "geography":
+          result.geography = value;
+          break;
+        case "chemistry":
+          result.chemistry = value;
+          break;
+        case "biography":
+          result.biography = value;
+          break;
+        case "it":
+          result.it = value;
+      }
+    }
+    return result;
+  }
 }
 
 extension ToChartK on PlayerKnowledge {

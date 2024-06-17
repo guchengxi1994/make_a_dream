@@ -35,8 +35,16 @@ class PlayerNotifier extends Notifier<PlayerState> {
     });
   }
 
-  Future<int> createNewRecord(String name) async {
+  Future<int> createNewRecord(String name,
+      {List<PlayerAbility> ability = const [],
+      List<PlayerKnowledge> knowledge = const []}) async {
     PlayerRecord record = PlayerRecord()..name = name;
+    for (final i in ability) {
+      record.ability = record.ability + i;
+    }
+    for (final i in knowledge) {
+      record.knowledge = record.knowledge + i;
+    }
     await database.isar!.writeTxn(() async {
       await database.isar!.playerRecords.put(record);
     });
