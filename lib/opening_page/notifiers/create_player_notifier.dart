@@ -6,18 +6,24 @@ class CreatePlayerState {
   String name;
   List<PlayerAbility> ability;
   List<PlayerKnowledge> knowledge;
+  String rolePath;
 
   CreatePlayerState(
-      {this.ability = const [], this.knowledge = const [], this.name = ""});
+      {this.ability = const [],
+      this.knowledge = const [],
+      this.name = "",
+      this.rolePath = "human2.png"});
 
   CreatePlayerState copyWith(
       {String? name,
       List<PlayerAbility>? ability,
-      List<PlayerKnowledge>? knowledge}) {
+      List<PlayerKnowledge>? knowledge,
+      String? rolePath}) {
     return CreatePlayerState(
         name: name ?? this.name,
         ability: ability ?? this.ability,
-        knowledge: knowledge ?? this.knowledge);
+        knowledge: knowledge ?? this.knowledge,
+        rolePath: rolePath ?? this.rolePath);
   }
 
   @override
@@ -32,6 +38,10 @@ class CreatePlayerNotifier extends AutoDisposeNotifier<CreatePlayerState> {
   @override
   CreatePlayerState build() {
     return CreatePlayerState();
+  }
+
+  void setRolePath(String rolePath) {
+    state = state.copyWith(rolePath: rolePath);
   }
 
   void setName(String name) {

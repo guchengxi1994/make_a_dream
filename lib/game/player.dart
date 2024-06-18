@@ -6,7 +6,8 @@ import 'package:make_a_dream/isar/player_record.dart';
 class SinglePlayer extends SimplePlayer with BlockMovementCollision {
   SinglePlayer({required super.position, required this.record})
       : super(
-            animation: PersonSpritesheet().simpleAnimation(),
+            animation:
+                PersonSpritesheet(path: record.rolePath).simpleAnimation(),
             size: Vector2.all(12),
             speed: record.ability.dexterity,
             initDirection: Direction.up);
@@ -45,5 +46,26 @@ class SinglePlayer extends SimplePlayer with BlockMovementCollision {
     removeWhere((v) => v is TextComponent && v.text == record.name);
 
     // print("current ${position}");
+  }
+}
+
+class SelectPlayer extends SimplePlayer {
+  SelectPlayer(
+      {required super.position,
+      this.path = "human2.png",
+      this.direction = Direction.down})
+      : super(
+            animation: PersonSpritesheet(path: path).simpleAnimation(),
+            size: Vector2.all(16),
+            speed: 0,
+            initDirection: direction);
+
+  final String path;
+  final Direction direction;
+
+  @override
+  Future<void> onLoad() {
+    add(RectangleHitbox(size: size / 2, position: size / 4));
+    return super.onLoad();
   }
 }

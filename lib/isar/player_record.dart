@@ -16,6 +16,9 @@ class PlayerRecord {
   /// 自定义名称
   late String name = "player";
 
+  /// role path
+  late String rolePath = "human2.png";
+
   /// 属性点
   late int attributes = 0;
 

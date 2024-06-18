@@ -27,11 +27,9 @@ class GameModel {
 class Npc {
   final String name;
   final String role;
+  final String avatar;
 
-  Npc({
-    required this.name,
-    required this.role,
-  });
+  Npc({required this.name, required this.role, required this.avatar});
 
   factory Npc.fromJson(Map<String, dynamic> json) => _$NpcFromJson(json);
 

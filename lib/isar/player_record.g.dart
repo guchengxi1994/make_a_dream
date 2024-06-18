@@ -69,6 +69,11 @@ const PlayerRecordSchema = CollectionSchema(
       id: 9,
       name: r'name',
       type: IsarType.string,
+    ),
+    r'rolePath': PropertySchema(
+      id: 10,
+      name: r'rolePath',
+      type: IsarType.string,
     )
   },
   estimateSize: _playerRecordEstimateSize,
@@ -123,6 +128,7 @@ int _playerRecordEstimateSize(
       PlayerKnowledgeSchema.estimateSize(
           object.knowledge, allOffsets[PlayerKnowledge]!, allOffsets);
   bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 + object.rolePath.length * 3;
   return bytesCount;
 }
 
@@ -157,6 +163,7 @@ void _playerRecordSerialize(
   );
   writer.writeLong(offsets[8], object.lastSaved);
   writer.writeString(offsets[9], object.name);
+  writer.writeString(offsets[10], object.rolePath);
 }
 
 PlayerRecord _playerRecordDeserialize(
@@ -193,6 +200,7 @@ PlayerRecord _playerRecordDeserialize(
       PlayerKnowledge();
   object.lastSaved = reader.readLongOrNull(offsets[8]);
   object.name = reader.readString(offsets[9]);
+  object.rolePath = reader.readString(offsets[10]);
   return object;
 }
 
@@ -238,6 +246,8 @@ P _playerRecordDeserializeProp<P>(
     case 8:
       return (reader.readLongOrNull(offset)) as P;
     case 9:
+      return (reader.readString(offset)) as P;
+    case 10:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1063,6 +1073,142 @@ extension PlayerRecordQueryFilter
       ));
     });
   }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rolePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'rolePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'rolePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'rolePath',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'rolePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'rolePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'rolePath',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'rolePath',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'rolePath',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      rolePathIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'rolePath',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension PlayerRecordQueryObject
@@ -1239,6 +1385,18 @@ extension PlayerRecordQuerySortBy
       return query.addSortBy(r'name', Sort.desc);
     });
   }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByRolePath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rolePath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> sortByRolePathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rolePath', Sort.desc);
+    });
+  }
 }
 
 extension PlayerRecordQuerySortThenBy
@@ -1339,6 +1497,18 @@ extension PlayerRecordQuerySortThenBy
       return query.addSortBy(r'name', Sort.desc);
     });
   }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByRolePath() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rolePath', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterSortBy> thenByRolePathDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'rolePath', Sort.desc);
+    });
+  }
 }
 
 extension PlayerRecordQueryWhereDistinct
@@ -1384,6 +1554,13 @@ extension PlayerRecordQueryWhereDistinct
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QDistinct> distinctByRolePath(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'rolePath', caseSensitive: caseSensitive);
     });
   }
 }
@@ -1456,6 +1633,12 @@ extension PlayerRecordQueryProperty
   QueryBuilder<PlayerRecord, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
+    });
+  }
+
+  QueryBuilder<PlayerRecord, String, QQueryOperations> rolePathProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'rolePath');
     });
   }
 }

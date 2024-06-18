@@ -5,10 +5,12 @@
     "npcs": [
         {
             "name": "mentor",
+            "avatar": "assets/avatars/a1.jpg",
             "role": "你是这个游戏的制作人，会为玩家介绍一些简单的游戏功能。"
         },
         {
             "name":"role-designer",
+            "avatar": "",
             "role":"你是这个游戏的角色定制官，接下来我们会以问答的形式让用户选择对应的角色属性，你需要针对问答内容进行适当的讲解"
         }
     ]

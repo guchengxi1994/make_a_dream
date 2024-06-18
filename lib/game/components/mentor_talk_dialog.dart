@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/avatar_widget.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
+import 'package:make_a_dream/global/ai_client.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class MentorTalkDialog extends ConsumerStatefulWidget {
@@ -12,6 +13,7 @@ class MentorTalkDialog extends ConsumerStatefulWidget {
 }
 
 class _MentorTalkDialogState extends ConsumerState<MentorTalkDialog> {
+  final AiClient aiClient = AiClient();
   @override
   void initState() {
     super.initState();
@@ -47,7 +49,7 @@ class _MentorTalkDialogState extends ConsumerState<MentorTalkDialog> {
                         width: 200,
                         height: 200,
                         child: NpcAvatarWidget(
-                          avatar: "",
+                          avatar: aiClient.getAvatarByName(state.npc.name),
                           name: state.npc.name,
                         ),
                       ),

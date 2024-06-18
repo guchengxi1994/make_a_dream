@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/opening_page/components/quiz_builder.dart';
+import 'package:make_a_dream/opening_page/components/role_selection.dart';
 import 'package:make_a_dream/opening_page/notifiers/create_player_notifier.dart';
 import 'package:make_a_dream/style/app_style.dart';
 
@@ -40,6 +41,11 @@ class CreatePlayerDialog extends ConsumerWidget {
                     decoration:
                         AppStyle.inputDecorationWithHint("Input your name"),
                   ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text("选择你的角色"),
+                  const RoleSelection(),
                   const Expanded(child: SizedBox()),
                   Row(
                     children: [

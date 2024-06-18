@@ -23,6 +23,10 @@ class AiClient {
   late IsarDatabase database = IsarDatabase();
   late RoleQuizModel roleQuizModel;
 
+  getAvatarByName(String name) {
+    return model.npcs.firstWhere((element) => element.name == name).avatar;
+  }
+
   initGameModel(String path) {
     File file = File(path);
     model = GameModel.fromJson(jsonDecode(file.readAsStringSync()));
