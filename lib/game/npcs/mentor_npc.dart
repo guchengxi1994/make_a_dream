@@ -8,7 +8,7 @@ import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
 
 import 'package:make_a_dream/game/util.dart';
 
-class MentorNpc extends SimpleNpc {
+class MentorNpc extends SimpleNpc with Sensor<Player> {
   MentorNpc({required super.size, required this.ref})
       : super(
             animation: PersonSpritesheet(path: "mentor.png").simpleAnimation(),
@@ -31,10 +31,12 @@ class MentorNpc extends SimpleNpc {
 
   @override
   Future<void> onLoad() {
+    // print("size  $size");
     String text = "mentor";
     final textSize = _textConfig.getLineMetrics(text).size;
     xCenter = (width - textSize.x) / 2;
     yCenter = (height - textSize.y) / 2;
+    add(RectangleHitbox(size: size));
     add(
       TextComponent(
         text: text,
@@ -47,13 +49,9 @@ class MentorNpc extends SimpleNpc {
   }
 
   @override
-  void update(double dt) {
-    super.update(dt);
-
-    // print("update");
-
+  void onContact(Player component) {
+    super.onContact(component);
     if (gameRef.player != null &&
-        gameRef.player!.position.distanceTo(position) < 10 &&
         !isInDialog &&
         ref.read(multipleMapProvider) == GameInitialRoute.routeName) {
       moveToPosition(gameRef.player!.position);

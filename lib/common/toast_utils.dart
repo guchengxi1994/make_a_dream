@@ -4,6 +4,27 @@ import 'package:toastification/toastification.dart';
 class ToastUtils {
   ToastUtils._();
 
+  static void decorationTip(BuildContext? context, {required String tip}) {
+    toastification.showCustom(
+        context: context,
+        autoCloseDuration: const Duration(seconds: 3),
+        alignment: Alignment.bottomCenter,
+        builder: (ctx, holder) {
+          return SizedBox(
+            width: 200,
+            height: 50,
+            child: Center(
+                child: Text(
+              tip,
+              style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            )),
+          );
+        });
+  }
+
   static void decorationToast(BuildContext? context, {required String toast}) {
     toastification.showCustom(
         context: context,

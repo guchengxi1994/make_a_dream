@@ -5,6 +5,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/decorations/tip_decoration.dart';
 import 'package:make_a_dream/game/decorations/toast_decoration.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
 import 'package:make_a_dream/game/player.dart';
@@ -21,25 +22,19 @@ class CityOfDream extends ConsumerWidget {
         map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/city.tmj'),
             objectsBuilder: {
               "enter_center_bottom": (p) => ToastDecoration(
-                  position: p.position,
-                  size: p.size,
-                  toast: 'enter_center_bottom'),
+                  position: p.position, size: p.size, toast: '许愿池'),
               "enter_right_bottom": (p) => ToastDecoration(
-                  position: p.position,
-                  size: p.size,
-                  toast: 'enter_right_bottom'),
+                  position: p.position, size: p.size, toast: 'Temper'),
               "enter_left_bottom": (p) => ToastDecoration(
-                  position: p.position,
-                  size: p.size,
-                  toast: 'enter_left_bottom'),
+                  position: p.position, size: p.size, toast: '工业区'),
               "enter_left_center": (p) => ToastDecoration(
-                  position: p.position,
-                  size: p.size,
-                  toast: 'enter_left_center'),
+                  position: p.position, size: p.size, toast: '水池'),
               "enter_top_right": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: 'enter_top_right'),
+                  position: p.position, size: p.size, toast: '田园'),
               "enter_top_left": (p) => ToastDecoration(
                   position: p.position, size: p.size, toast: '梦之都'),
+              "tip": (p) => TipDecoration(
+                  position: p.position, size: p.size, tip: '注意来往车辆'),
             }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)
