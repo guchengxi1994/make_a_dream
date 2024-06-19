@@ -1,20 +1,24 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/mentor_talk_dialog.dart';
-import 'package:make_a_dream/game/notifiers/mentor_npc_state.dart';
+import 'package:make_a_dream/game/maps/game_initial_route.dart';
+import 'package:make_a_dream/game/maps/multiple_map_notifier.dart';
+import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
 
 import 'package:make_a_dream/game/util.dart';
 
 class MentorNpc extends SimpleNpc {
-  MentorNpc({required super.size, required this.state})
+  MentorNpc({required super.size, required this.ref})
       : super(
             animation: PersonSpritesheet(path: "mentor.png").simpleAnimation(),
             speed: 0,
             initDirection: Direction.down,
-            position: Vector2(tileSize * state.plot.position[0],
-                tileSize * state.plot.position[1]));
+            position: Vector2(
+                tileSize * ref.read(mentorProvider).plot.position[0],
+                tileSize * ref.read(mentorProvider).plot.position[1]));
 
-  final MentorNpcState state;
+  final WidgetRef ref;
 
   bool isInDialog = false;
 
@@ -50,7 +54,8 @@ class MentorNpc extends SimpleNpc {
 
     if (gameRef.player != null &&
         gameRef.player!.position.distanceTo(position) < 10 &&
-        !isInDialog) {
+        !isInDialog &&
+        ref.read(multipleMapProvider) == GameInitialRoute.routeName) {
       moveToPosition(gameRef.player!.position);
 
       gameRef.player!.stopMove();
@@ -82,8 +87,8 @@ class MentorNpc extends SimpleNpc {
   /// 移动人物的目的，只能用 [translate]
   _movePlayerToTarget() {
     final current = gameRef.player!.position;
-    final target = Vector2(tileSize * state.plot.position[0],
-        tileSize * (state.plot.position[1] + 1));
+    final target = Vector2(tileSize * ref.read(mentorProvider).plot.position[0],
+        tileSize * (ref.read(mentorProvider).plot.position[1] + 1));
     final trans = Vector2(target.x - current.x, target.y - current.y);
     gameRef.player!.translate(
       trans,

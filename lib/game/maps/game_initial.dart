@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/decorations/initial_map_door.dart';
-import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
 import 'package:make_a_dream/game/npcs/mentor_npc.dart';
 import 'package:make_a_dream/game/util.dart';
 import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
@@ -48,7 +47,7 @@ class GameInitialPage extends ConsumerWidget {
             record: playerState.current!),
         components: [
           MentorNpc(
-            state: ref.read(mentorProvider),
+            ref: ref,
             size: Vector2.all(18),
           ),
         ],

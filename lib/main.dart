@@ -2,6 +2,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/common/audio_utils.dart';
 import 'package:make_a_dream/global/routers.dart';
 // ignore: depend_on_referenced_packages
 import 'package:logging/logging.dart';
@@ -29,6 +30,10 @@ void main() async {
 
   IsarDatabase database = IsarDatabase();
   await database.initialDatabase();
+
+  AudioUtils audioUtils = AudioUtils();
+  await audioUtils.setloop();
+  await audioUtils.setVolume(0.5);
 
   await Flame.device.setLandscape();
   await Flame.device.fullScreen();

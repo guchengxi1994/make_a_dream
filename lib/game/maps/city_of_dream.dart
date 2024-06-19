@@ -5,6 +5,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/decorations/toast_decoration.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
 import 'package:make_a_dream/game/player.dart';
 import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
@@ -17,7 +18,29 @@ class CityOfDream extends ConsumerWidget {
     final playerState = ref.watch(playerProvider);
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
-        map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/city.tmj')),
+        map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/city.tmj'),
+            objectsBuilder: {
+              "enter_center_bottom": (p) => ToastDecoration(
+                  position: p.position,
+                  size: p.size,
+                  toast: 'enter_center_bottom'),
+              "enter_right_bottom": (p) => ToastDecoration(
+                  position: p.position,
+                  size: p.size,
+                  toast: 'enter_right_bottom'),
+              "enter_left_bottom": (p) => ToastDecoration(
+                  position: p.position,
+                  size: p.size,
+                  toast: 'enter_left_bottom'),
+              "enter_left_center": (p) => ToastDecoration(
+                  position: p.position,
+                  size: p.size,
+                  toast: 'enter_left_center'),
+              "enter_top_right": (p) => ToastDecoration(
+                  position: p.position, size: p.size, toast: 'enter_top_right'),
+              "enter_top_left": (p) => ToastDecoration(
+                  position: p.position, size: p.size, toast: '梦之都'),
+            }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)
             Joystick(directional: JoystickDirectional()),

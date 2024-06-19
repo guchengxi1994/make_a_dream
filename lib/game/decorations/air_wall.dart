@@ -3,7 +3,7 @@
 import 'package:bonfire/bonfire.dart';
 
 /// [AirWall] 空气墙，还没有完全实现逻辑
-class AirWall extends GameDecoration with Sensor {
+class AirWall extends GameDecoration with Sensor<Player> {
   AirWall(Vector2 position, Vector2 size,
       {this.mapHeight = 320, this.mapWidth = 480})
       : super(
@@ -52,7 +52,7 @@ class AirWall extends GameDecoration with Sensor {
   }
 
   @override
-  void onContact(GameComponent component) {
+  void onContact(Player component) {
     // print("touched");
     // print(x);
     // print(gameRef.player!.position);
