@@ -32,7 +32,7 @@ class NpcAvatarWidget extends StatelessWidget {
             }
           })),
           SizedBox(
-              height: 20,
+              height: 40,
               child: Align(
                 alignment: Alignment.center,
                 child: Text(name, style: const TextStyle(fontSize: 20)),

@@ -68,7 +68,7 @@ class _RoleSelectionState extends ConsumerState<RoleSelection> {
         setState(() {
           selectedIndex = 1;
         });
-        ref.read(createPlayerProvider.notifier).setRolePath("human.png");
+        ref.read(createPlayerProvider.notifier).setRolePath("human3.png");
       },
       child: badges.Badge(
         badgeContent: const Text(
@@ -83,7 +83,7 @@ class _RoleSelectionState extends ConsumerState<RoleSelection> {
             map: WorldMapByTiled(
               WorldMapReader.fromAsset('tiled/maps/select.tmj'),
             ),
-            player: SelectPlayer(position: Vector2(16, 5), path: "human.png"),
+            player: SelectPlayer(position: Vector2(16, 5), path: "human3.png"),
             backgroundColor: Colors.white,
             cameraConfig: CameraConfig(
               startFollowPlayer: false,

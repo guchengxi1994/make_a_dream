@@ -61,7 +61,9 @@ class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
           ref
               .read(playerProvider.notifier)
               .createNewRecord(state.name,
-                  ability: state.ability, knowledge: state.knowledge)
+                  ability: state.ability,
+                  knowledge: state.knowledge,
+                  rolePath: state.rolePath)
               .then((id) {
             AiClient aiClient = AiClient();
             aiClient.initialAllNpcs(id).then((_) {

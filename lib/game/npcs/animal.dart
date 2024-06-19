@@ -19,6 +19,9 @@ class Animal extends SimpleNpc with RandomMovement, BlockMovementCollision {
   @override
   void update(double dt) {
     runRandomMovement(dt);
+    if (position.x > 1600) {
+      position = Vector2(1580, position.y);
+    }
     super.update(dt);
   }
 }

@@ -47,11 +47,9 @@ class MentorNpcNotifier extends AutoDisposeNotifier<MentorNpcState> {
   }
 
   Future<void> plot() async {
-    final _plot = aiClient.plots.plots.where((v) => v.npc == "mentor").first;
-
     if (state.npc.stage == NpcStage.unknow) {
       /// 未触发过对话，查找有没有 [introduce] 的节点
-      final event = _plot.plot
+      final event = state.plot.plot
           .where((v) => v.content == "introduce" && v.type == "once")
           .firstOrNull;
       if (event == null) {
