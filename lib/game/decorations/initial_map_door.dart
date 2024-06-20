@@ -1,7 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/maps/city_of_dream_route.dart';
-import 'package:make_a_dream/game/maps/multiple_map_notifier.dart';
+import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
 import 'package:make_a_dream/game/util.dart';
 import 'package:make_a_dream/isar/npc.dart';

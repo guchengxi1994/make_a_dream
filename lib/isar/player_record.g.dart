@@ -88,6 +88,12 @@ const PlayerRecordSchema = CollectionSchema(
       name: r'npcs',
       target: r'Npc',
       single: false,
+    ),
+    r'playerEvents': LinkSchema(
+      id: -348762081444326789,
+      name: r'playerEvents',
+      target: r'PlayerEvent',
+      single: false,
     )
   },
   embeddedSchemas: {
@@ -259,13 +265,15 @@ Id _playerRecordGetId(PlayerRecord object) {
 }
 
 List<IsarLinkBase<dynamic>> _playerRecordGetLinks(PlayerRecord object) {
-  return [object.npcs];
+  return [object.npcs, object.playerEvents];
 }
 
 void _playerRecordAttach(
     IsarCollection<dynamic> col, Id id, PlayerRecord object) {
   object.id = id;
   object.npcs.attach(col, col.isar.collection<Npc>(), r'npcs', id);
+  object.playerEvents
+      .attach(col, col.isar.collection<PlayerEvent>(), r'playerEvents', id);
 }
 
 extension PlayerRecordQueryWhereSort
@@ -1295,6 +1303,67 @@ extension PlayerRecordQueryLinks
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(
           r'npcs', lower, includeLower, upper, includeUpper);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition> playerEvents(
+      FilterQuery<PlayerEvent> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'playerEvents');
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      playerEventsLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'playerEvents', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      playerEventsIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'playerEvents', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      playerEventsIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'playerEvents', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      playerEventsLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'playerEvents', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      playerEventsLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'playerEvents', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<PlayerRecord, PlayerRecord, QAfterFilterCondition>
+      playerEventsLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'playerEvents', lower, includeLower, upper, includeUpper);
     });
   }
 }

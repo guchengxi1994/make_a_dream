@@ -8,7 +8,7 @@ import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/isar/database.dart';
 import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_record.dart';
-import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
 import 'fountain_state.dart';
 
@@ -44,6 +44,14 @@ class FountainNotifier extends AutoDisposeNotifier<FountainState> {
   }
 
   Future<void> plot(String wish) async {
+    final couldDo = await ref.read(playerProvider.notifier).couldDo();
+    if (!couldDo) {
+      state =
+          state.copyWith(conversationDone: true, dialog: "Up to limit today");
+
+      return;
+    }
+
     final stream = aiClient.stream([
       ChatMessage.system(state.role),
       ChatMessage.humanText("用户许了一个愿望，希望$wish。你因为是一个美好的愿望而献上了最美好的祝福。")

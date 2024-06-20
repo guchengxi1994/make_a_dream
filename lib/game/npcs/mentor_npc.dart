@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/mentor_talk_dialog.dart';
 import 'package:make_a_dream/game/maps/game_initial_route.dart';
-import 'package:make_a_dream/game/maps/multiple_map_notifier.dart';
+import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
 
 import 'package:make_a_dream/game/util.dart';

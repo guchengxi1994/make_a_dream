@@ -10,7 +10,7 @@ import 'package:make_a_dream/game/decorations/tip_decoration.dart';
 import 'package:make_a_dream/game/decorations/toast_decoration.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
 import 'package:make_a_dream/game/player.dart';
-import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
 class CityOfDream extends ConsumerWidget {
   const CityOfDream({super.key});

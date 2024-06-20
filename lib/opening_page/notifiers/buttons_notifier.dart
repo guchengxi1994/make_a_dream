@@ -6,7 +6,7 @@ import 'package:make_a_dream/game/maps/multiple_maps_route.dart';
 import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/opening_page/components/create_player_dialog.dart';
 import 'package:make_a_dream/opening_page/notifiers/create_player_notifier.dart';
-import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
 typedef OnTap = void Function(BuildContext context, WidgetRef ref);
 

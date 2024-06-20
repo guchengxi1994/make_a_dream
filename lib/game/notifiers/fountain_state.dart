@@ -8,7 +8,7 @@ class FountainState extends BaseNpcState {
       required super.role,
       required super.npc,
       required this.dialog,
-      this.options = const ["世界和平"],
+      this.options = const ["世界和平", "每天开心"],
       required this.conversationDone});
 
   final String dialog;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:isar/isar.dart';
 import 'package:make_a_dream/isar/npc.dart';
+import 'package:make_a_dream/isar/player_event.dart';
 
 part 'player_record.g.dart';
 
@@ -39,6 +40,8 @@ class PlayerRecord {
   int? lastSaved;
 
   IsarLinks<Npc> npcs = IsarLinks();
+
+  IsarLinks<PlayerEvent> playerEvents = IsarLinks();
 }
 
 @embedded

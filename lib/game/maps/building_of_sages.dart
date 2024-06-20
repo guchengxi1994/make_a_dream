@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/decorations/air_wall.dart';
 import 'package:make_a_dream/game/player.dart';
-import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
 class BuildingOfSages extends ConsumerWidget {
   const BuildingOfSages({super.key});
