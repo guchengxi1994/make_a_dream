@@ -27,6 +27,11 @@ const PlayerEventSchema = CollectionSchema(
       name: r'playerEventType',
       type: IsarType.byte,
       enumMap: _PlayerEventplayerEventTypeEnumValueMap,
+    ),
+    r'withWhom': PropertySchema(
+      id: 2,
+      name: r'withWhom',
+      type: IsarType.string,
     )
   },
   estimateSize: _playerEventEstimateSize,
@@ -49,6 +54,12 @@ int _playerEventEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  {
+    final value = object.withWhom;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -60,6 +71,7 @@ void _playerEventSerialize(
 ) {
   writer.writeLong(offsets[0], object.createAt);
   writer.writeByte(offsets[1], object.playerEventType.index);
+  writer.writeString(offsets[2], object.withWhom);
 }
 
 PlayerEvent _playerEventDeserialize(
@@ -74,6 +86,7 @@ PlayerEvent _playerEventDeserialize(
   object.playerEventType = _PlayerEventplayerEventTypeValueEnumMap[
           reader.readByteOrNull(offsets[1])] ??
       PlayerEventType.talk;
+  object.withWhom = reader.readStringOrNull(offsets[2]);
   return object;
 }
 
@@ -90,6 +103,8 @@ P _playerEventDeserializeProp<P>(
       return (_PlayerEventplayerEventTypeValueEnumMap[
               reader.readByteOrNull(offset)] ??
           PlayerEventType.talk) as P;
+    case 2:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -362,6 +377,159 @@ extension PlayerEventQueryFilter
       ));
     });
   }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition>
+      withWhomIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'withWhom',
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition>
+      withWhomIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'withWhom',
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition> withWhomEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'withWhom',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition>
+      withWhomGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'withWhom',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition>
+      withWhomLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'withWhom',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition> withWhomBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'withWhom',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition>
+      withWhomStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'withWhom',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition>
+      withWhomEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'withWhom',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition>
+      withWhomContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'withWhom',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition> withWhomMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'withWhom',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition>
+      withWhomIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'withWhom',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterFilterCondition>
+      withWhomIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'withWhom',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension PlayerEventQueryObject
@@ -394,6 +562,18 @@ extension PlayerEventQuerySortBy
       sortByPlayerEventTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'playerEventType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterSortBy> sortByWithWhom() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'withWhom', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterSortBy> sortByWithWhomDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'withWhom', Sort.desc);
     });
   }
 }
@@ -436,6 +616,18 @@ extension PlayerEventQuerySortThenBy
       return query.addSortBy(r'playerEventType', Sort.desc);
     });
   }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterSortBy> thenByWithWhom() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'withWhom', Sort.asc);
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QAfterSortBy> thenByWithWhomDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'withWhom', Sort.desc);
+    });
+  }
 }
 
 extension PlayerEventQueryWhereDistinct
@@ -450,6 +642,13 @@ extension PlayerEventQueryWhereDistinct
       distinctByPlayerEventType() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'playerEventType');
+    });
+  }
+
+  QueryBuilder<PlayerEvent, PlayerEvent, QDistinct> distinctByWithWhom(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'withWhom', caseSensitive: caseSensitive);
     });
   }
 }
@@ -472,6 +671,12 @@ extension PlayerEventQueryProperty
       playerEventTypeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'playerEventType');
+    });
+  }
+
+  QueryBuilder<PlayerEvent, String?, QQueryOperations> withWhomProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'withWhom');
     });
   }
 }

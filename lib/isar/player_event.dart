@@ -10,4 +10,5 @@ class PlayerEvent {
   int createAt = DateTime.now().millisecondsSinceEpoch;
   @enumerated
   late PlayerEventType playerEventType = PlayerEventType.talk;
+  String? withWhom;
 }

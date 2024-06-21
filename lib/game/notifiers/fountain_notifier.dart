@@ -7,6 +7,7 @@ import 'package:langchain_lib/langchain_lib.dart';
 import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/isar/database.dart';
 import 'package:make_a_dream/isar/npc.dart';
+import 'package:make_a_dream/isar/player_event.dart';
 import 'package:make_a_dream/isar/player_record.dart';
 import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
@@ -76,10 +77,16 @@ class FountainNotifier extends AutoDisposeNotifier<FountainState> {
             ..type = HistoryType.npc);
 
         _npc.stage = NpcStage.meet;
+        PlayerEvent playerEvent = PlayerEvent()
+          ..playerEventType = PlayerEventType.talk
+          ..withWhom = role;
 
         await isarDatabase.isar!.writeTxn(() async {
           await isarDatabase.isar!.npcs.put(_npc);
+          await isarDatabase.isar!.playerEvents.put(playerEvent);
+          player.playerEvents.add(playerEvent);
           await player.npcs.save();
+          await player.playerEvents.save();
           await isarDatabase.isar!.playerRecords.put(player);
         });
 
