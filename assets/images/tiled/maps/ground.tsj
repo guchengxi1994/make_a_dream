@@ -1,0 +1,14 @@
+{ "columns":52,
+ "image":"block48.png",
+ "imageheight":48,
+ "imagewidth":2496,
+ "margin":0,
+ "name":"ground",
+ "spacing":0,
+ "tilecount":52,
+ "tiledversion":"1.10.2",
+ "tileheight":48,
+ "tilewidth":48,
+ "type":"tileset",
+ "version":"1.10"
+}
