@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +13,7 @@ class NpcAvatarWidget extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-              child: ExtendedImage.file(File(avatar), shape: BoxShape.rectangle,
+              child: ExtendedImage.asset(avatar, shape: BoxShape.rectangle,
                   loadStateChanged: (state) {
             switch (state.extendedImageLoadState) {
               case LoadState.completed:

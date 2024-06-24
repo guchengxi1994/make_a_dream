@@ -5,6 +5,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/decorations/base_mentor.dart';
 import 'package:make_a_dream/game/decorations/fes.dart';
 import 'package:make_a_dream/game/decorations/fountain.dart';
 import 'package:make_a_dream/game/decorations/tip_decoration.dart';
@@ -39,6 +40,16 @@ class CityOfDream extends ConsumerWidget {
                   position: p.position, size: p.size, tip: '注意来往车辆'),
               "fountain": (p) => Fountain(position: p.position, size: p.size),
               "fes": (p) => Fes(position: p.position, size: p.size),
+              "teacher1": (p) => BaseMentor(
+                  position: p.position,
+                  size: p.size,
+                  mentorName: "science teacher",
+                  path: "human5.png"),
+              "teacher2": (p) => BaseMentor(
+                  position: p.position,
+                  size: p.size,
+                  mentorName: "literature teacher",
+                  path: "human4.png")
             }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)

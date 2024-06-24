@@ -4,48 +4,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:langchain_lib/langchain_lib.dart';
-import 'package:make_a_dream/game/notifiers/fes_state.dart';
+import 'package:make_a_dream/game/notifiers/base_mentor_state.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/isar/database.dart';
 import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_event.dart';
 import 'package:make_a_dream/isar/player_record.dart';
 
-import 'player_notifier.dart';
-
-class FesNotifier extends AutoDisposeNotifier<FesState> {
-  static const role = "fes";
-
+class BaseMentorNotifier
+    extends AutoDisposeFamilyNotifier<BaseMentorState, String> {
   final AiClient aiClient = AiClient();
   final IsarDatabase isarDatabase = IsarDatabase();
   final ScrollController controller = ScrollController();
 
   @override
-  FesState build() {
+  BaseMentorState build(String arg) {
     final playerId = ref.read(playerProvider).current!.id;
     final npc = isarDatabase.isar!.playerRecords
         .where()
         .idEqualTo(playerId)
         .findFirstSync()!
         .npcs
-        .where((v) => v.name == role)
+        .where((v) => v.name == arg)
         .first;
-    final fes = aiClient.model.npcs.where((v) => v.name == role).first;
+    final baseMentor = aiClient.model.npcs.where((v) => v.name == arg).first;
     final plot = aiClient.plots.plots
         .where(
-          (element) => element.npc == role,
+          (element) => element.npc == arg,
         )
         .first;
 
-    return FesState(
+    return BaseMentorState(
         plot: plot,
-        role: fes.role,
+        role: baseMentor.role,
         npc: npc,
         dialog: "",
         conversationDone: false);
   }
 
-  Future<void> plot() async {
+  Future<void> plot({String humanMessage = ""}) async {
     final couldDo = await ref.read(playerProvider.notifier).couldDo();
     if (!couldDo) {
       state =
@@ -54,12 +52,9 @@ class FesNotifier extends AutoDisposeNotifier<FesState> {
       return;
     }
 
-    DateTime now = DateTime.now();
-
     final stream = aiClient.stream([
       ChatMessage.system(state.role),
-      ChatMessage.humanText(
-          "今天是${now.year}年${now.month}月${now.day}，请问今天是什么特殊节日吗？如果有的话，请用简单的文字描述一下典故或者节日来历。")
+      ChatMessage.humanText(humanMessage == "" ? "请介绍一下自己" : humanMessage)
     ]);
 
     stream.listen(
@@ -74,7 +69,7 @@ class FesNotifier extends AutoDisposeNotifier<FesState> {
             .idEqualTo(playerId)
             .findFirstSync()!;
 
-        final _npc = player.npcs.where((v) => v.name == role).first;
+        final _npc = player.npcs.where((v) => v.name == arg).first;
         _npc.history = List.from(_npc.history)
           ..add(History()
             ..content = state.dialog
@@ -83,7 +78,7 @@ class FesNotifier extends AutoDisposeNotifier<FesState> {
         _npc.stage = NpcStage.meet;
         PlayerEvent playerEvent = PlayerEvent()
           ..playerEventType = PlayerEventType.talk
-          ..withWhom = role;
+          ..withWhom = arg;
 
         await isarDatabase.isar!.writeTxn(() async {
           await isarDatabase.isar!.npcs.put(_npc);
@@ -102,6 +97,5 @@ class FesNotifier extends AutoDisposeNotifier<FesState> {
   }
 }
 
-final fesProvider = AutoDisposeNotifierProvider<FesNotifier, FesState>(() {
-  return FesNotifier();
-});
+final baseMentorProvider = AutoDisposeNotifierProvider.family<
+    BaseMentorNotifier, BaseMentorState, String>(() => BaseMentorNotifier());
