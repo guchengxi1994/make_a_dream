@@ -62,7 +62,7 @@
          "name":"decoration",
          "objects":[
                 {
-                 "height":94,
+                 "height":58,
                  "id":6,
                  "name":"exit",
                  "rotation":0,
@@ -70,7 +70,7 @@
                  "visible":true,
                  "width":110,
                  "x":136,
-                 "y":258
+                 "y":282
                 }, 
                 {
                  "height":760,

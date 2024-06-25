@@ -998,29 +998,18 @@
         {
          "draworder":"topdown",
          "id":15,
-         "name":"teacher",
+         "name":"entry",
          "objects":[
                 {
-                 "height":13,
-                 "id":21,
-                 "name":"teacher1",
+                 "height":17.2727272727273,
+                 "id":23,
+                 "name":"classroom_entry",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":12,
-                 "x":365.5,
-                 "y":284
-                }, 
-                {
-                 "height":13,
-                 "id":22,
-                 "name":"teacher2",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":11.5,
-                 "x":397,
-                 "y":283.5
+                 "width":32.3636363636364,
+                 "x":159.818181818182,
+                 "y":192.363636363636
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1029,7 +1018,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":23,
+ "nextobjectid":25,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

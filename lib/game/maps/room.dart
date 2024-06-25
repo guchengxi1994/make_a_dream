@@ -5,21 +5,26 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/decorations/air_wall.dart';
+import 'package:make_a_dream/game/decorations/classroom_exit.dart';
 import 'package:make_a_dream/game/decorations/room_bg.dart';
-import 'package:make_a_dream/game/deprecated/human_player.dart';
 import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
+import 'package:make_a_dream/game/player.dart';
 
 class Room extends ConsumerWidget {
   const Room({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final playerState = ref.watch(playerProvider);
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
         map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/room.tmj'),
             objectsBuilder: {
               "air_wall": (p) => AirWall(p.position, p.size),
-              "image": (p) => RoomBg(position: p.position, size: p.size)
+              "image": (p) => RoomBg(position: p.position, size: p.size),
+              "exit": (p) =>
+                  ClassroomExit(position: p.position, size: p.size, ref: ref),
             }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)
@@ -33,10 +38,12 @@ class Room extends ConsumerWidget {
             ),
           )
         ],
-        player: HumanPlayer(
+        player: SinglePlayer(
             position:
                 ref.read(multipleMapProvider.notifier).getCurrentPosition() ??
-                    Vector2(2 * 48, 8 * 48)),
+                    Vector2(2 * 48, 8 * 48),
+            record: playerState.current!,
+            playerSize: (48, 48)),
         cameraConfig: CameraConfig(
           zoom: 1,
         ),

@@ -6,7 +6,10 @@ import 'package:make_a_dream/game/maps/city_of_dream.dart';
 import 'package:make_a_dream/game/maps/city_of_dream_route.dart';
 import 'package:make_a_dream/game/maps/game_initial.dart';
 import 'package:make_a_dream/game/maps/game_initial_route.dart';
+import 'package:make_a_dream/game/maps/room_route.dart';
 import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
+
+import 'room.dart';
 
 class MultipleMaps extends ConsumerWidget {
   const MultipleMaps({super.key});
@@ -31,6 +34,8 @@ class MultipleMaps extends ConsumerWidget {
       return const GameInitialPage();
     } else if (state == CityOfDreamRoute.routeName) {
       return const CityOfDream();
+    } else if (state == RoomRoute.routeName) {
+      return const Room();
     } else {
       return const BuildingOfSages();
     }
