@@ -10,6 +10,7 @@ import 'package:make_a_dream/game/decorations/fes.dart';
 import 'package:make_a_dream/game/decorations/fountain.dart';
 import 'package:make_a_dream/game/decorations/tip_decoration.dart';
 import 'package:make_a_dream/game/decorations/toast_decoration.dart';
+import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
 import 'package:make_a_dream/game/player.dart';
 import 'package:make_a_dream/game/notifiers/player_notifier.dart';
@@ -25,31 +26,37 @@ class CityOfDream extends ConsumerWidget {
         map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/city.tmj'),
             objectsBuilder: {
               "enter_center_bottom": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '许愿池'),
+                  position: p.position, size: p.size, toast: '许愿池', ref: ref),
               "enter_right_bottom": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: 'Temper'),
+                  position: p.position,
+                  size: p.size,
+                  toast: 'Temper',
+                  ref: ref),
               "enter_left_bottom": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '工业区'),
+                  position: p.position, size: p.size, toast: '工业区', ref: ref),
               "enter_left_center": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '水池'),
+                  position: p.position, size: p.size, toast: '水池', ref: ref),
               "enter_top_right": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '田园'),
+                  position: p.position, size: p.size, toast: '田园', ref: ref),
               "enter_top_left": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '梦之都'),
+                  position: p.position, size: p.size, toast: '梦之都', ref: ref),
               "tip": (p) => TipDecoration(
-                  position: p.position, size: p.size, tip: '注意来往车辆'),
-              "fountain": (p) => Fountain(position: p.position, size: p.size),
-              "fes": (p) => Fes(position: p.position, size: p.size),
+                  position: p.position, size: p.size, tip: '注意来往车辆', ref: ref),
+              "fountain": (p) =>
+                  Fountain(position: p.position, size: p.size, ref: ref),
+              "fes": (p) => Fes(position: p.position, size: p.size, ref: ref),
               "teacher1": (p) => BaseMentor(
                   position: p.position,
                   size: p.size,
                   mentorName: "science teacher",
-                  path: "human5.png"),
+                  path: "human5.png",
+                  ref: ref),
               "teacher2": (p) => BaseMentor(
                   position: p.position,
                   size: p.size,
                   mentorName: "literature teacher",
-                  path: "human4.png")
+                  path: "human4.png",
+                  ref: ref)
             }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)
@@ -77,7 +84,10 @@ class CityOfDream extends ConsumerWidget {
           Animal(size: Vector2(24, 32), path: "animals/output_1_3.png"),
         ],
         player: SinglePlayer(
-            position: Vector2(32, 32), record: playerState.current!),
+            position:
+                ref.read(multipleMapProvider.notifier).getCurrentPosition() ??
+                    Vector2(32, 32),
+            record: playerState.current!),
         cameraConfig: CameraConfig(
           zoom: 3,
         ),

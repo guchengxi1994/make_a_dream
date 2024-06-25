@@ -1,11 +1,14 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/fes_dialog.dart';
+import 'package:make_a_dream/game/decorations/decoration_mixin.dart';
 
-class Fes extends GameDecoration with Sensor<Player> {
-  Fes({required super.position, required super.size});
+class Fes extends GameDecoration with Sensor<Player>, DecorationMixin {
+  Fes({required super.position, required super.size, required this.ref});
 
   bool isTouched = false;
+  final WidgetRef ref;
 
   @override
   void onContact(Player component) {
@@ -23,6 +26,7 @@ class Fes extends GameDecoration with Sensor<Player> {
             );
           });
     }
+    updatePosition(ref, position);
     super.onContact(component);
   }
 

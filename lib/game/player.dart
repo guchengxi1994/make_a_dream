@@ -4,17 +4,22 @@ import 'package:make_a_dream/game/util.dart';
 import 'package:make_a_dream/isar/player_record.dart';
 
 class SinglePlayer extends SimplePlayer with BlockMovementCollision {
-  SinglePlayer({required super.position, required this.record})
+  SinglePlayer(
+      {required super.position,
+      required this.record,
+      this.playerSize = const (12, 12)})
       : super(
             animation:
                 PersonSpritesheet(path: record.rolePath).simpleAnimation(),
-            size: Vector2.all(12),
+            size: Vector2(playerSize.$1, playerSize.$2),
             speed: record.ability.dexterity,
             initDirection: Direction.up);
 
   late final TextPaint _textConfig = TextPaint(
     style: TextStyle(color: Colors.white, fontSize: width / 4),
   );
+
+  final (double, double) playerSize;
 
   double xCenter = 0;
   double yCenter = 0;

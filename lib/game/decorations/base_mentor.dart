@@ -1,19 +1,24 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/base_mentor_dialog.dart';
 
-class BaseMentor extends GameDecoration with Sensor<Player> {
+import 'decoration_mixin.dart';
+
+class BaseMentor extends GameDecoration with Sensor<Player>, DecorationMixin {
   BaseMentor(
       {required super.position,
       required super.size,
       required this.mentorName,
-      required this.path})
+      required this.path,
+      required this.ref})
       : super.withSprite(
           sprite: Sprite.load(path,
               srcPosition: Vector2(0, 0), srcSize: Vector2(32, 48)),
         );
   final String mentorName;
   final String path;
+  final WidgetRef ref;
 
   bool isTouched = false;
 
@@ -35,6 +40,7 @@ class BaseMentor extends GameDecoration with Sensor<Player> {
             );
           });
     }
+    updatePosition(ref, position);
     super.onContact(component);
   }
 

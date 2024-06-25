@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/decorations/air_wall.dart';
 import 'package:make_a_dream/game/decorations/room_bg.dart';
 import 'package:make_a_dream/game/deprecated/human_player.dart';
+import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 
 class Room extends ConsumerWidget {
   const Room({super.key});
@@ -32,7 +33,10 @@ class Room extends ConsumerWidget {
             ),
           )
         ],
-        player: HumanPlayer(position: Vector2(2 * 48, 8 * 48)),
+        player: HumanPlayer(
+            position:
+                ref.read(multipleMapProvider.notifier).getCurrentPosition() ??
+                    Vector2(2 * 48, 8 * 48)),
         cameraConfig: CameraConfig(
           zoom: 1,
         ),
