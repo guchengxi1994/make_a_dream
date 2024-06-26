@@ -2,6 +2,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/base_mentor_dialog.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
 import 'decoration_mixin.dart';
 
@@ -36,6 +37,11 @@ class BaseMentor extends GameDecoration with Sensor<Player>, DecorationMixin {
             return Center(
               child: BaseMentorDialog(
                 mentorName: mentorName,
+                prompt: ref
+                    .read(playerProvider)
+                    .current!
+                    .knowledge
+                    .getKnowledgePrompt(teacherType: mentorName),
               ),
             );
           });

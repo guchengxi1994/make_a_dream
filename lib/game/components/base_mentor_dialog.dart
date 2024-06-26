@@ -7,8 +7,10 @@ import 'package:markdown_widget/markdown_widget.dart';
 import 'avatar_widget.dart';
 
 class BaseMentorDialog extends ConsumerStatefulWidget {
-  const BaseMentorDialog({super.key, required this.mentorName});
+  const BaseMentorDialog(
+      {super.key, required this.mentorName, this.prompt = ""});
   final String mentorName;
+  final String prompt;
 
   @override
   ConsumerState<BaseMentorDialog> createState() => _BaseMentorState();
@@ -23,7 +25,9 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
   @override
   void initState() {
     super.initState();
-    ref.read(baseMentorProvider(widget.mentorName).notifier).plot();
+    ref
+        .read(baseMentorProvider(widget.mentorName).notifier)
+        .plot(humanMessage: widget.prompt);
   }
 
   @override

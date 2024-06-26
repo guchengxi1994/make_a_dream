@@ -5,6 +5,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/decorations/air_wall.dart';
+import 'package:make_a_dream/game/decorations/base_mentor.dart';
 import 'package:make_a_dream/game/decorations/classroom_exit.dart';
 import 'package:make_a_dream/game/decorations/room_bg.dart';
 import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
@@ -26,6 +27,18 @@ class Room extends ConsumerWidget {
               "image": (p) => RoomBg(position: p.position, size: p.size),
               "exit": (p) =>
                   ClassroomExit(position: p.position, size: p.size, ref: ref),
+              "teacher2": (p) => BaseMentor(
+                  position: p.position,
+                  size: p.size,
+                  mentorName: "literature teacher",
+                  path: "human4.png",
+                  ref: ref),
+              "teacher1": (p) => BaseMentor(
+                  position: p.position,
+                  size: p.size,
+                  mentorName: "science teacher",
+                  path: "human5.png",
+                  ref: ref)
             }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)

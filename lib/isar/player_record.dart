@@ -158,6 +158,42 @@ extension ToChartA on PlayerAbility {
   }
 }
 
+enum KnowledgeThreshold {
+  /* 幼儿园 */ kindergarten(0, "学龄前"),
+  /* 小学 */ elementarySchool(5, "小学"),
+  /* 初中 */ middleSchool(10, "初中"),
+  /* 高中 */ highSchool(20, "高中"),
+  /* 大学 */ university(40, "大学"),
+  /* 硕士 */ master(60, "硕士"),
+  /* 博士 */ doctor(80, "博士"),
+  /* 博士以上 */ doctorPlus(99, "博士以上");
+
+  const KnowledgeThreshold(this.value, this.type);
+
+  final int value;
+  final String type;
+
+  static String match(int v) {
+    if (v >= KnowledgeThreshold.doctorPlus.value) {
+      return KnowledgeThreshold.doctorPlus.type;
+    } else if (v >= KnowledgeThreshold.doctor.value) {
+      return KnowledgeThreshold.doctor.type;
+    } else if (v >= KnowledgeThreshold.master.value) {
+      return KnowledgeThreshold.master.type;
+    } else if (v >= KnowledgeThreshold.university.value) {
+      return KnowledgeThreshold.university.type;
+    } else if (v >= KnowledgeThreshold.highSchool.value) {
+      return KnowledgeThreshold.highSchool.type;
+    } else if (v >= KnowledgeThreshold.middleSchool.value) {
+      return KnowledgeThreshold.middleSchool.type;
+    } else if (v >= KnowledgeThreshold.elementarySchool.value) {
+      return KnowledgeThreshold.elementarySchool.type;
+    } else {
+      return KnowledgeThreshold.kindergarten.type;
+    }
+  }
+}
+
 /// max 100; min 0
 @embedded
 class PlayerKnowledge {
@@ -169,6 +205,25 @@ class PlayerKnowledge {
   late double /* 物理 */ physics = 0;
   late double /* 生物 */ biography = 0;
   late double /* IT */ it = 0;
+
+  String getKnowledgePrompt({String teacherType = 'science teacher'}) {
+    String s = "你的学生基本情况如下:\n";
+    if (teacherType == "science teacher") {
+      s += "数学程度在${KnowledgeThreshold.match(math.ceil())}左右；";
+      s += "地理程度在${KnowledgeThreshold.match(geography.ceil())}左右；";
+      s += "化学程度在${KnowledgeThreshold.match(chemistry.ceil())}左右；";
+      s += "物理程度在${KnowledgeThreshold.match(physics.ceil())}左右；";
+      s += "生物程度在${KnowledgeThreshold.match(biography.ceil())}左右；";
+      s += "IT程度在${KnowledgeThreshold.match(it.ceil())}左右。\n";
+    } else {
+      s += "文学程度在${KnowledgeThreshold.match(language.ceil())}左右；";
+      s += "历史程度在${KnowledgeThreshold.match(history.ceil())}左右。\n";
+    }
+
+    s += "请根据学生的能力，给一个相关领域的知识。";
+
+    return s;
+  }
 
   PlayerKnowledge operator +(Object other) {
     if (other is! PlayerKnowledge) {

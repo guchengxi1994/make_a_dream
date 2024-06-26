@@ -54,7 +54,8 @@ class BaseMentorNotifier
 
     final stream = aiClient.stream([
       ChatMessage.system(state.role),
-      ChatMessage.humanText(humanMessage == "" ? "请介绍一下自己" : humanMessage)
+      ChatMessage.humanText(
+          humanMessage == "" ? "请以“我是...”这种开场白，介绍一下自己" : humanMessage)
     ]);
 
     stream.listen(

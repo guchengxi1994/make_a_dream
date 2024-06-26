@@ -82,6 +82,28 @@
                  "width":998,
                  "x":10,
                  "y":8
+                }, 
+                {
+                 "height":52,
+                 "id":11,
+                 "name":"teacher2",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":46,
+                 "x":478,
+                 "y":428
+                }, 
+                {
+                 "height":52,
+                 "id":12,
+                 "name":"teacher1",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":48,
+                 "x":668,
+                 "y":428
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -90,7 +112,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":11,
+ "nextobjectid":13,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
