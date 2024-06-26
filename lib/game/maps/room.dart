@@ -10,6 +10,7 @@ import 'package:make_a_dream/game/decorations/room_bg.dart';
 import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 import 'package:make_a_dream/game/player.dart';
+import 'package:make_a_dream/style/app_style.dart';
 
 class Room extends ConsumerWidget {
   const Room({super.key});
@@ -47,7 +48,7 @@ class Room extends ConsumerWidget {
         cameraConfig: CameraConfig(
           zoom: 1,
         ),
-        backgroundColor: const Color(0xff20a0b4),
+        backgroundColor: AppStyle.gameBackground,
         overlayBuilderMap: {
           // 'setting': (ctx, game) => const SettingButton(),
           'miniMap': (context, game) => MiniMap(

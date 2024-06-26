@@ -14,6 +14,7 @@ import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
 import 'package:make_a_dream/game/player.dart';
 import 'package:make_a_dream/game/notifiers/player_notifier.dart';
+import 'package:make_a_dream/style/app_style.dart';
 
 class CityOfDream extends ConsumerWidget {
   const CityOfDream({super.key});
@@ -87,7 +88,7 @@ class CityOfDream extends ConsumerWidget {
         cameraConfig: CameraConfig(
           zoom: 3,
         ),
-        backgroundColor: const Color(0xff20a0b4),
+        backgroundColor: AppStyle.gameBackground,
         overlayBuilderMap: {
           // 'setting': (ctx, game) => const SettingButton(),
           'miniMap': (context, game) => MiniMap(

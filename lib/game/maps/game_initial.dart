@@ -9,6 +9,7 @@ import 'package:make_a_dream/game/decorations/initial_map_door.dart';
 import 'package:make_a_dream/game/npcs/mentor_npc.dart';
 import 'package:make_a_dream/game/util.dart';
 import 'package:make_a_dream/game/notifiers/player_notifier.dart';
+import 'package:make_a_dream/style/app_style.dart';
 
 import '../player.dart';
 
@@ -54,7 +55,7 @@ class GameInitialPage extends ConsumerWidget {
         cameraConfig: CameraConfig(
           zoom: getZoomFromMaxVisibleTile(context, tileSize, 20),
         ),
-        backgroundColor: const Color(0xff20a0b4),
+        backgroundColor: AppStyle.gameBackground,
         overlayBuilderMap: {
           // 'setting': (ctx, game) => const SettingButton(),
           'miniMap': (context, game) => MiniMap(

@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/decorations/air_wall.dart';
 import 'package:make_a_dream/game/player.dart';
 import 'package:make_a_dream/game/notifiers/player_notifier.dart';
+import 'package:make_a_dream/style/app_style.dart';
 
 class BuildingOfSages extends ConsumerWidget {
   const BuildingOfSages({super.key});
@@ -40,7 +41,7 @@ class BuildingOfSages extends ConsumerWidget {
         cameraConfig: CameraConfig(
           zoom: 3,
         ),
-        backgroundColor: const Color(0xff20a0b4),
+        backgroundColor: AppStyle.gameBackground,
         overlayBuilderMap: {
           // 'setting': (ctx, game) => const SettingButton(),
           'miniMap': (context, game) => MiniMap(

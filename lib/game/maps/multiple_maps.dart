@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/page_wrapper.dart';
+import 'package:make_a_dream/game/components/splash_wrapper.dart';
 import 'package:make_a_dream/game/maps/building_of_sages.dart';
 import 'package:make_a_dream/game/maps/city_of_dream.dart';
 import 'package:make_a_dream/game/maps/city_of_dream_route.dart';
@@ -18,26 +19,18 @@ class MultipleMaps extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(multipleMapProvider);
 
-    return PageWrapper(
-        child: AnimatedSwitcher(
-      duration: const Duration(seconds: 1),
-      switchInCurve: Curves.easeOutCubic,
-      transitionBuilder: (Widget child, Animation<double> animation) {
-        return FadeTransition(opacity: animation, child: child);
-      },
-      child: _renderWidget(state),
-    ));
+    return PageWrapper(child: _renderWidget(state));
   }
 
   _renderWidget(String state) {
     if (state == GameInitialRoute.routeName) {
-      return const GameInitialPage();
+      return const SplashWrapper(child: GameInitialPage());
     } else if (state == CityOfDreamRoute.routeName) {
-      return const CityOfDream();
+      return const SplashWrapper(child: CityOfDream());
     } else if (state == RoomRoute.routeName) {
-      return const Room();
+      return const SplashWrapper(child: Room());
     } else {
-      return const BuildingOfSages();
+      return const SplashWrapper(child: BuildingOfSages());
     }
   }
 }

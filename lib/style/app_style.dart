@@ -4,6 +4,8 @@ class AppStyle {
   AppStyle._();
   static const appColor = Color.fromARGB(255, 132, 142, 209);
 
+  static const Color gameBackground = Color(0xff20a0b4);
+
   static const InputDecoration inputDecoration = InputDecoration(
       errorStyle: TextStyle(height: 0),
       hintStyle:
