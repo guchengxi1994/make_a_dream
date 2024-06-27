@@ -220,7 +220,7 @@ class PlayerKnowledge {
       s += "历史程度在${KnowledgeThreshold.match(history.ceil())}左右。\n";
     }
 
-    s += "请根据学生的能力，给一个相关领域的知识。";
+    s += "请根据学生的能力，给一个相关领域的知识。注意：你的身份是一个老师，请以老师的口吻描述。";
 
     return s;
   }

@@ -22,6 +22,8 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
 
   bool isAnswering = false;
 
+  bool isExpanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -53,12 +55,15 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   width: MediaQuery.of(context).size.width - 20,
-                  height: 200,
+                  height: isExpanded
+                      ? MediaQuery.of(context).size.height * 0.8
+                      : 200,
                   decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.7),
                       border: Border.all(width: 3),
                       borderRadius: BorderRadius.circular(20)),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         width: 200,
@@ -90,6 +95,16 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
                               child: Row(
                                 children: [
                                   const Expanded(child: SizedBox()),
+                                  TextButton(
+                                      autofocus: true,
+                                      onPressed: () {
+                                        setState(() {
+                                          isExpanded = !isExpanded;
+                                        });
+                                      },
+                                      child: isExpanded
+                                          ? const Icon(Icons.expand_more)
+                                          : const Icon(Icons.expand_less)),
                                   TextButton(
                                       autofocus: true,
                                       onPressed: () {
