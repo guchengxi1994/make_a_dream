@@ -1,5 +1,11 @@
+// ignore_for_file: avoid_init_to_null
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/components/quiz_selection_dialog.dart';
+import 'package:make_a_dream/game/models/quiz_model.dart';
 import 'package:make_a_dream/game/notifiers/base_mentor_notifier.dart';
 import 'package:make_a_dream/global/ai_client.dart';
 import 'package:markdown_widget/markdown_widget.dart';
@@ -21,15 +27,20 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
   final TextEditingController controller = TextEditingController();
 
   bool isAnswering = false;
-
+  late bool talked =
+      ref.read(baseMentorProvider(widget.mentorName).notifier).talked;
   bool isExpanded = false;
 
   @override
   void initState() {
     super.initState();
-    ref
-        .read(baseMentorProvider(widget.mentorName).notifier)
-        .plot(humanMessage: widget.prompt);
+    if (talked) {
+      ref.read(baseMentorProvider(widget.mentorName).notifier).plotQuiz();
+    } else {
+      ref
+          .read(baseMentorProvider(widget.mentorName).notifier)
+          .plot(humanMessage: widget.prompt);
+    }
   }
 
   @override
@@ -42,6 +53,11 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
   Widget build(BuildContext context) {
     final state = ref.watch(baseMentorProvider(widget.mentorName));
 
+    QuizModel? quizModel = null;
+    try {
+      quizModel = QuizModel.fromJson(jsonDecode(
+          state.dialog.replaceAll("```json", "").replaceAll("```", "")));
+    } catch (_) {}
     return Material(
       color: Colors.transparent,
       child: Container(
@@ -83,11 +99,31 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
                                 .read(baseMentorProvider(widget.mentorName)
                                     .notifier)
                                 .controller,
-                            child: MarkdownBlock(
-                              data: state.dialog,
-                              selectable: false,
-                              config: MarkdownConfig.defaultConfig,
-                            ),
+                            child: talked && quizModel != null
+                                ? QuizSelectionDialog(
+                                    quizModel: quizModel,
+                                    onClick: (b) {
+                                      talked = false;
+                                      if (b) {
+                                        ref
+                                            .read(baseMentorProvider(
+                                                    widget.mentorName)
+                                                .notifier)
+                                            .simplePlot("回答正确。");
+                                      } else {
+                                        ref
+                                            .read(baseMentorProvider(
+                                                    widget.mentorName)
+                                                .notifier)
+                                            .simplePlot(
+                                                "回答错误。答案应该是**${quizModel?.answer}**");
+                                      }
+                                    })
+                                : MarkdownBlock(
+                                    data: state.dialog,
+                                    selectable: false,
+                                    config: MarkdownConfig.defaultConfig,
+                                  ),
                           )),
                           if (state.conversationDone && state.dialog != "")
                             SizedBox(
@@ -105,12 +141,13 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
                                       child: isExpanded
                                           ? const Icon(Icons.expand_more)
                                           : const Icon(Icons.expand_less)),
-                                  TextButton(
-                                      autofocus: true,
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text("Got it"))
+                                  if (!talked)
+                                    TextButton(
+                                        autofocus: true,
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("Got it"))
                                 ],
                               ),
                             )

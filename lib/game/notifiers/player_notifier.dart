@@ -26,6 +26,25 @@ class PlayerNotifier extends Notifier<PlayerState> {
     return PlayerState(current: null, records: records);
   }
 
+  bool talkedToday(String name) {
+    final lastHistory = state.current!.npcs
+        .where((v) => v.name == name)
+        .first
+        .history
+        .lastOrNull;
+    if (lastHistory == null) {
+      return false;
+    }
+    DateTime now = DateTime.now();
+    // 获取当天的日期，时间设置为午夜
+    DateTime startOfDay = DateTime(now.year, now.month, now.day);
+
+    DateTime endOfDay = startOfDay.add(const Duration(days: 1));
+
+    return lastHistory.createAt > startOfDay.millisecondsSinceEpoch &&
+        lastHistory.createAt < endOfDay.millisecondsSinceEpoch;
+  }
+
   Future<bool> couldDo() async {
     DateTime now = DateTime.now();
 

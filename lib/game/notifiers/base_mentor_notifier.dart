@@ -43,6 +43,59 @@ class BaseMentorNotifier
         conversationDone: false);
   }
 
+  Future<void> plotQuiz() async {
+    final lastContent = state.npc.history.last.content;
+    final stream = aiClient.stream([
+      ChatMessage.system(state.role),
+      ChatMessage.humanText(
+          "请按以下内容出一道简单的选择题，并给出正确选项。选择题一共四个选项，其中，只有一个选项是正确的。内容如下: \n$lastContent 。结果以json形式返回，json格式如下：{\"question\": \"问题\", \"options\": [\"选项1\", \"选项2\", \"选项3\", \"选项4\"], \"answer\": \"正确选项\"}")
+    ]);
+
+    stream.listen(
+      (v) {
+        state = state.copyWith(dialog: state.dialog + v.outputAsString);
+        controller.jumpTo(controller.position.maxScrollExtent);
+      },
+      onDone: () async {
+        // final playerId = ref.read(playerProvider).current!.id;
+        // final player = isarDatabase.isar!.playerRecords
+        //     .where()
+        //     .idEqualTo(playerId)
+        //     .findFirstSync()!;
+
+        // final _npc = player.npcs.where((v) => v.name == arg).first;
+        // _npc.history = List.from(_npc.history)
+        //   ..add(History()
+        //     ..content = state.dialog
+        //     ..type = HistoryType.npc);
+
+        // _npc.stage = NpcStage.meet;
+        // PlayerEvent playerEvent = PlayerEvent()
+        //   ..playerEventType = PlayerEventType.talk
+        //   ..withWhom = arg;
+
+        // await isarDatabase.isar!.writeTxn(() async {
+        //   await isarDatabase.isar!.npcs.put(_npc);
+        //   await isarDatabase.isar!.playerEvents.put(playerEvent);
+        //   player.playerEvents.add(playerEvent);
+        //   await player.npcs.save();
+        //   await player.playerEvents.save();
+        //   await isarDatabase.isar!.playerRecords.put(player);
+        // });
+
+        // ref.read(playerProvider.notifier).changeCurrent(player);
+        state = state.copyWith(conversationDone: true);
+        controller.jumpTo(controller.position.maxScrollExtent);
+      },
+    );
+  }
+
+  simplePlot(String s) {
+    state = state.copyWith(conversationDone: true, dialog: s);
+  }
+
+  bool get talked => ref.read(playerProvider.notifier).talkedToday(arg);
+
   Future<void> plot({String humanMessage = ""}) async {
     final couldDo = await ref.read(playerProvider.notifier).couldDo();
     if (!couldDo) {
@@ -51,6 +104,8 @@ class BaseMentorNotifier
 
       return;
     }
+
+    // final talked = ref.read(playerProvider.notifier).talkedToday(arg);
 
     final stream = aiClient.stream([
       ChatMessage.system(state.role),
