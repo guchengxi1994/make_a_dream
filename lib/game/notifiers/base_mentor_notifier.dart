@@ -48,7 +48,7 @@ class BaseMentorNotifier
     final stream = aiClient.stream([
       ChatMessage.system(state.role),
       ChatMessage.humanText(
-          "请按以下内容出一道简单的选择题，并给出正确选项。选择题一共四个选项，其中，只有一个选项是正确的。内容如下: \n$lastContent 。结果以json形式返回，json格式如下：{\"question\": \"问题\", \"options\": [\"选项1\", \"选项2\", \"选项3\", \"选项4\"], \"answer\": \"正确选项\"}")
+          "请按以下内容出一道简单的选择题，并给出正确选项。选择题一共四个选项，其中，只有一个选项是正确的。内容如下: \n$lastContent 。结果以json形式返回，json格式如下：{\"question\": \"问题\", \"options\": [\"选项1\", \"选项2\", \"选项3\", \"选项4\"], \"answer\": \"正确选项\",\"quizType\":\"问题类型\"}。其中，“quizType”包括文学，数学，历史，地理，化学，物理，生物，IT这8类，必须返回这8类中的一种。")
     ]);
 
     stream.listen(

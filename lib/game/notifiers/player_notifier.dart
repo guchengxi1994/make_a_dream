@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:make_a_dream/isar/database.dart';
+import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_record.dart';
 
 class PlayerState {
@@ -79,6 +80,37 @@ class PlayerNotifier extends Notifier<PlayerState> {
     await database.isar!.writeTxn(() async {
       await database.isar!.playerRecords.put(record);
     });
+  }
+
+  addLikability(String npcName, int likability) async {
+    final record = state.current!;
+    final npc = record.npcs.firstWhere((v) => v.name == npcName);
+
+    npc.likability = npc.likability + likability;
+    await database.isar!.writeTxn(() async {
+      await database.isar!.npcs.put(npc);
+      await record.npcs.save();
+    });
+  }
+
+  addAbility(PlayerAbility ability) async {
+    final record = state.current!;
+    record.ability = record.ability + ability;
+    await database.isar!.writeTxn(() async {
+      await database.isar!.playerRecords.put(record);
+    });
+
+    state = state.copyWith(current: record);
+  }
+
+  addKnowledge(PlayerKnowledge knowledge) async {
+    final record = state.current!;
+    record.knowledge = record.knowledge + knowledge;
+    await database.isar!.writeTxn(() async {
+      await database.isar!.playerRecords.put(record);
+    });
+
+    state = state.copyWith(current: record);
   }
 
   Future<int> createNewRecord(String name,

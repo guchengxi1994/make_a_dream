@@ -5,9 +5,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/quiz_selection_dialog.dart';
+import 'package:make_a_dream/game/components/talk_mixin.dart';
 import 'package:make_a_dream/game/models/quiz_model.dart';
 import 'package:make_a_dream/game/notifiers/base_mentor_notifier.dart';
 import 'package:make_a_dream/global/ai_client.dart';
+import 'package:make_a_dream/isar/player_record.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 import 'avatar_widget.dart';
@@ -22,7 +24,7 @@ class BaseMentorDialog extends ConsumerStatefulWidget {
   ConsumerState<BaseMentorDialog> createState() => _BaseMentorState();
 }
 
-class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
+class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
   final AiClient aiClient = AiClient();
   final TextEditingController controller = TextEditingController();
 
@@ -110,6 +112,46 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
                                                     widget.mentorName)
                                                 .notifier)
                                             .simplePlot("回答正确。");
+                                        late PlayerKnowledge knowledge;
+                                        switch (quizModel!.quizType) {
+                                          case "文学":
+                                            knowledge = PlayerKnowledge()
+                                              ..language = 1;
+                                            break;
+                                          case "数学":
+                                            knowledge = PlayerKnowledge()
+                                              ..math = 1;
+                                            break;
+                                          case "历史":
+                                            knowledge = PlayerKnowledge()
+                                              ..history = 1;
+                                            break;
+                                          case "地理":
+                                            knowledge = PlayerKnowledge()
+                                              ..geography = 1;
+                                            break;
+                                          case "化学":
+                                            knowledge = PlayerKnowledge()
+                                              ..chemistry = 1;
+                                            break;
+                                          case "物理":
+                                            knowledge = PlayerKnowledge()
+                                              ..physics = 1;
+                                            break;
+                                          case "生物":
+                                            knowledge = PlayerKnowledge()
+                                              ..biography = 1;
+                                            break;
+                                          case "IT":
+                                            knowledge = PlayerKnowledge()
+                                              ..it = 1;
+                                            break;
+                                          default:
+                                            knowledge = PlayerKnowledge();
+                                        }
+
+                                        addKnowledge(knowledge);
+                                        addLikability(1, widget.mentorName);
                                       } else {
                                         ref
                                             .read(baseMentorProvider(
@@ -117,6 +159,7 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> {
                                                 .notifier)
                                             .simplePlot(
                                                 "回答错误。答案应该是**${quizModel?.answer}**");
+                                        addLikability(-1, widget.mentorName);
                                       }
                                     })
                                 : MarkdownBlock(

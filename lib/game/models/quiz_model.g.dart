@@ -11,10 +11,12 @@ QuizModel _$QuizModelFromJson(Map<String, dynamic> json) => QuizModel(
       options:
           (json['options'] as List<dynamic>).map((e) => e as String).toList(),
       answer: json['answer'] as String,
+      quizType: json['quizType'] as String,
     );
 
 Map<String, dynamic> _$QuizModelToJson(QuizModel instance) => <String, dynamic>{
       'question': instance.question,
       'options': instance.options,
       'answer': instance.answer,
+      'quizType': instance.quizType,
     };
