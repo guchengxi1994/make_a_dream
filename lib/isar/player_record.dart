@@ -3,6 +3,7 @@ import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:isar/isar.dart';
 import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_event.dart';
+import 'dart:math' as m;
 
 part 'player_record.g.dart';
 
@@ -194,7 +195,7 @@ enum KnowledgeThreshold {
   }
 }
 
-/// max 100; min 0
+/// max 10000; min 0
 @embedded
 class PlayerKnowledge {
   late double math = 0;
@@ -209,15 +210,15 @@ class PlayerKnowledge {
   String getKnowledgePrompt({String teacherType = 'science teacher'}) {
     String s = "你的学生基本情况如下:\n";
     if (teacherType == "science teacher") {
-      s += "数学程度在${KnowledgeThreshold.match(math.ceil())}左右；";
-      s += "地理程度在${KnowledgeThreshold.match(geography.ceil())}左右；";
-      s += "化学程度在${KnowledgeThreshold.match(chemistry.ceil())}左右；";
-      s += "物理程度在${KnowledgeThreshold.match(physics.ceil())}左右；";
-      s += "生物程度在${KnowledgeThreshold.match(biography.ceil())}左右；";
-      s += "IT程度在${KnowledgeThreshold.match(it.ceil())}左右。\n";
+      s += "数学程度在${KnowledgeThreshold.match(expEval(math).floor())}左右；";
+      s += "地理程度在${KnowledgeThreshold.match(expEval(geography).floor())}左右；";
+      s += "化学程度在${KnowledgeThreshold.match(expEval(chemistry).floor())}左右；";
+      s += "物理程度在${KnowledgeThreshold.match(expEval(physics).floor())}左右；";
+      s += "生物程度在${KnowledgeThreshold.match(expEval(biography).floor())}左右；";
+      s += "IT程度在${KnowledgeThreshold.match(expEval(it).floor())}左右。\n";
     } else {
-      s += "文学程度在${KnowledgeThreshold.match(language.ceil())}左右；";
-      s += "历史程度在${KnowledgeThreshold.match(history.ceil())}左右。\n";
+      s += "文学程度在${KnowledgeThreshold.match(expEval(language).floor())}左右；";
+      s += "历史程度在${KnowledgeThreshold.match(expEval(history).floor())}左右。\n";
     }
 
     s += "请根据学生的能力，给一个相关领域的知识。注意：你的身份是一个老师，请以老师的口吻描述。";
@@ -314,4 +315,8 @@ extension ToChartK on PlayerKnowledge {
       ),
     );
   }
+}
+
+double expEval(double v) {
+  return 99 * (m.sqrt(v / 10000));
 }
