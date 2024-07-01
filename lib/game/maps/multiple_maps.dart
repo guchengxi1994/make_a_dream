@@ -19,7 +19,7 @@ class MultipleMaps extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(multipleMapProvider);
 
-    return PageWrapper(child: _renderWidget(state));
+    return PageWrapper(child: _renderWidget(state.routeName));
   }
 
   _renderWidget(String state) {

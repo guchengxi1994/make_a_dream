@@ -1,18 +1,19 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 import 'package:make_a_dream/game/util.dart';
-import 'package:make_a_dream/isar/player_record.dart';
 
 class SinglePlayer extends SimplePlayer with BlockMovementCollision {
-  SinglePlayer(
-      {required super.position,
-      required this.record,
-      this.playerSize = const (12, 12)})
+  SinglePlayer({required this.ref, this.playerSize = const (12, 12)})
       : super(
-            animation:
-                PersonSpritesheet(path: record.rolePath).simpleAnimation(),
+            animation: PersonSpritesheet(
+                    path: ref.read(playerProvider).current!.rolePath)
+                .simpleAnimation(),
+            position: ref.read(multipleMapProvider).position,
             size: Vector2(playerSize.$1, playerSize.$2),
-            speed: record.ability.dexterity,
+            speed: ref.read(playerProvider).current!.ability.dexterity,
             initDirection: Direction.up);
 
   late final TextPaint _textConfig = TextPaint(
@@ -25,14 +26,15 @@ class SinglePlayer extends SimplePlayer with BlockMovementCollision {
   double yCenter = 0;
 
   // String text = "You";
-  final PlayerRecord record;
+  final WidgetRef ref;
   @override
   Future<void> onLoad() {
-    final textSize = _textConfig.getLineMetrics(record.name).size;
+    final textSize =
+        _textConfig.getLineMetrics(ref.read(playerProvider).current!.name).size;
     xCenter = (width - textSize.x) / 2;
     yCenter = (height - textSize.y) / 2;
     TextComponent textComponent = TextComponent(
-      text: record.name,
+      text: ref.read(playerProvider).current!.name,
       position: Vector2(xCenter, 2.5 * yCenter),
       textRenderer: _textConfig,
     );
@@ -47,8 +49,9 @@ class SinglePlayer extends SimplePlayer with BlockMovementCollision {
   void onMove(
       double speed, Vector2 displacement, Direction direction, double angle) {
     super.onMove(speed, displacement, direction, angle);
-    gameRef.player!.speed = record.ability.dexterity;
-    removeWhere((v) => v is TextComponent && v.text == record.name);
+    gameRef.player!.speed = ref.read(playerProvider).current!.ability.dexterity;
+    removeWhere((v) =>
+        v is TextComponent && v.text == ref.read(playerProvider).current!.name);
 
     // print("current ${position}");
   }

@@ -53,7 +53,7 @@ class MentorNpc extends SimpleNpc with Sensor<Player> {
     super.onContact(component);
     if (gameRef.player != null &&
         !isInDialog &&
-        ref.read(multipleMapProvider) == GameInitialRoute.routeName) {
+        ref.read(multipleMapProvider).routeName == GameInitialRoute.routeName) {
       moveToPosition(gameRef.player!.position);
 
       gameRef.player!.stopMove();

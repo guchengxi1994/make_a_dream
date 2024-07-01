@@ -10,10 +10,8 @@ import 'package:make_a_dream/game/decorations/fes.dart';
 import 'package:make_a_dream/game/decorations/fountain.dart';
 import 'package:make_a_dream/game/decorations/tip_decoration.dart';
 import 'package:make_a_dream/game/decorations/toast_decoration.dart';
-import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
 import 'package:make_a_dream/game/player.dart';
-import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 import 'package:make_a_dream/style/app_style.dart';
 
 class CityOfDream extends ConsumerWidget {
@@ -21,7 +19,7 @@ class CityOfDream extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playerState = ref.watch(playerProvider);
+    // final playerState = ref.watch(playerProvider);
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
         map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/city.tmj'),
@@ -81,10 +79,10 @@ class CityOfDream extends ConsumerWidget {
           Animal(size: Vector2(24, 32), path: "animals/output_1_3.png"),
         ],
         player: SinglePlayer(
-            position:
-                ref.read(multipleMapProvider.notifier).getCurrentPosition() ??
-                    Vector2(32, 32),
-            record: playerState.current!),
+            // position:
+            //     ref.read(multipleMapProvider.notifier).getCurrentPosition() ??
+            //         Vector2(32, 32),
+            ref: ref),
         cameraConfig: CameraConfig(
           zoom: 3,
         ),

@@ -8,8 +8,6 @@ import 'package:make_a_dream/game/decorations/air_wall.dart';
 import 'package:make_a_dream/game/decorations/base_mentor.dart';
 import 'package:make_a_dream/game/decorations/classroom_exit.dart';
 import 'package:make_a_dream/game/decorations/room_bg.dart';
-import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
-import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 import 'package:make_a_dream/game/player.dart';
 import 'package:make_a_dream/style/app_style.dart';
 
@@ -18,7 +16,7 @@ class Room extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playerState = ref.watch(playerProvider);
+    // final playerState = ref.watch(playerProvider);
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
         map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/room.tmj'),
@@ -53,10 +51,10 @@ class Room extends ConsumerWidget {
           )
         ],
         player: SinglePlayer(
-            position:
-                ref.read(multipleMapProvider.notifier).getCurrentPosition() ??
-                    Vector2(2 * 48, 8 * 48),
-            record: playerState.current!,
+            // position:
+            //     ref.read(multipleMapProvider.notifier).getCurrentPosition() ??
+            //         Vector2(2 * 48, 8 * 48),
+            ref: ref,
             playerSize: (48, 48)),
         cameraConfig: CameraConfig(
           zoom: 1,
