@@ -42,10 +42,12 @@ class PlayerNotifier extends Notifier<PlayerState> {
 
     DateTime endOfDay = startOfDay.add(const Duration(days: 1));
 
+    // print("lastHistory.content ${lastHistory.content}");
+
     return lastHistory.createAt > startOfDay.millisecondsSinceEpoch &&
         lastHistory.createAt < endOfDay.millisecondsSinceEpoch &&
-        (lastHistory.content.contains("回答正确") ||
-            lastHistory.content.contains("回答错误"));
+        (!lastHistory.content.contains("回答正确") &&
+            !lastHistory.content.contains("回答错误"));
   }
 
   Future<bool> couldDo() async {

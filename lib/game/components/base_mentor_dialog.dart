@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/common/logger_utils.dart';
 import 'package:make_a_dream/game/components/quiz_selection_dialog.dart';
 import 'package:make_a_dream/game/components/talk_mixin.dart';
 import 'package:make_a_dream/game/models/quiz_model.dart';
@@ -36,6 +37,9 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
   @override
   void initState() {
     super.initState();
+
+    logger.info("prompt ${widget.prompt}");
+
     if (talked) {
       ref.read(baseMentorProvider(widget.mentorName).notifier).plotQuiz();
     } else {
