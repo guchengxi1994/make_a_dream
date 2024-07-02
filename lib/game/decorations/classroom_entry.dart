@@ -36,7 +36,7 @@ class ClassroomEntry extends GameDecoration
       isTouched = true;
       gameRef.player!.stopMove();
     }
-    updatePosition(ref, Vector2(position.x, position.y + 20));
+    // updatePosition(ref, Vector2(position.x, position.y + 20));
     ref
         .read(multipleMapProvider.notifier)
         .switchTo(RoomRoute.routeName, initial: Vector2(2 * 48, 8 * 48));

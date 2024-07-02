@@ -57,31 +57,22 @@ class BaseMentorNotifier
         controller.jumpTo(controller.position.maxScrollExtent);
       },
       onDone: () async {
-        // final playerId = ref.read(playerProvider).current!.id;
-        // final player = isarDatabase.isar!.playerRecords
-        //     .where()
-        //     .idEqualTo(playerId)
-        //     .findFirstSync()!;
+        final playerId = ref.read(playerProvider).current!.id;
+        final player = isarDatabase.isar!.playerRecords
+            .where()
+            .idEqualTo(playerId)
+            .findFirstSync()!;
 
-        // final _npc = player.npcs.where((v) => v.name == arg).first;
-        // _npc.history = List.from(_npc.history)
-        //   ..add(History()
-        //     ..content = state.dialog
-        //     ..type = HistoryType.npc);
+        final _npc = player.npcs.where((v) => v.name == arg).first;
+        _npc.history = List.from(_npc.history)
+          ..add(History()
+            ..content = state.dialog
+            ..type = HistoryType.npc);
 
-        // _npc.stage = NpcStage.meet;
-        // PlayerEvent playerEvent = PlayerEvent()
-        //   ..playerEventType = PlayerEventType.talk
-        //   ..withWhom = arg;
-
-        // await isarDatabase.isar!.writeTxn(() async {
-        //   await isarDatabase.isar!.npcs.put(_npc);
-        //   await isarDatabase.isar!.playerEvents.put(playerEvent);
-        //   player.playerEvents.add(playerEvent);
-        //   await player.npcs.save();
-        //   await player.playerEvents.save();
-        //   await isarDatabase.isar!.playerRecords.put(player);
-        // });
+        await isarDatabase.isar!.writeTxn(() async {
+          await isarDatabase.isar!.npcs.put(_npc);
+          await player.npcs.save();
+        });
 
         // ref.read(playerProvider.notifier).changeCurrent(player);
         state = state.copyWith(conversationDone: true);
@@ -90,8 +81,25 @@ class BaseMentorNotifier
     );
   }
 
-  simplePlot(String s) {
+  simplePlot(String s) async {
     state = state.copyWith(conversationDone: true, dialog: s);
+
+    final playerId = ref.read(playerProvider).current!.id;
+    final player = isarDatabase.isar!.playerRecords
+        .where()
+        .idEqualTo(playerId)
+        .findFirstSync()!;
+
+    final _npc = player.npcs.where((v) => v.name == arg).first;
+    _npc.history = List.from(_npc.history)
+      ..add(History()
+        ..content = state.dialog
+        ..type = HistoryType.npc);
+
+    await isarDatabase.isar!.writeTxn(() async {
+      await isarDatabase.isar!.npcs.put(_npc);
+      await player.npcs.save();
+    });
   }
 
   bool get talked => ref.read(playerProvider.notifier).talkedToday(arg);

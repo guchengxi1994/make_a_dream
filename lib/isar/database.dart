@@ -1,6 +1,5 @@
 import 'package:isar/isar.dart';
 import 'package:make_a_dream/common/logger_utils.dart';
-import 'package:make_a_dream/isar/last_postition.dart';
 import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_event.dart';
 import 'package:make_a_dream/isar/player_record.dart';
@@ -31,7 +30,6 @@ class IsarDatabase {
   late List<CollectionSchema<Object>> schemas = [
     NpcSchema,
     PlayerEventSchema,
-    PlayerRecordSchema,
-    LastPostitionSchema
+    PlayerRecordSchema
   ];
 }

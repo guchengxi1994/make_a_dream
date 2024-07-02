@@ -18,8 +18,10 @@ class ClassroomExit extends GameDecoration
       isTouched = true;
       gameRef.player!.stopMove();
     }
-    updatePosition(ref, Vector2(position.x, position.y + 100));
-    ref.read(multipleMapProvider.notifier).switchTo(CityOfDreamRoute.routeName);
+    // updatePosition(ref, Vector2(position.x, position.y + 100));
+    ref
+        .read(multipleMapProvider.notifier)
+        .switchTo(CityOfDreamRoute.routeName, initial: Vector2(160, 220));
     super.onContact(component);
   }
 

@@ -3,25 +3,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:make_a_dream/game/maps/game_initial_route.dart';
 import 'package:make_a_dream/game/notifiers/multiple_map_state.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 import 'package:make_a_dream/game/util.dart';
 import 'package:make_a_dream/isar/database.dart';
-import 'package:make_a_dream/isar/last_postition.dart';
+import 'package:make_a_dream/isar/player_record.dart';
 
 class MultipleMapNotifier extends Notifier<MultipleMapState> {
-  Map<String, Vector2> lastPosition = {};
   final IsarDatabase isarDatabase = IsarDatabase();
 
   @override
   MultipleMapState build() {
-    final last = isarDatabase.isar!.lastPostitions
-        .where()
-        .sortByCreateAtDesc()
+    final player = isarDatabase.isar!.playerRecords
+        .filter()
+        .idEqualTo(ref.read(playerProvider).current!.id)
         .findFirstSync();
 
-    if (last != null) {
+    if (player!.lastPostition != null) {
       return MultipleMapState(
-        routeName: last.routeName,
-        position: Vector2(last.x, last.y),
+        routeName: player.lastPostition!.routeName,
+        position: Vector2(player.lastPostition!.x, player.lastPostition!.y),
       );
     }
 
@@ -33,47 +33,44 @@ class MultipleMapNotifier extends Notifier<MultipleMapState> {
 
   switchTo(String routeName, {Vector2? initial}) {
     if (state.routeName != routeName) {
-      if (lastPosition[state.routeName] == null) {
-        state = state.copyWith(
-            routeName: routeName, position: initial ?? Vector2(32, 32));
-        changePosition(initial ?? Vector2(32, 32));
-      } else {
-        state = state.copyWith(
-          routeName: routeName,
-          position: lastPosition[state.routeName]!,
-        );
-        changePosition(lastPosition[state.routeName]!);
-      }
+      final LastPostition lastPosition = LastPostition()
+        ..routeName = routeName
+        ..x = initial?.x ?? 32
+        ..y = initial?.y ?? 32;
+
+      state = state.copyWith(
+        routeName: routeName,
+        position: Vector2(lastPosition.x, lastPosition.y),
+      );
+
+      changePosition(Vector2(lastPosition.x, lastPosition.y));
     }
   }
 
   changePosition(Vector2 position) {
-    // print(position);
-    lastPosition[state.routeName] = position;
+    // 确保不重复保存
 
-    final last = isarDatabase.isar!.lastPostitions
-        .where()
-        .sortByCreateAtDesc()
-        .findFirstSync();
+    final player = isarDatabase.isar!.playerRecords
+        .filter()
+        .idEqualTo(ref.read(playerProvider).current!.id)
+        .findFirstSync()!;
 
-    if ((last != null && last.x != position.x && last.y != position.y) ||
-        last == null) {
-      // print("save... ${state.position}    ${position}");
+    if ((player.lastPostition != null &&
+            player.lastPostition!.x != position.x &&
+            player.lastPostition!.y != position.y) ||
+        player.lastPostition == null) {
       isarDatabase.isar!.writeTxn(() async {
-        await isarDatabase.isar!.lastPostitions.put(LastPostition()
+        player.lastPostition = LastPostition()
           ..routeName = state.routeName
           ..x = position.x
-          ..y = position.y);
+          ..y = position.y;
+        await isarDatabase.isar!.playerRecords.put(player);
       });
     }
   }
 
   Vector2? getCurrentPosition() {
-    if (lastPosition[state.routeName] == null) {
-      return state.position;
-    }
-
-    return lastPosition[state.routeName];
+    return state.position;
   }
 }
 

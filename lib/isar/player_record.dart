@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:isar/isar.dart';
+import 'package:make_a_dream/game/maps/game_initial_route.dart';
 import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_event.dart';
 import 'dart:math' as m;
@@ -43,6 +44,8 @@ class PlayerRecord {
   IsarLinks<Npc> npcs = IsarLinks();
 
   IsarLinks<PlayerEvent> playerEvents = IsarLinks();
+
+  LastPostition? lastPostition;
 }
 
 @embedded
@@ -319,4 +322,12 @@ extension ToChartK on PlayerKnowledge {
 
 double expEval(double v) {
   return 99 * (m.sqrt(v / 10000));
+}
+
+@embedded
+class LastPostition {
+  late String routeName = GameInitialRoute.routeName;
+  int createAt = DateTime.now().millisecondsSinceEpoch;
+  late double x = 0;
+  late double y = 0;
 }
