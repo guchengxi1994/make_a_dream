@@ -210,6 +210,16 @@ class PlayerKnowledge {
   late double /* 生物 */ biography = 0;
   late double /* IT */ it = 0;
 
+  double get total =>
+      math +
+      language +
+      history +
+      geography +
+      chemistry +
+      physics +
+      biography +
+      it;
+
   String getKnowledgePrompt(
       {String teacherType = 'science teacher', String? his}) {
     String s = "你的学生基本情况如下:\n";

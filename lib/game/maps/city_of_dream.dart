@@ -5,6 +5,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/decorations/chair.dart';
 import 'package:make_a_dream/game/decorations/classroom_entry.dart';
 import 'package:make_a_dream/game/decorations/fes.dart';
 import 'package:make_a_dream/game/decorations/fountain.dart';
@@ -49,6 +50,8 @@ class CityOfDream extends ConsumerWidget {
                   ClassroomEntry(position: p.position, size: p.size, ref: ref),
               "gaoshi": (p) =>
                   Gaoshi(position: p.position, size: p.size, ref: ref),
+              "chair": (p) =>
+                  Chair(position: p.position, size: p.size, ref: ref)
               // "teacher2": (p) => BaseMentor(
               //     position: p.position,
               //     size: p.size,

@@ -17,7 +17,7 @@ class Gaoshi extends GameDecoration with Sensor<Player>, DecorationMixin {
       gameRef.player!.stopMove();
 
       showGeneralDialog(
-          barrierLabel: "fes",
+          barrierLabel: "gaoshi",
           barrierDismissible: true,
           context: context,
           barrierColor: Colors.transparent,

@@ -11,7 +11,7 @@ class ToastUtils {
         alignment: Alignment.bottomCenter,
         builder: (ctx, holder) {
           return SizedBox(
-            width: 200,
+            width: tip.length > 10 ? 400 : 200,
             height: 50,
             child: Center(
                 child: Text(

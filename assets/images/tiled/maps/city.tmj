@@ -988,6 +988,17 @@
                  "width":50,
                  "x":1454.66666666667,
                  "y":50
+                }, 
+                {
+                 "height":16,
+                 "id":25,
+                 "name":"chair",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":17.2727272727273,
+                 "x":159.454545454545,
+                 "y":975.454545454545
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1018,7 +1029,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":25,
+ "nextobjectid":26,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
