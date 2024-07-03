@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/common/audio_utils.dart';
 
 import 'play_status/player_status_page.dart';
 
-class PageWrapper extends ConsumerWidget {
-  PageWrapper({super.key, required this.child});
+class PageWrapper extends ConsumerStatefulWidget {
+  const PageWrapper({super.key, required this.child});
   final Widget child;
 
+  @override
+  ConsumerState<PageWrapper> createState() => _PageWrapperState();
+}
+
+class _PageWrapperState extends ConsumerState<PageWrapper> {
   final _key = GlobalKey<ExpandableFabState>();
+  final AudioUtils audioUtils = AudioUtils();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await audioUtils.playMainBgm();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: child,
+      body: widget.child,
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
           key: _key,
@@ -22,7 +38,7 @@ class PageWrapper extends ConsumerWidget {
           children: [
             FloatingActionButton.small(
               tooltip: "status",
-              heroTag: "",
+              heroTag: "status",
               onPressed: () {
                 final state = _key.currentState;
                 if (state != null) {
@@ -41,7 +57,7 @@ class PageWrapper extends ConsumerWidget {
             ),
             FloatingActionButton.small(
               tooltip: "setting",
-              heroTag: "",
+              heroTag: "setting",
               onPressed: () {},
               child: const Icon(Icons.settings),
             ),

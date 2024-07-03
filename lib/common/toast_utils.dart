@@ -4,6 +4,48 @@ import 'package:toastification/toastification.dart';
 class ToastUtils {
   ToastUtils._();
 
+  static void decorationTip(BuildContext? context, {required String tip}) {
+    toastification.showCustom(
+        context: context,
+        autoCloseDuration: const Duration(seconds: 3),
+        alignment: Alignment.bottomCenter,
+        builder: (ctx, holder) {
+          return SizedBox(
+            width: tip.length > 10 ? 400 : 200,
+            height: 50,
+            child: Center(
+                child: Text(
+              tip,
+              style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            )),
+          );
+        });
+  }
+
+  static void decorationToast(BuildContext? context, {required String toast}) {
+    toastification.showCustom(
+        context: context,
+        autoCloseDuration: const Duration(seconds: 3),
+        alignment: Alignment.topCenter,
+        builder: (ctx, holder) {
+          return SizedBox(
+            width: 300,
+            height: 100,
+            child: Center(
+                child: Text(
+              toast,
+              style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            )),
+          );
+        });
+  }
+
   static void achievement(BuildContext? context,
       {required String title, String? descryption, VoidCallback? onTap}) {
     toastification.show(

@@ -11,6 +11,6 @@ class OpengingPageRouter {
   }
 
   static Future open(BuildContext context) {
-    return Navigator.pushNamed(context, routeName);
+    return Navigator.pushNamedAndRemoveUntil(context, routeName, (_) => false);
   }
 }

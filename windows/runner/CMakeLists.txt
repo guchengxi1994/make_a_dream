@@ -52,6 +52,7 @@ set(ENV_PATH ${ROOT_DIR}/env.json)
 set(PROMPT_PATH ${ROOT_DIR}/prompts.json)
 set(ACH_PATH ${ROOT_DIR}/achievements.json)
 set(PLOT_PATH ${ROOT_DIR}/plot.json)
+set(ROLE_QUIZ_PATH ${ROOT_DIR}/role_quiz.json)
 
 set(MSVCP_PATH ${ROOT_DIR}/dlls/msvcp140.dll)
 set(VCRUNTIME ${ROOT_DIR}/dlls/vcruntime140.dll)
@@ -94,6 +95,10 @@ add_custom_target(copy-runtime-files ALL
   COMMAND ${CMAKE_COMMAND} -E copy ${PLOT_PATH} ${P1}/runner/Debug/plot.json
   COMMAND ${CMAKE_COMMAND} -E copy ${PLOT_PATH} ${P1}/runner/Release/plot.json
   COMMAND ${CMAKE_COMMAND} -E copy ${PLOT_PATH} ${P1}/runner/Profile/plot.json
+
+  COMMAND ${CMAKE_COMMAND} -E copy ${ROLE_QUIZ_PATH} ${P1}/runner/Debug/role_quiz.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${ROLE_QUIZ_PATH} ${P1}/runner/Release/role_quiz.json
+  COMMAND ${CMAKE_COMMAND} -E copy ${ROLE_QUIZ_PATH} ${P1}/runner/Profile/role_quiz.json
 
 
   COMMAND ${CMAKE_COMMAND} -E copy ${MSVCP_PATH} ${P1}/runner/Release/msvcp140.dll

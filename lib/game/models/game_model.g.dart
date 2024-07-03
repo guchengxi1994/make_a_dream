@@ -25,9 +25,11 @@ Map<String, dynamic> _$GameModelToJson(GameModel instance) => <String, dynamic>{
 Npc _$NpcFromJson(Map<String, dynamic> json) => Npc(
       name: json['name'] as String,
       role: json['role'] as String,
+      avatar: json['avatar'] as String,
     );
 
 Map<String, dynamic> _$NpcToJson(Npc instance) => <String, dynamic>{
       'name': instance.name,
       'role': instance.role,
+      'avatar': instance.avatar,
     };

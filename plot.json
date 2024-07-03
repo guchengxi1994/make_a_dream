@@ -55,6 +55,171 @@
                     }
                 }
             ]
+        },
+        {
+            "npc": "fountain",
+            "map-router": "/city-of-dream",
+            "position": [
+                -1,
+                -1
+            ],
+            "plot": [
+                {
+                    "content": "introduce",
+                    "type": "repeat",
+                    "id": 1,
+                    "related-achievement": null,
+                    "requirements": {
+                        "likability": 0,
+                        "endurance": 0,
+                        "intelligence": 0,
+                        "strength": 0,
+                        "attunement": 0,
+                        "dexterity": 0,
+                        "vitality": 0,
+                        "math": 0,
+                        "language": 0,
+                        "history": 0,
+                        "geography": 0,
+                        "chemistry": 0,
+                        "physics": 0,
+                        "biography": 0,
+                        "it": 0
+                    }
+                }     
+            ]
+        },
+        {
+            "npc": "fes",
+            "map-router": "/city-of-dream",
+            "position": [
+                -1,
+                -1
+            ],
+            "plot": [
+                {
+                    "content": "introduce",
+                    "type": "repeat",
+                    "id": 1,
+                    "related-achievement": null,
+                    "requirements": {
+                        "likability": 0,
+                        "endurance": 0,
+                        "intelligence": 0,
+                        "strength": 0,
+                        "attunement": 0,
+                        "dexterity": 0,
+                        "vitality": 0,
+                        "math": 0,
+                        "language": 0,
+                        "history": 0,
+                        "geography": 0,
+                        "chemistry": 0,
+                        "physics": 0,
+                        "biography": 0,
+                        "it": 0
+                    }
+                }     
+            ]
+        },
+        {
+            "npc": "science teacher",
+            "map-router": "/classroom",
+            "position": [
+                -1,
+                -1
+            ],
+            "plot": [
+                {
+                    "content": "introduce",
+                    "type": "repeat",
+                    "id": 1,
+                    "related-achievement": null,
+                    "requirements": {
+                        "likability": 0,
+                        "endurance": 0,
+                        "intelligence": 0,
+                        "strength": 0,
+                        "attunement": 0,
+                        "dexterity": 0,
+                        "vitality": 0,
+                        "math": 0,
+                        "language": 0,
+                        "history": 0,
+                        "geography": 0,
+                        "chemistry": 0,
+                        "physics": 0,
+                        "biography": 0,
+                        "it": 0
+                    }
+                }     
+            ]
+        },
+        {
+            "npc": "literature teacher",
+            "map-router": "/classroom",
+            "position": [
+                -1,
+                -1
+            ],
+            "plot": [
+                {
+                    "content": "introduce",
+                    "type": "repeat",
+                    "id": 1,
+                    "related-achievement": null,
+                    "requirements": {
+                        "likability": 0,
+                        "endurance": 0,
+                        "intelligence": 0,
+                        "strength": 0,
+                        "attunement": 0,
+                        "dexterity": 0,
+                        "vitality": 0,
+                        "math": 0,
+                        "language": 0,
+                        "history": 0,
+                        "geography": 0,
+                        "chemistry": 0,
+                        "physics": 0,
+                        "biography": 0,
+                        "it": 0
+                    }
+                }     
+            ]
+        },
+        {
+            "npc": "gaoshi",
+            "map-router": "/city-of-dream",
+            "position": [
+                -1,
+                -1
+            ],
+            "plot": [
+                {
+                    "content": "introduce",
+                    "type": "repeat",
+                    "id": 1,
+                    "related-achievement": null,
+                    "requirements": {
+                        "likability": 0,
+                        "endurance": 0,
+                        "intelligence": 0,
+                        "strength": 0,
+                        "attunement": 0,
+                        "dexterity": 0,
+                        "vitality": 0,
+                        "math": 0,
+                        "language": 0,
+                        "history": 0,
+                        "geography": 0,
+                        "chemistry": 0,
+                        "physics": 0,
+                        "biography": 0,
+                        "it": 0
+                    }
+                }     
+            ]
         }
     ]
 }

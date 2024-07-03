@@ -4,6 +4,8 @@ class AppStyle {
   AppStyle._();
   static const appColor = Color.fromARGB(255, 132, 142, 209);
 
+  static const Color gameBackground = Color(0xff20a0b4);
+
   static const InputDecoration inputDecoration = InputDecoration(
       errorStyle: TextStyle(height: 0),
       hintStyle:
@@ -21,12 +23,14 @@ class AppStyle {
       enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color.fromARGB(255, 159, 159, 159))));
 
-  static InputDecoration inputDecorationWithHint(String hint) {
+  static InputDecoration inputDecorationWithHint(String hint,
+      {double fontSize = 12}) {
     return InputDecoration(
         hintText: hint,
         errorStyle: const TextStyle(height: 0),
-        hintStyle: const TextStyle(
-            color: Color.fromARGB(255, 159, 159, 159), fontSize: 12),
+        hintStyle: TextStyle(
+            color: const Color.fromARGB(255, 159, 159, 159),
+            fontSize: fontSize),
         contentPadding: const EdgeInsets.only(left: 10, bottom: 15),
         border: InputBorder.none,
         // focusedErrorBorder:

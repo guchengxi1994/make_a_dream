@@ -1,0 +1,14 @@
+{ "columns":3,
+ "image":"48\/nmkxyw_dibiao03.png",
+ "imageheight":48,
+ "imagewidth":48,
+ "margin":0,
+ "name":"sea_3",
+ "spacing":0,
+ "tilecount":9,
+ "tiledversion":"1.10.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}

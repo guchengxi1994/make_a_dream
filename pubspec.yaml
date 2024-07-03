@@ -1,8 +1,8 @@
 name: make_a_dream
-description: "A new Flutter project."
+description: "a game based on LLM and bonfire"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.0.1
+version: 0.0.2
 
 
 environment:
@@ -11,9 +11,11 @@ environment:
 isar_version: &isar_version 3.1.0
 
 dependencies:
+  animated_text_kit: ^4.2.2
+  audioplayers: ^6.0.0
   badges: ^3.1.2
   blur: ^4.0.0
-  bonfire: ^3.9.3
+  bonfire: ^3.9.7
   cupertino_icons: ^1.0.6
   date_time_format: ^2.0.1
   extended_image: ^8.2.1
@@ -54,10 +56,17 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/audio/
     - assets/avatars/
     - assets/images/
+    - assets/images/animals/
+    - assets/images/tiled/
+    - assets/images/tiled/maps/
+    - assets/images/tiled/maps/48/
+    - assets/images/tiled/maps/road_48/
     - assets/images/tiled/punnyworld/
     - assets/images/items/
+    - assets/splash/
     - assets/opening/
 
 icon_path : &icon_path "assets/icon.png"

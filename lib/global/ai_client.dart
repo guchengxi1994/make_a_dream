@@ -6,6 +6,7 @@ import 'package:langchain_lib/langchain_lib.dart';
 import 'package:make_a_dream/game/models/achievement_model.dart';
 import 'package:make_a_dream/game/models/game_model.dart';
 import 'package:make_a_dream/game/models/plot_model.dart';
+import 'package:make_a_dream/game/models/role_quiz_model.dart';
 import 'package:make_a_dream/isar/database.dart';
 import 'package:make_a_dream/isar/npc.dart' as n;
 import 'package:make_a_dream/isar/player_record.dart';
@@ -20,6 +21,11 @@ class AiClient {
   late Plots plots;
   late AchievementsList achievementsList;
   late IsarDatabase database = IsarDatabase();
+  late RoleQuizModel roleQuizModel;
+
+  getAvatarByName(String name) {
+    return model.npcs.firstWhere((element) => element.name == name).avatar;
+  }
 
   initGameModel(String path) {
     File file = File(path);
@@ -35,6 +41,11 @@ class AiClient {
     File file = File(path);
     achievementsList =
         AchievementsList.fromJson(jsonDecode(file.readAsStringSync()));
+  }
+
+  initQuiz(String path) {
+    File file = File(path);
+    roleQuizModel = RoleQuizModel.fromJson(jsonDecode(file.readAsStringSync()));
   }
 
   initOpenAi(String path) {

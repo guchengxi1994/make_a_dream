@@ -9,7 +9,7 @@ import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/isar/database.dart';
 import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_record.dart';
-import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
 import 'mentor_npc_state.dart';
 
@@ -47,11 +47,16 @@ class MentorNpcNotifier extends AutoDisposeNotifier<MentorNpcState> {
   }
 
   Future<void> plot() async {
-    final _plot = aiClient.plots.plots.where((v) => v.npc == "mentor").first;
+    final couldDo = await ref.read(playerProvider.notifier).couldDo();
+    if (!couldDo) {
+      state =
+          state.copyWith(conversationDone: true, dialog: "Up to limit today");
+      return;
+    }
 
     if (state.npc.stage == NpcStage.unknow) {
       /// 未触发过对话，查找有没有 [introduce] 的节点
-      final event = _plot.plot
+      final event = state.plot.plot
           .where((v) => v.content == "introduce" && v.type == "once")
           .firstOrNull;
       if (event == null) {
@@ -143,14 +148,6 @@ class MentorNpcNotifier extends AutoDisposeNotifier<MentorNpcState> {
           dialog: "what can I help you ${player.name}?",
           conversationDone: true);
     }
-  }
-
-  addLikability(int i) {
-    if (i == 0) {
-      return;
-    }
-
-    /// TODO complete me
   }
 }
 

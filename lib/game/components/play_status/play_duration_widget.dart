@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/play_status/widget_wrapper.dart';
 import 'package:make_a_dream/global/notifiers/duration_notifier.dart';
-import 'package:make_a_dream/opening_page/notifiers/player_notifier.dart';
+import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
 class PlayDurationWidget extends ConsumerStatefulWidget {
   const PlayDurationWidget({super.key});

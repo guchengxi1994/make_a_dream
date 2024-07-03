@@ -1,0 +1,50 @@
+{ "compressionlevel":-1,
+ "height":2,
+ "infinite":false,
+ "layers":[
+        {
+         "data":[15, 15, 15,
+            15, 15, 15],
+         "height":2,
+         "id":1,
+         "name":"ground",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":3,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "data":[4156, 4157, 4158,
+            5005, 5006, 5007],
+         "height":2,
+         "id":2,
+         "name":"decoration",
+         "opacity":1,
+         "type":"tilelayer",
+         "visible":true,
+         "width":3,
+         "x":0,
+         "y":0
+        }],
+ "nextlayerid":3,
+ "nextobjectid":1,
+ "orientation":"orthogonal",
+ "renderorder":"right-down",
+ "tiledversion":"1.10.2",
+ "tileheight":16,
+ "tilesets":[
+        {
+         "firstgid":1,
+         "source":"ground_16.tsj"
+        }, 
+        {
+         "firstgid":53,
+         "source":"city.tsj"
+        }],
+ "tilewidth":16,
+ "type":"map",
+ "version":"1.10",
+ "width":3
+}

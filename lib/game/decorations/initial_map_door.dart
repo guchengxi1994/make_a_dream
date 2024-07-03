@@ -1,9 +1,11 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/maps/city_of_dream_route.dart';
+import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 import 'package:make_a_dream/game/notifiers/mentor_npc_notifier.dart';
 import 'package:make_a_dream/isar/npc.dart';
 
-class InitialMapDoor extends GameDecoration with Sensor {
+class InitialMapDoor extends GameDecoration with Sensor<Player> {
   InitialMapDoor(
       {required super.position, required super.size, required this.ref})
       : super.withSprite(
@@ -30,11 +32,12 @@ class InitialMapDoor extends GameDecoration with Sensor {
   }
 
   @override
-  void onContact(GameComponent component) {
-    // print(component.position);
+  void onContact(Player component) {
     if (gameRef.player != null &&
-        gameRef.player!.position.distanceTo(position) < 10) {
-      print("touched");
+        ref.read(mentorProvider).npc.stage == NpcStage.meet) {
+      ref
+          .read(multipleMapProvider.notifier)
+          .switchTo(CityOfDreamRoute.routeName);
     }
     super.onContact(component);
   }

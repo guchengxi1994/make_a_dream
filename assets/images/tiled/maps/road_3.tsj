@@ -1,0 +1,14 @@
+{ "columns":3,
+ "image":"road_48\/ground_pavement_square.png",
+ "imageheight":48,
+ "imagewidth":48,
+ "margin":0,
+ "name":"road_3",
+ "spacing":0,
+ "tilecount":9,
+ "tiledversion":"1.10.2",
+ "tileheight":16,
+ "tilewidth":16,
+ "type":"tileset",
+ "version":"1.10"
+}
