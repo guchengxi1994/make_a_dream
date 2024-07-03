@@ -21,7 +21,7 @@ class ClassroomExit extends GameDecoration
     // updatePosition(ref, Vector2(position.x, position.y + 100));
     ref
         .read(multipleMapProvider.notifier)
-        .switchTo(CityOfDreamRoute.routeName, initial: Vector2(160, 220));
+        .switchTo(CityOfDreamRoute.routeName, initial: Vector2(600, 220));
     super.onContact(component);
   }
 
