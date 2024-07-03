@@ -133,10 +133,10 @@ packages:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: bc928bd79e5140538a9f41a5f395765f85a6f07a11b6e6391da9f44156b3322f
+      sha256: "0ebf17580b66ffbc682cc471cfaaec705ac4034938ee6408eb63cfb06264099a"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.9.6"
+    version: "3.9.7"
   boolean_selector:
     dependency: transitive
     description:
@@ -1058,10 +1058,10 @@ packages:
     dependency: transitive
     description:
       name: tiledjsonreader
-      sha256: "9390145be049ec4d73ef43672b337ce40fa6e4a72a0672ad680e4971edba2899"
+      sha256: faadb2eb207cd73d12dd4b24e7784203a975bc2ba6d115291bad1513333f8ec3
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.3.4"
+    version: "1.3.5"
   time:
     dependency: transitive
     description:

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:make_a_dream/game/models/quiz_model.dart';
+import 'package:make_a_dream/game/models/base_quiz_model.dart';
+import 'package:make_a_dream/game/models/character_quiz_model.dart';
 
 typedef OnClick = void Function(bool b);
 
-class QuizSelectionDialog extends StatelessWidget {
+class QuizSelectionDialog<T extends BaseQuizModel> extends StatelessWidget {
   const QuizSelectionDialog(
       {super.key, required this.quizModel, required this.onClick});
-  final QuizModel? quizModel;
+  final T? quizModel;
   final OnClick onClick;
 
   @override
@@ -23,9 +24,11 @@ class QuizSelectionDialog extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 50,
+                    height: 100,
                     child: Text(
-                      "问题如下:${quizModel!.question}",
+                      quizModel is CharacterQuizModel
+                          ? "问题如下 ${(quizModel! as CharacterQuizModel).quiz} ${quizModel!.question}"
+                          : "问题如下: ${quizModel!.question}",
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),

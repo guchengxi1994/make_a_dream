@@ -32,6 +32,11 @@
             "name":"literature teacher",
             "avatar": "assets/avatars/a5.jpeg",
             "role":"你是一名文学老师，擅长历史，古典文学等学科。"
+        },
+        {
+            "name":"gaoshi",
+            "avatar": "",
+            "role":"你是一名古文学专家。"
         }
     ]
 }

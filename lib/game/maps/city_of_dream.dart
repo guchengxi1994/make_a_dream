@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/decorations/classroom_entry.dart';
 import 'package:make_a_dream/game/decorations/fes.dart';
 import 'package:make_a_dream/game/decorations/fountain.dart';
+import 'package:make_a_dream/game/decorations/gaoshi.dart';
 import 'package:make_a_dream/game/decorations/tip_decoration.dart';
 import 'package:make_a_dream/game/decorations/toast_decoration.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
@@ -46,6 +47,8 @@ class CityOfDream extends ConsumerWidget {
               "fes": (p) => Fes(position: p.position, size: p.size, ref: ref),
               "classroom_entry": (p) =>
                   ClassroomEntry(position: p.position, size: p.size, ref: ref),
+              "gaoshi": (p) =>
+                  Gaoshi(position: p.position, size: p.size, ref: ref),
               // "teacher2": (p) => BaseMentor(
               //     position: p.position,
               //     size: p.size,
