@@ -2,7 +2,7 @@ name: make_a_dream
 description: "a game based on LLM and bonfire"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.0.1
+version: 0.0.2
 
 
 environment:
@@ -15,7 +15,7 @@ dependencies:
   audioplayers: ^6.0.0
   badges: ^3.1.2
   blur: ^4.0.0
-  bonfire: ^3.9.6
+  bonfire: ^3.9.7
   cupertino_icons: ^1.0.6
   date_time_format: ^2.0.1
   extended_image: ^8.2.1

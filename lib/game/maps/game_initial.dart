@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/decorations/initial_map_door.dart';
 import 'package:make_a_dream/game/npcs/mentor_npc.dart';
 import 'package:make_a_dream/game/util.dart';
-import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 import 'package:make_a_dream/style/app_style.dart';
 
 import '../player.dart';
@@ -18,7 +17,7 @@ class GameInitialPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playerState = ref.watch(playerProvider);
+    // final playerState = ref.watch(playerProvider);
 
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
@@ -43,9 +42,7 @@ class GameInitialPage extends ConsumerWidget {
             ),
           )
         ],
-        player: SinglePlayer(
-            position: Vector2(tileSize * 6.8, tileSize * 6),
-            record: playerState.current!),
+        player: SinglePlayer(ref: ref),
         components: [
           MentorNpc(
             ref: ref,

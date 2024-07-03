@@ -12,6 +12,8 @@ import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_event.dart';
 import 'package:make_a_dream/isar/player_record.dart';
 
+RegExp regExp = RegExp(r'《(.*?)》');
+
 class BaseMentorNotifier
     extends AutoDisposeFamilyNotifier<BaseMentorState, String> {
   final AiClient aiClient = AiClient();
@@ -43,13 +45,14 @@ class BaseMentorNotifier
         conversationDone: false);
   }
 
-  Future<void> plotQuiz() async {
+  Future<void> plotQuiz({String? p}) async {
     final lastContent = state.npc.history.last.content;
-    final stream = aiClient.stream([
-      ChatMessage.system(state.role),
-      ChatMessage.humanText(
-          "请按以下内容出一道简单的选择题，并给出正确选项。选择题一共四个选项，其中，只有一个选项是正确的。内容如下: \n$lastContent 。结果以json形式返回，json格式如下：{\"question\": \"问题\", \"options\": [\"选项1\", \"选项2\", \"选项3\", \"选项4\"], \"answer\": \"正确选项\",\"quizType\":\"问题类型\"}。其中，“quizType”包括文学，数学，历史，地理，化学，物理，生物，IT这8类，必须返回这8类中的一种。")
-    ]);
+    String prompt = p ??
+        "请按以下内容出一道简单的选择题，并给出正确选项。选择题一共四个选项，其中，只有一个选项是正确的。内容如下: \n$lastContent 。结果以json形式返回，json格式如下：{\"question\": \"问题\", \"options\": [\"选项1\", \"选项2\", \"选项3\", \"选项4\"], \"answer\": \"正确选项\",\"quizType\":\"问题类型\"}。其中，“quizType”包括文学，数学，历史，地理，化学，物理，生物，IT这8类，必须返回这8类中的一种。";
+    // savePrompt(prompt);
+
+    final stream = aiClient.stream(
+        [ChatMessage.system(state.role), ChatMessage.humanText(prompt)]);
 
     stream.listen(
       (v) {
@@ -57,40 +60,67 @@ class BaseMentorNotifier
         controller.jumpTo(controller.position.maxScrollExtent);
       },
       onDone: () async {
-        // final playerId = ref.read(playerProvider).current!.id;
-        // final player = isarDatabase.isar!.playerRecords
-        //     .where()
-        //     .idEqualTo(playerId)
-        //     .findFirstSync()!;
+        final playerId = ref.read(playerProvider).current!.id;
+        final player = isarDatabase.isar!.playerRecords
+            .where()
+            .idEqualTo(playerId)
+            .findFirstSync()!;
 
-        // final _npc = player.npcs.where((v) => v.name == arg).first;
-        // _npc.history = List.from(_npc.history)
-        //   ..add(History()
-        //     ..content = state.dialog
-        //     ..type = HistoryType.npc);
+        final _npc = player.npcs.where((v) => v.name == arg).first;
+        _npc.history = List.from(_npc.history)
+          ..add(History()
+            ..content = state.dialog
+            ..type = HistoryType.npc);
 
-        // _npc.stage = NpcStage.meet;
-        // PlayerEvent playerEvent = PlayerEvent()
-        //   ..playerEventType = PlayerEventType.talk
-        //   ..withWhom = arg;
+        await isarDatabase.isar!.writeTxn(() async {
+          await isarDatabase.isar!.npcs.put(_npc);
+          await player.npcs.save();
+        });
 
-        // await isarDatabase.isar!.writeTxn(() async {
-        //   await isarDatabase.isar!.npcs.put(_npc);
-        //   await isarDatabase.isar!.playerEvents.put(playerEvent);
-        //   player.playerEvents.add(playerEvent);
-        //   await player.npcs.save();
-        //   await player.playerEvents.save();
-        //   await isarDatabase.isar!.playerRecords.put(player);
-        // });
-
-        // ref.read(playerProvider.notifier).changeCurrent(player);
+        ref.read(playerProvider.notifier).changeCurrent(player);
         state = state.copyWith(conversationDone: true);
         controller.jumpTo(controller.position.maxScrollExtent);
       },
     );
   }
 
-  simplePlot(String s) {
+  Set<String> getHistory() {
+    Set<String> h = {};
+    final player = ref.read(playerProvider).current!;
+
+    final _npc = player.npcs.where((v) => v.name == arg).first;
+
+    if (_npc.history.isNotEmpty) {
+      for (final i in _npc.history) {
+        Iterable<Match> matches = regExp.allMatches(i.content);
+
+        for (Match match in matches) {
+          if (match.group(1) == null) {
+            continue;
+          }
+          h.add(match.group(1)!);
+        }
+      }
+    }
+
+    return h;
+  }
+
+  simplePlot(String s) async {
+    final player = ref.read(playerProvider).current!;
+
+    final _npc = player.npcs.where((v) => v.name == arg).first;
+    _npc.history = List.from(_npc.history)
+      ..add(History()
+        ..content = s
+        ..type = HistoryType.npc);
+
+    await isarDatabase.isar!.writeTxn(() async {
+      await isarDatabase.isar!.npcs.put(_npc);
+      await player.npcs.save();
+      await isarDatabase.isar!.playerRecords.put(player);
+    });
+    ref.read(playerProvider.notifier).changeCurrent(player);
     state = state.copyWith(conversationDone: true, dialog: s);
   }
 
@@ -119,11 +149,7 @@ class BaseMentorNotifier
         controller.jumpTo(controller.position.maxScrollExtent);
       },
       onDone: () async {
-        final playerId = ref.read(playerProvider).current!.id;
-        final player = isarDatabase.isar!.playerRecords
-            .where()
-            .idEqualTo(playerId)
-            .findFirstSync()!;
+        final player = ref.read(playerProvider).current!;
 
         final _npc = player.npcs.where((v) => v.name == arg).first;
         _npc.history = List.from(_npc.history)

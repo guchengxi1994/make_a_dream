@@ -33,7 +33,7 @@ void main() async {
 
   AudioUtils audioUtils = AudioUtils();
   await audioUtils.setloop();
-  await audioUtils.setVolume(0.5);
+  await audioUtils.setVolume(0.2);
 
   await Flame.device.setLandscape();
   await Flame.device.fullScreen();

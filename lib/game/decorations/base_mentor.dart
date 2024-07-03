@@ -2,6 +2,7 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/base_mentor_dialog.dart';
+import 'package:make_a_dream/game/notifiers/base_mentor_notifier.dart';
 import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
 import 'decoration_mixin.dart';
@@ -28,6 +29,8 @@ class BaseMentor extends GameDecoration with Sensor<Player>, DecorationMixin {
     if (!isTouched) {
       isTouched = true;
       gameRef.player!.stopMove();
+      final history =
+          ref.read(baseMentorProvider(mentorName).notifier).getHistory();
       showGeneralDialog(
           barrierLabel: "mentor",
           barrierDismissible: true,
@@ -41,7 +44,9 @@ class BaseMentor extends GameDecoration with Sensor<Player>, DecorationMixin {
                     .read(playerProvider)
                     .current!
                     .knowledge
-                    .getKnowledgePrompt(teacherType: mentorName),
+                    .getKnowledgePrompt(
+                        teacherType: mentorName,
+                        his: history.isNotEmpty ? history.join(";") : null),
               ),
             );
           });

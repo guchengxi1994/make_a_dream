@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/decorations/air_wall.dart';
 import 'package:make_a_dream/game/player.dart';
-import 'package:make_a_dream/game/notifiers/player_notifier.dart';
+// import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 import 'package:make_a_dream/style/app_style.dart';
 
 class BuildingOfSages extends ConsumerWidget {
@@ -15,7 +15,7 @@ class BuildingOfSages extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playerState = ref.watch(playerProvider);
+    // final playerState = ref.watch(playerProvider);
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
         map: WorldMapByTiled(
@@ -36,8 +36,7 @@ class BuildingOfSages extends ConsumerWidget {
             ),
           )
         ],
-        player:
-            SinglePlayer(position: Vector2(0, 0), record: playerState.current!),
+        player: SinglePlayer(ref: ref),
         cameraConfig: CameraConfig(
           zoom: 3,
         ),

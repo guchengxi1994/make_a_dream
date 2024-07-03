@@ -106,6 +106,7 @@ class _SplashWrapperState extends State<SplashWrapper>
                           SizedBox(
                             width: 170,
                             child: AnimatedTextKit(
+                              repeatForever: true,
                               animatedTexts: [
                                 ColorizeAnimatedText(
                                   'Loading ...',

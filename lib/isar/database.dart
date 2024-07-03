@@ -30,6 +30,6 @@ class IsarDatabase {
   late List<CollectionSchema<Object>> schemas = [
     NpcSchema,
     PlayerEventSchema,
-    PlayerRecordSchema,
+    PlayerRecordSchema
   ];
 }

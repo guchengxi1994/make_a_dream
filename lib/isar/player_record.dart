@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_radar_chart/flutter_radar_chart.dart';
 import 'package:isar/isar.dart';
+import 'package:make_a_dream/game/maps/game_initial_route.dart';
 import 'package:make_a_dream/isar/npc.dart';
 import 'package:make_a_dream/isar/player_event.dart';
 import 'dart:math' as m;
@@ -43,6 +44,8 @@ class PlayerRecord {
   IsarLinks<Npc> npcs = IsarLinks();
 
   IsarLinks<PlayerEvent> playerEvents = IsarLinks();
+
+  LastPostition? lastPostition;
 }
 
 @embedded
@@ -207,7 +210,18 @@ class PlayerKnowledge {
   late double /* 生物 */ biography = 0;
   late double /* IT */ it = 0;
 
-  String getKnowledgePrompt({String teacherType = 'science teacher'}) {
+  double get total =>
+      math +
+      language +
+      history +
+      geography +
+      chemistry +
+      physics +
+      biography +
+      it;
+
+  String getKnowledgePrompt(
+      {String teacherType = 'science teacher', String? his}) {
     String s = "你的学生基本情况如下:\n";
     if (teacherType == "science teacher") {
       s += "数学程度在${KnowledgeThreshold.match(expEval(math).floor())}左右；";
@@ -221,7 +235,13 @@ class PlayerKnowledge {
       s += "历史程度在${KnowledgeThreshold.match(expEval(history).floor())}左右。\n";
     }
 
-    s += "请根据学生的能力，给一个相关领域的知识。注意：你的身份是一个老师，请以老师的口吻描述。";
+    s +=
+        "请根据学生的能力，给一个相关领域的知识。注意：1.你的身份是一个老师，请以老师的口吻描述。2.只需要从中选择一个领域即可，不需要满足所有领域。\n";
+    if (his == null) {
+      s += "请尽情发挥。";
+    } else {
+      s += "以下内容已经教授过了，请尽量不要重复教授。内容如下: $his";
+    }
 
     return s;
   }
@@ -319,4 +339,12 @@ extension ToChartK on PlayerKnowledge {
 
 double expEval(double v) {
   return 99 * (m.sqrt(v / 10000));
+}
+
+@embedded
+class LastPostition {
+  late String routeName = GameInitialRoute.routeName;
+  int createAt = DateTime.now().millisecondsSinceEpoch;
+  late double x = 0;
+  late double y = 0;
 }
