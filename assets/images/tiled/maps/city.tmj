@@ -1021,6 +1021,39 @@
                  "width":198.5,
                  "x":698,
                  "y":734.5
+                }, 
+                {
+                 "height":15.5,
+                 "id":30,
+                 "name":"scarecrow",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":18.1363636363636,
+                 "x":911,
+                 "y":30.5
+                }, 
+                {
+                 "height":16,
+                 "id":31,
+                 "name":"scarecrow",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":17,
+                 "x":943.5,
+                 "y":173.5
+                }, 
+                {
+                 "height":12.5,
+                 "id":32,
+                 "name":"scarecrow",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":14.5,
+                 "x":1121,
+                 "y":65
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1051,10 +1084,10 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":30,
+ "nextobjectid":33,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.10.2",
+ "tiledversion":"1.11.0",
  "tileheight":16,
  "tilesets":[
         {

@@ -109,6 +109,8 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                                 ? QuizSelectionDialog(
                                     quizModel: quizModel,
                                     onClick: (b) {
+                                      logger.info(
+                                          "quizModel ${quizModel!.quizType}");
                                       talked = false;
                                       if (b) {
                                         ref
@@ -117,7 +119,7 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                                                 .notifier)
                                             .simplePlot("回答正确。");
                                         late PlayerKnowledge knowledge;
-                                        switch (quizModel!.quizType) {
+                                        switch (quizModel.quizType) {
                                           case "文学":
                                             knowledge = PlayerKnowledge()
                                               ..language = 1;
@@ -162,7 +164,7 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                                                     widget.mentorName)
                                                 .notifier)
                                             .simplePlot(
-                                                "回答错误。答案应该是**${quizModel?.answer}**");
+                                                "回答错误。答案应该是**${quizModel.answer}**");
                                         addLikability(-1, widget.mentorName);
                                       }
                                     })

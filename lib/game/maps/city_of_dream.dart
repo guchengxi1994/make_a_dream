@@ -44,6 +44,11 @@ class CityOfDream extends ConsumerWidget {
                   position: p.position, size: p.size, toast: '梦之都', ref: ref),
               "tip": (p) => TipDecoration(
                   position: p.position, size: p.size, tip: '注意来往车辆', ref: ref),
+              "scarecrow": (p) => TipDecoration(
+                  position: p.position,
+                  size: p.size,
+                  tip: '一动不动，宛如死物',
+                  ref: ref),
               "fountain": (p) =>
                   Fountain(position: p.position, size: p.size, ref: ref),
               "fes": (p) => Fes(position: p.position, size: p.size, ref: ref),
