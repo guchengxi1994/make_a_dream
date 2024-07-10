@@ -58,6 +58,7 @@ flutter:
   assets:
     - assets/audio/
     - assets/avatars/
+    - assets/bg/
     - assets/images/
     - assets/images/animals/
     - assets/images/tiled/

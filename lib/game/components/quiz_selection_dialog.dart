@@ -6,16 +6,22 @@ typedef OnClick = void Function(bool b);
 
 class QuizSelectionDialog<T extends BaseQuizModel> extends StatelessWidget {
   const QuizSelectionDialog(
-      {super.key, required this.quizModel, required this.onClick});
+      {super.key,
+      required this.quizModel,
+      required this.onClick,
+      this.expanded = false});
   final T? quizModel;
   final OnClick onClick;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: !expanded
+            ? const EdgeInsets.all(10)
+            : const EdgeInsets.only(top: 30, left: 10),
         child: quizModel == null
             ? const Center(
                 child: CircularProgressIndicator(),
