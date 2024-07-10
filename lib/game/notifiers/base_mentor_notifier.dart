@@ -81,6 +81,11 @@ class BaseMentorNotifier
         state = state.copyWith(conversationDone: true);
         controller.jumpTo(controller.position.maxScrollExtent);
       },
+      onError: (e) {
+        state = state.copyWith(
+            dialog: state.dialog + e.toString(), conversationDone: true);
+        controller.jumpTo(controller.position.maxScrollExtent);
+      },
     );
   }
 
@@ -178,6 +183,11 @@ class BaseMentorNotifier
 
         ref.read(playerProvider.notifier).changeCurrent(player);
         state = state.copyWith(conversationDone: true);
+        controller.jumpTo(controller.position.maxScrollExtent);
+      },
+      onError: (e) {
+        state = state.copyWith(
+            dialog: state.dialog + e.toString(), conversationDone: true);
         controller.jumpTo(controller.position.maxScrollExtent);
       },
     );

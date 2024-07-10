@@ -124,6 +124,11 @@ class MentorNpcNotifier extends AutoDisposeNotifier<MentorNpcState> {
                   npcStage: NpcStage.meet, conversationDone: true);
               controller.jumpTo(controller.position.maxScrollExtent);
             },
+            onError: (e) {
+              state = state.copyWith(
+                  dialog: state.dialog + e.toString(), conversationDone: true);
+              controller.jumpTo(controller.position.maxScrollExtent);
+            },
           );
         }
       }

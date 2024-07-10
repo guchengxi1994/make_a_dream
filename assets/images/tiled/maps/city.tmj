@@ -1054,6 +1054,17 @@
                  "width":14.5,
                  "x":1121,
                  "y":65
+                }, 
+                {
+                 "height":28.75,
+                 "id":33,
+                 "name":"peach",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":43.5,
+                 "x":432,
+                 "y":109.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1084,7 +1095,7 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":33,
+ "nextobjectid":34,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
