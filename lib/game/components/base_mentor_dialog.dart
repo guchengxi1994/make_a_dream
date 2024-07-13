@@ -40,7 +40,7 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
 
     logger.info("prompt ${widget.prompt}");
 
-    if (talked) {
+    if (talked && widget.mentorName != "writer") {
       ref.read(baseMentorProvider(widget.mentorName).notifier).plotQuiz();
     } else {
       ref
@@ -67,7 +67,9 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
     return Material(
       color: Colors.transparent,
       child: Container(
-        decoration: const BoxDecoration(color: Colors.transparent),
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
+        ),
         padding: const EdgeInsets.all(10),
         child: Stack(
           children: [
@@ -81,18 +83,30 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                       ? MediaQuery.of(context).size.height * 0.8
                       : 200,
                   decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.7),
-                      border: Border.all(width: 3),
-                      borderRadius: BorderRadius.circular(20)),
+                      color: Colors.transparent,
+                      // border: Border.all(width: 3),
+                      borderRadius: BorderRadius.circular(20),
+                      image: isExpanded
+                          ? const DecorationImage(
+                              image: AssetImage("assets/bg/info_base.png"),
+                              fit: BoxFit.fill)
+                          : const DecorationImage(
+                              image: AssetImage("assets/bg/plate_bright.png"),
+                              fit: BoxFit.fitWidth)),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 200,
-                        height: 200,
-                        child: NpcAvatarWidget(
-                          avatar: aiClient.getAvatarByName(state.npc.name),
-                          name: state.npc.name,
+                      Padding(
+                        padding: isExpanded
+                            ? const EdgeInsets.only(top: 100)
+                            : const EdgeInsets.all(1),
+                        child: SizedBox(
+                          width: 200,
+                          height: 200,
+                          child: NpcAvatarWidget(
+                            avatar: aiClient.getAvatarByName(state.npc.name),
+                            name: state.npc.name,
+                          ),
                         ),
                       ),
                       Expanded(
@@ -107,8 +121,11 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                                 .controller,
                             child: talked && quizModel != null
                                 ? QuizSelectionDialog(
+                                    expanded: isExpanded,
                                     quizModel: quizModel,
                                     onClick: (b) {
+                                      logger.info(
+                                          "quizModel ${quizModel!.quizType}");
                                       talked = false;
                                       if (b) {
                                         ref
@@ -117,7 +134,7 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                                                 .notifier)
                                             .simplePlot("回答正确。");
                                         late PlayerKnowledge knowledge;
-                                        switch (quizModel!.quizType) {
+                                        switch (quizModel.quizType) {
                                           case "文学":
                                             knowledge = PlayerKnowledge()
                                               ..language = 1;
@@ -162,14 +179,20 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                                                     widget.mentorName)
                                                 .notifier)
                                             .simplePlot(
-                                                "回答错误。答案应该是**${quizModel?.answer}**");
+                                                "回答错误。答案应该是**${quizModel.answer}**");
                                         addLikability(-1, widget.mentorName);
                                       }
                                     })
-                                : MarkdownBlock(
-                                    data: state.dialog,
-                                    selectable: false,
-                                    config: MarkdownConfig.defaultConfig,
+                                : Padding(
+                                    padding: isExpanded
+                                        ? const EdgeInsets.only(
+                                            top: 100, right: 30)
+                                        : const EdgeInsets.all(1),
+                                    child: MarkdownBlock(
+                                      data: state.dialog,
+                                      selectable: false,
+                                      config: MarkdownConfig.defaultConfig,
+                                    ),
                                   ),
                           )),
                           if (state.conversationDone && state.dialog != "")
@@ -186,15 +209,20 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                                         });
                                       },
                                       child: isExpanded
-                                          ? const Icon(Icons.expand_more)
-                                          : const Icon(Icons.expand_less)),
-                                  if (!talked)
+                                          ? const Icon(Icons.expand_more,
+                                              color: Colors.white)
+                                          : const Icon(Icons.expand_less,
+                                              color: Colors.white)),
+                                  if (!talked || widget.mentorName == "writer")
                                     TextButton(
                                         autofocus: true,
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
-                                        child: const Text("Got it"))
+                                        child: const Text(
+                                          "Got it",
+                                          style: TextStyle(color: Colors.white),
+                                        ))
                                 ],
                               ),
                             )

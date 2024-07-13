@@ -1,16 +1,34 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:make_a_dream/game/decorations/decoration_mixin.dart';
-import 'package:make_a_dream/game/maps/city_of_dream_route.dart';
+import 'package:make_a_dream/game/maps/writer_router.dart';
 import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 
-class ClassroomExit extends GameDecoration
+import 'decoration_mixin.dart';
+
+class WritersHomeEntry extends GameDecoration
     with Sensor<Player>, DecorationMixin {
-  ClassroomExit(
+  WritersHomeEntry(
       {required super.position, required super.size, required this.ref});
 
   bool isTouched = false;
   final WidgetRef ref;
+
+  late final TextPaint _textConfig = TextPaint(
+    style: const TextStyle(color: Colors.white, fontSize: 12),
+  );
+
+  @override
+  Future<void> onLoad() {
+    TextComponent textComponent = TextBoxComponent(
+      text: "writer's home",
+      position: Vector2(0, 0),
+      textRenderer: _textConfig,
+    );
+
+    add(textComponent);
+    return super.onLoad();
+  }
 
   @override
   void onContact(Player component) {
@@ -18,10 +36,9 @@ class ClassroomExit extends GameDecoration
       isTouched = true;
       gameRef.player!.stopMove();
     }
-    // updatePosition(ref, Vector2(position.x, position.y + 100));
     ref
         .read(multipleMapProvider.notifier)
-        .switchTo(CityOfDreamRoute.routeName, initial: Vector2(600, 220));
+        .switchTo(WriterRouter.routeName, initial: Vector2(8 * 16, 18 * 16));
     super.onContact(component);
   }
 

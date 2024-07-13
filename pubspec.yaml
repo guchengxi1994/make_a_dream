@@ -1,8 +1,8 @@
 name: make_a_dream
-description: "a game based on LLM and bonfire"
+description: "a game based on LLM and bonfire, for fun"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.0.2
+version: 0.0.3
 
 
 environment:
@@ -58,6 +58,7 @@ flutter:
   assets:
     - assets/audio/
     - assets/avatars/
+    - assets/bg/
     - assets/images/
     - assets/images/animals/
     - assets/images/tiled/

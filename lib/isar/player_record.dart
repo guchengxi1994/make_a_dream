@@ -230,6 +230,9 @@ class PlayerKnowledge {
       s += "物理程度在${KnowledgeThreshold.match(expEval(physics).floor())}左右；";
       s += "生物程度在${KnowledgeThreshold.match(expEval(biography).floor())}左右；";
       s += "IT程度在${KnowledgeThreshold.match(expEval(it).floor())}左右。\n";
+    } else if (teacherType == "farmer") {
+      s += "地理程度在${KnowledgeThreshold.match(expEval(geography).floor())}左右；";
+      s += "生物程度在${KnowledgeThreshold.match(expEval(biography).floor())}左右；";
     } else {
       s += "文学程度在${KnowledgeThreshold.match(expEval(language).floor())}左右；";
       s += "历史程度在${KnowledgeThreshold.match(expEval(history).floor())}左右。\n";
@@ -237,6 +240,7 @@ class PlayerKnowledge {
 
     s +=
         "请根据学生的能力，给一个相关领域的知识。注意：1.你的身份是一个老师，请以老师的口吻描述。2.只需要从中选择一个领域即可，不需要满足所有领域。\n";
+
     if (his == null) {
       s += "请尽情发挥。";
     } else {
