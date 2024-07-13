@@ -14,6 +14,7 @@ import 'package:make_a_dream/game/decorations/gaoshi.dart';
 import 'package:make_a_dream/game/decorations/peach.dart';
 import 'package:make_a_dream/game/decorations/tip_decoration.dart';
 import 'package:make_a_dream/game/decorations/toast_decoration.dart';
+import 'package:make_a_dream/game/decorations/writers_home_entry.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
 import 'package:make_a_dream/game/player.dart';
 import 'package:make_a_dream/style/app_style.dart';
@@ -67,6 +68,8 @@ class CityOfDream extends ConsumerWidget {
                   ref: ref),
               "peach": (p) => Peach(
                   position: p.position, size: p.size, ref: ref, name: 'peach'),
+              "writer_home": (p) =>
+                  WritersHomeEntry(position: p.position, size: p.size, ref: ref)
             }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)

@@ -1087,6 +1087,17 @@
                  "width":17.3636363636364,
                  "x":595.484848484849,
                  "y":153.196969696969
+                }, 
+                {
+                 "height":37.3333333333334,
+                 "id":34,
+                 "name":"writer_home",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":24.6666666666667,
+                 "x":415.666666666667,
+                 "y":422.666666666667
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1095,10 +1106,10 @@
          "y":0
         }],
  "nextlayerid":16,
- "nextobjectid":34,
+ "nextobjectid":35,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.10.2",
+ "tiledversion":"1.11.0",
  "tileheight":16,
  "tilesets":[
         {

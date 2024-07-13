@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/common/toast_utils.dart';
 import 'package:make_a_dream/game/decorations/air_wall.dart';
 import 'package:make_a_dream/game/decorations/base_mentor.dart';
 import 'package:make_a_dream/game/decorations/classroom_exit.dart';
@@ -16,6 +17,10 @@ class Room extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ToastUtils.decorationToast(context, toast: "室内禁止奔跑");
+    });
+
     // final playerState = ref.watch(playerProvider);
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
