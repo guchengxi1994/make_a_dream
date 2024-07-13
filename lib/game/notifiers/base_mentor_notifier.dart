@@ -81,6 +81,11 @@ class BaseMentorNotifier
         state = state.copyWith(conversationDone: true);
         controller.jumpTo(controller.position.maxScrollExtent);
       },
+      onError: (e) {
+        state = state.copyWith(
+            dialog: state.dialog + e.toString(), conversationDone: true);
+        controller.jumpTo(controller.position.maxScrollExtent);
+      },
     );
   }
 
@@ -126,6 +131,15 @@ class BaseMentorNotifier
 
   bool get talked => ref.read(playerProvider.notifier).talkedToday(arg);
 
+  String getAllHistory() {
+    String s = "";
+    for (final i in state.npc.history) {
+      s += i.content;
+    }
+
+    return s;
+  }
+
   Future<void> plot({String humanMessage = ""}) async {
     final couldDo = await ref.read(playerProvider.notifier).couldDo();
     if (!couldDo) {
@@ -140,7 +154,13 @@ class BaseMentorNotifier
     final stream = aiClient.stream([
       ChatMessage.system(state.role),
       ChatMessage.humanText(
-          humanMessage == "" ? "请以“我是...”这种开场白，介绍一下自己" : humanMessage)
+          humanMessage == "" ? "请以“我是...”这种开场白，介绍一下自己" : humanMessage),
+      if (state.role != "writer")
+        ChatMessage.humanText(state.npc.likability > 20
+            ? "请使用亲切的语气"
+            : state.npc.likability > 0
+                ? "请使用客气的语气"
+                : "请使用严厉的语气"),
     ]);
 
     stream.listen(
@@ -173,6 +193,11 @@ class BaseMentorNotifier
 
         ref.read(playerProvider.notifier).changeCurrent(player);
         state = state.copyWith(conversationDone: true);
+        controller.jumpTo(controller.position.maxScrollExtent);
+      },
+      onError: (e) {
+        state = state.copyWith(
+            dialog: state.dialog + e.toString(), conversationDone: true);
         controller.jumpTo(controller.position.maxScrollExtent);
       },
     );

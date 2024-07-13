@@ -4,44 +4,36 @@ import 'dart:math';
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:make_a_dream/common/toast_utils.dart';
 import 'package:make_a_dream/game/decorations/air_wall.dart';
 import 'package:make_a_dream/game/decorations/base_mentor.dart';
-import 'package:make_a_dream/game/decorations/classroom_exit.dart';
 import 'package:make_a_dream/game/decorations/room_bg.dart';
+import 'package:make_a_dream/game/decorations/writer_home_exit.dart';
 import 'package:make_a_dream/game/player.dart';
 import 'package:make_a_dream/style/app_style.dart';
 
-class Room extends ConsumerWidget {
-  const Room({super.key});
+class WriterHome extends ConsumerWidget {
+  const WriterHome({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ToastUtils.decorationToast(context, toast: "室内禁止奔跑");
-    });
-
-    // final playerState = ref.watch(playerProvider);
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
-        map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/room.tmj'),
+        map: WorldMapByTiled(
+            WorldMapReader.fromAsset('tiled/maps/writers_home.tmj'),
             objectsBuilder: {
               "air_wall": (p) => AirWall(p.position, p.size),
-              "image": (p) => RoomBg(position: p.position, size: p.size),
-              "exit": (p) =>
-                  ClassroomExit(position: p.position, size: p.size, ref: ref),
-              "teacher2": (p) => BaseMentor(
+              "bg": (p) => RoomBg(
                   position: p.position,
                   size: p.size,
-                  mentorName: "literature teacher",
-                  path: "human4.png",
+                  path: "writer_home_bg.jpeg"),
+              "writer": (p) => BaseMentor(
+                  position: p.position,
+                  size: p.size,
+                  mentorName: "writer",
+                  path: "76.png",
                   ref: ref),
-              "teacher1": (p) => BaseMentor(
-                  position: p.position,
-                  size: p.size,
-                  mentorName: "science teacher",
-                  path: "human5.png",
-                  ref: ref)
+              "exit": (p) =>
+                  WritersHomeExit(position: p.position, size: p.size, ref: ref)
             }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)
@@ -55,14 +47,9 @@ class Room extends ConsumerWidget {
             ),
           )
         ],
-        player: SinglePlayer(
-            // position:
-            //     ref.read(multipleMapProvider.notifier).getCurrentPosition() ??
-            //         Vector2(2 * 48, 8 * 48),
-            ref: ref,
-            playerSize: (48, 48)),
+        player: SinglePlayer(ref: ref, playerSize: (16, 16)),
         cameraConfig: CameraConfig(
-          zoom: 1,
+          zoom: 2,
         ),
         backgroundColor: AppStyle.gameBackground,
         overlayBuilderMap: {

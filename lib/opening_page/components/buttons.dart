@@ -97,6 +97,9 @@ class _Button extends ConsumerWidget {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () {
+          if (model.onTap == null) {
+            return;
+          }
           model.onTap!(context, ref);
         },
         child: Container(

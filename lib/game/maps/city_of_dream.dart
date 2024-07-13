@@ -5,13 +5,16 @@ import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:make_a_dream/game/decorations/base_mentor.dart';
 import 'package:make_a_dream/game/decorations/chair.dart';
 import 'package:make_a_dream/game/decorations/classroom_entry.dart';
 import 'package:make_a_dream/game/decorations/fes.dart';
 import 'package:make_a_dream/game/decorations/fountain.dart';
 import 'package:make_a_dream/game/decorations/gaoshi.dart';
+import 'package:make_a_dream/game/decorations/peach.dart';
 import 'package:make_a_dream/game/decorations/tip_decoration.dart';
 import 'package:make_a_dream/game/decorations/toast_decoration.dart';
+import 'package:make_a_dream/game/decorations/writers_home_entry.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
 import 'package:make_a_dream/game/player.dart';
 import 'package:make_a_dream/style/app_style.dart';
@@ -43,6 +46,11 @@ class CityOfDream extends ConsumerWidget {
                   position: p.position, size: p.size, toast: '梦之都', ref: ref),
               "tip": (p) => TipDecoration(
                   position: p.position, size: p.size, tip: '注意来往车辆', ref: ref),
+              "scarecrow": (p) => TipDecoration(
+                  position: p.position,
+                  size: p.size,
+                  tip: '一动不动，宛如死物',
+                  ref: ref),
               "fountain": (p) =>
                   Fountain(position: p.position, size: p.size, ref: ref),
               "fes": (p) => Fes(position: p.position, size: p.size, ref: ref),
@@ -51,13 +59,17 @@ class CityOfDream extends ConsumerWidget {
               "gaoshi": (p) =>
                   Gaoshi(position: p.position, size: p.size, ref: ref),
               "chair": (p) =>
-                  Chair(position: p.position, size: p.size, ref: ref)
-              // "teacher2": (p) => BaseMentor(
-              //     position: p.position,
-              //     size: p.size,
-              //     mentorName: "literature teacher",
-              //     path: "human4.png",
-              //     ref: ref)
+                  Chair(position: p.position, size: p.size, ref: ref),
+              "farmer": (p) => BaseMentor(
+                  position: p.position,
+                  size: p.size,
+                  mentorName: "farmer",
+                  path: "farmer.png",
+                  ref: ref),
+              "peach": (p) => Peach(
+                  position: p.position, size: p.size, ref: ref, name: 'peach'),
+              "writer_home": (p) =>
+                  WritersHomeEntry(position: p.position, size: p.size, ref: ref)
             }),
         playerControllers: [
           if (Platform.isAndroid || Platform.isIOS)
