@@ -1,14 +1,14 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:make_a_dream/game/maps/writer_router.dart';
+import 'package:make_a_dream/game/maps/city_of_dream_route.dart';
 import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 
 import 'decoration_mixin.dart';
 
-class WritersHomeEntry extends GameDecoration
+class WritersHomeExit extends GameDecoration
     with Sensor<Player>, DecorationMixin {
-  WritersHomeEntry(
+  WritersHomeExit(
       {required super.position, required super.size, required this.ref});
 
   bool isTouched = false;
@@ -21,7 +21,7 @@ class WritersHomeEntry extends GameDecoration
   @override
   Future<void> onLoad() {
     TextComponent textComponent = TextBoxComponent(
-      text: "writer's home",
+      text: "exit",
       position: Vector2(0, 0),
       textRenderer: _textConfig,
     );
@@ -36,9 +36,8 @@ class WritersHomeEntry extends GameDecoration
       isTouched = true;
       gameRef.player!.stopMove();
     }
-    ref
-        .read(multipleMapProvider.notifier)
-        .switchTo(WriterRouter.routeName, initial: Vector2(8 * 16, 18 * 16));
+    ref.read(multipleMapProvider.notifier).switchTo(CityOfDreamRoute.routeName,
+        initial: Vector2(22 * 16, 28 * 16));
     super.onContact(component);
   }
 

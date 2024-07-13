@@ -230,8 +230,7 @@ class PlayerKnowledge {
       s += "物理程度在${KnowledgeThreshold.match(expEval(physics).floor())}左右；";
       s += "生物程度在${KnowledgeThreshold.match(expEval(biography).floor())}左右；";
       s += "IT程度在${KnowledgeThreshold.match(expEval(it).floor())}左右。\n";
-    }
-    if (teacherType == "farmer") {
+    } else if (teacherType == "farmer") {
       s += "地理程度在${KnowledgeThreshold.match(expEval(geography).floor())}左右；";
       s += "生物程度在${KnowledgeThreshold.match(expEval(biography).floor())}左右；";
     } else {

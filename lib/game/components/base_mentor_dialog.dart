@@ -40,7 +40,7 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
 
     logger.info("prompt ${widget.prompt}");
 
-    if (talked) {
+    if (talked && widget.mentorName != "writer") {
       ref.read(baseMentorProvider(widget.mentorName).notifier).plotQuiz();
     } else {
       ref
@@ -213,7 +213,7 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                                               color: Colors.white)
                                           : const Icon(Icons.expand_less,
                                               color: Colors.white)),
-                                  if (!talked)
+                                  if (!talked || widget.mentorName == "writer")
                                     TextButton(
                                         autofocus: true,
                                         onPressed: () {

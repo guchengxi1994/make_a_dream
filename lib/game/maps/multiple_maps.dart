@@ -8,9 +8,11 @@ import 'package:make_a_dream/game/maps/city_of_dream_route.dart';
 import 'package:make_a_dream/game/maps/game_initial.dart';
 import 'package:make_a_dream/game/maps/game_initial_route.dart';
 import 'package:make_a_dream/game/maps/room_route.dart';
+import 'package:make_a_dream/game/maps/writer_home.dart';
 import 'package:make_a_dream/game/notifiers/multiple_map_notifier.dart';
 
 import 'room.dart';
+import 'writer_router.dart';
 
 class MultipleMaps extends ConsumerWidget {
   const MultipleMaps({super.key});
@@ -29,6 +31,8 @@ class MultipleMaps extends ConsumerWidget {
       return const SplashWrapper(child: CityOfDream());
     } else if (state == RoomRoute.routeName) {
       return const SplashWrapper(child: Room());
+    } else if (state == WriterRouter.routeName) {
+      return const SplashWrapper(child: WriterHome());
     } else {
       return const SplashWrapper(child: BuildingOfSages());
     }
