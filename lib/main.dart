@@ -11,9 +11,11 @@ import 'package:toastification/toastification.dart';
 
 import 'common/dev_utils.dart';
 import 'global/ai_client.dart';
+import 'i18n/strings.g.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  LocaleSettings.useDeviceLocale(); // and this
   Logger.root.level = Level.ALL; // defaults to Level.INFO
   Logger.root.onRecord.listen((record) {
     if (kDebugMode) {
@@ -46,11 +48,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderScope(
-        child: ToastificationWrapper(
-            child: MaterialApp(
+        child: TranslationProvider(
+            child: ToastificationWrapper(
+                child: MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: GameInitialPage(),
       routes: AppRouters.routes,
-    )));
+    ))));
   }
 }

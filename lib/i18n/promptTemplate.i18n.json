@@ -1,0 +1,30 @@
+{
+    "lang": "Please answer in English.",
+    "fountain": {
+        "wish": "You wish ..."
+    },
+    "gaoshi": {
+        "error": "Answer is not correct because of $content"
+    },
+    "quiz": {
+        "question": "Question is $content"
+    },
+    "ability_form": {
+        "intro": "Some special ability may be related to unlocking certain content."
+    },
+    "chair": {
+        "now": "It's time!",
+        "not_now": "It's not time yet, my friend..."
+    },
+    "tips": {
+        "rest_of_sages": "rest of sages",
+        "fountain": "Wishing Well",
+        "industrial_area": "Industrial Area",
+        "lake": "Lake",
+        "farm": "Farm",
+        "dream_od_city": "Dream of City",
+        "cars": "Caution: Watch for Traffic",
+        "scarecrow": "Still as death",
+        "classroom": "No Running Inside"
+    }
+}

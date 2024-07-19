@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/notifiers/fountain_notifier.dart';
 import 'package:make_a_dream/global/ai_client.dart';
+import 'package:make_a_dream/i18n/strings.g.dart';
 import 'package:make_a_dream/style/app_style.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
@@ -68,8 +69,8 @@ class _FountainDialogState extends ConsumerState<FountainDialog> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text("你希望...",
-                                      style: TextStyle(
+                                  Text(Translations.of(context).fountain.wish,
+                                      style: const TextStyle(
                                         fontSize: 30,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,

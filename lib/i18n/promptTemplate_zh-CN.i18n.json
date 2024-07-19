@@ -1,0 +1,30 @@
+{
+    "lang": "请用中文回答。",
+    "fountain": {
+        "wish": "你希望..."
+    },
+    "gaoshi": {
+        "error": "回答错误。答案应该是**${content}**"
+    },
+    "quiz": {
+        "question": "问题如下\n$content"
+    },
+    "ability_form": {
+        "intro": "某种特殊的能力，可能和解锁某些内容有关"
+    },
+    "chair": {
+        "now": "是时候了！",
+        "not_now": "时机尚未成熟，我的朋友..."
+    },
+    "tips": {
+        "rest_of_sages": "贤者之歇",
+        "fountain": "许愿池",
+        "industrial_area": "工业区",
+        "lake": "水池",
+        "farm": "田园",
+        "dream_od_city": "梦之都",
+        "cars": "注意来往车辆",
+        "scarecrow": "一动不动，宛如死物",
+        "classroom": "室内禁止奔跑"
+    }
+}

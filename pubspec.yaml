@@ -32,6 +32,8 @@ dependencies:
     git:
       url: https://github.com/guchengxi1994/langchain_lib
   markdown_widget: ^2.3.2+6
+  slang: ^3.31.1
+  slang_flutter: ^3.31.0 # dart run slang
   path_provider: ^2.1.2
   riverpod: ^2.5.1
   toastification: ^2.0.0

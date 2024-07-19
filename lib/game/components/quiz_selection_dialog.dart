@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:make_a_dream/game/models/base_quiz_model.dart';
 import 'package:make_a_dream/game/models/character_quiz_model.dart';
+import 'package:make_a_dream/i18n/strings.g.dart';
 
 typedef OnClick = void Function(bool b);
 
@@ -33,8 +34,12 @@ class QuizSelectionDialog<T extends BaseQuizModel> extends StatelessWidget {
                     height: 100,
                     child: Text(
                       quizModel is CharacterQuizModel
-                          ? "问题如下 ${(quizModel! as CharacterQuizModel).quiz} ${quizModel!.question}"
-                          : "问题如下: ${quizModel!.question}",
+                          ? Translations.of(context).quiz.question(
+                              content:
+                                  "${(quizModel! as CharacterQuizModel).quiz} ${quizModel!.question}")
+                          : Translations.of(context)
+                              .quiz
+                              .question(content: quizModel!.question),
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),
