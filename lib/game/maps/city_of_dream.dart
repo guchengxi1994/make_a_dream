@@ -17,6 +17,7 @@ import 'package:make_a_dream/game/decorations/toast_decoration.dart';
 import 'package:make_a_dream/game/decorations/writers_home_entry.dart';
 import 'package:make_a_dream/game/npcs/animal.dart';
 import 'package:make_a_dream/game/player.dart';
+import 'package:make_a_dream/i18n/strings.g.dart';
 import 'package:make_a_dream/style/app_style.dart';
 
 class CityOfDream extends ConsumerWidget {
@@ -25,31 +26,50 @@ class CityOfDream extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final playerState = ref.watch(playerProvider);
+    final t = Translations.of(context);
     return LayoutBuilder(builder: (c, con) {
       return BonfireWidget(
         map: WorldMapByTiled(WorldMapReader.fromAsset('tiled/maps/city.tmj'),
             objectsBuilder: {
               "enter_center_bottom": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '许愿池', ref: ref),
+                  position: p.position,
+                  size: p.size,
+                  toast: t.tips.fountain,
+                  ref: ref),
               "enter_right_bottom": (p) => ToastDecoration(
                   position: p.position,
                   size: p.size,
                   toast: 'Temper',
                   ref: ref),
               "enter_left_bottom": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '工业区', ref: ref),
+                  position: p.position,
+                  size: p.size,
+                  toast: t.tips.industrial_area,
+                  ref: ref),
               "enter_left_center": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '水池', ref: ref),
+                  position: p.position,
+                  size: p.size,
+                  toast: t.tips.lake,
+                  ref: ref),
               "enter_top_right": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '田园', ref: ref),
+                  position: p.position,
+                  size: p.size,
+                  toast: t.tips.farm,
+                  ref: ref),
               "enter_top_left": (p) => ToastDecoration(
-                  position: p.position, size: p.size, toast: '梦之都', ref: ref),
+                  position: p.position,
+                  size: p.size,
+                  toast: t.tips.dream_of_city,
+                  ref: ref),
               "tip": (p) => TipDecoration(
-                  position: p.position, size: p.size, tip: '注意来往车辆', ref: ref),
+                  position: p.position,
+                  size: p.size,
+                  tip: t.tips.cars,
+                  ref: ref),
               "scarecrow": (p) => TipDecoration(
                   position: p.position,
                   size: p.size,
-                  tip: '一动不动，宛如死物',
+                  tip: t.tips.scarecrow,
                   ref: ref),
               "fountain": (p) =>
                   Fountain(position: p.position, size: p.size, ref: ref),

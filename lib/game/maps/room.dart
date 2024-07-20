@@ -10,6 +10,7 @@ import 'package:make_a_dream/game/decorations/base_mentor.dart';
 import 'package:make_a_dream/game/decorations/classroom_exit.dart';
 import 'package:make_a_dream/game/decorations/room_bg.dart';
 import 'package:make_a_dream/game/player.dart';
+import 'package:make_a_dream/i18n/strings.g.dart';
 import 'package:make_a_dream/style/app_style.dart';
 
 class Room extends ConsumerWidget {
@@ -18,7 +19,8 @@ class Room extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ToastUtils.decorationToast(context, toast: "室内禁止奔跑");
+      ToastUtils.decorationToast(context,
+          toast: Translations.of(context).tips.classroom);
     });
 
     // final playerState = ref.watch(playerProvider);

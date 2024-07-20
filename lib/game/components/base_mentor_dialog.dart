@@ -10,6 +10,7 @@ import 'package:make_a_dream/game/components/talk_mixin.dart';
 import 'package:make_a_dream/game/models/quiz_model.dart';
 import 'package:make_a_dream/game/notifiers/base_mentor_notifier.dart';
 import 'package:make_a_dream/global/ai_client.dart';
+import 'package:make_a_dream/i18n/strings.g.dart';
 import 'package:make_a_dream/isar/player_record.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
@@ -178,8 +179,11 @@ class _BaseMentorState extends ConsumerState<BaseMentorDialog> with TalkMixin {
                                             .read(baseMentorProvider(
                                                     widget.mentorName)
                                                 .notifier)
-                                            .simplePlot(
-                                                "回答错误。答案应该是**${quizModel.answer}**");
+                                            .simplePlot(Translations.of(context)
+                                                .gaoshi
+                                                .error(
+                                                    content:
+                                                        "**${quizModel.answer}**"));
                                         addLikability(-1, widget.mentorName);
                                       }
                                     })

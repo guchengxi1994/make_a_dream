@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/components/play_status/mixed_button.dart';
+import 'package:make_a_dream/i18n/strings.g.dart';
 import 'package:make_a_dream/isar/player_record.dart';
 import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 
@@ -405,7 +406,9 @@ class _AbilityAdjustFormState extends ConsumerState<AbilityAdjustForm> {
     return Row(
       children: [
         Tooltip(
-          message: progress == null ? "" : "某种特殊的能力，可能和解锁某些内容有关",
+          message: progress == null
+              ? ""
+              : Translations.of(context).ability_form.intro,
           child: SizedBox(
             width: 200,
             child: Text(

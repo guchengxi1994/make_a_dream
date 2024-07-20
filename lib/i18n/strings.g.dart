@@ -6,7 +6,7 @@
 /// Locales: 2
 /// Strings: 32 (16 per locale)
 ///
-/// Built on 2024-07-19 at 09:38 UTC
+/// Built on 2024-07-20 at 01:23 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -220,7 +220,7 @@ class _StringsTipsEn {
 	String get industrial_area => 'Industrial Area';
 	String get lake => 'Lake';
 	String get farm => 'Farm';
-	String get dream_od_city => 'Dream of City';
+	String get dream_of_city => 'Dream of City';
 	String get cars => 'Caution: Watch for Traffic';
 	String get scarecrow => 'Still as death';
 	String get classroom => 'No Running Inside';
@@ -322,7 +322,7 @@ class _StringsTipsZhCn implements _StringsTipsEn {
 	@override String get industrial_area => '工业区';
 	@override String get lake => '水池';
 	@override String get farm => '田园';
-	@override String get dream_od_city => '梦之都';
+	@override String get dream_of_city => '梦之都';
 	@override String get cars => '注意来往车辆';
 	@override String get scarecrow => '一动不动，宛如死物';
 	@override String get classroom => '室内禁止奔跑';
@@ -346,7 +346,7 @@ extension on Translations {
 			case 'tips.industrial_area': return 'Industrial Area';
 			case 'tips.lake': return 'Lake';
 			case 'tips.farm': return 'Farm';
-			case 'tips.dream_od_city': return 'Dream of City';
+			case 'tips.dream_of_city': return 'Dream of City';
 			case 'tips.cars': return 'Caution: Watch for Traffic';
 			case 'tips.scarecrow': return 'Still as death';
 			case 'tips.classroom': return 'No Running Inside';
@@ -370,7 +370,7 @@ extension on _StringsZhCn {
 			case 'tips.industrial_area': return '工业区';
 			case 'tips.lake': return '水池';
 			case 'tips.farm': return '田园';
-			case 'tips.dream_od_city': return '梦之都';
+			case 'tips.dream_of_city': return '梦之都';
 			case 'tips.cars': return '注意来往车辆';
 			case 'tips.scarecrow': return '一动不动，宛如死物';
 			case 'tips.classroom': return '室内禁止奔跑';
