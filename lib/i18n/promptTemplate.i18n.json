@@ -26,5 +26,11 @@
         "cars": "Caution: Watch for Traffic",
         "scarecrow": "Still as death",
         "classroom": "No Running Inside"
+    },
+    "buttons": {
+        "b1": "New Game",
+        "b2": "Load Last",
+        "b3": "Settings",
+        "b4": "End"
     }
 }

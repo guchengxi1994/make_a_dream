@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:make_a_dream/game/maps/multiple_maps_route.dart';
+import 'package:make_a_dream/game/notifiers/i18n_notifier.dart';
 import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/opening_page/components/create_player_dialog.dart';
 import 'package:make_a_dream/opening_page/notifiers/create_player_notifier.dart';
@@ -41,10 +42,10 @@ class ButtonState {
 }
 
 class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
-  static List<ButtonModel> defaultModels = [
+  late List<ButtonModel> defaultModels = [
     ButtonModel(
       debugLabel: 1,
-      content: "起",
+      content: ref.read(i18nProvider.notifier).t.buttons.b1,
       onTap: (context, ref) async {
         final CreatePlayerState? state = await showGeneralDialog(
             barrierColor: Colors.transparent,
@@ -74,7 +75,7 @@ class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
       },
     ),
     ButtonModel(
-      content: "承",
+      content: ref.read(i18nProvider.notifier).t.buttons.b2,
       debugLabel: 2,
       onTap: (context, ref) {
         final playerState = ref.read(playerProvider);
@@ -87,9 +88,12 @@ class ButtonsNotifier extends AutoDisposeNotifier<ButtonState> {
         MultipleMapsRoute.open(context);
       },
     ),
-    ButtonModel(content: "转", debugLabel: 3, onTap: null),
     ButtonModel(
-        content: "合",
+        content: ref.read(i18nProvider.notifier).t.buttons.b3,
+        debugLabel: 3,
+        onTap: null),
+    ButtonModel(
+        content: ref.read(i18nProvider.notifier).t.buttons.b4,
         debugLabel: 4,
         onTap: (_, __) {
           exit(0);

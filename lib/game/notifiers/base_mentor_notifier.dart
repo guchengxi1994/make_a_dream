@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:langchain_lib/langchain_lib.dart';
 import 'package:make_a_dream/game/notifiers/base_mentor_state.dart';
+import 'package:make_a_dream/game/notifiers/i18n_notifier.dart';
 import 'package:make_a_dream/game/notifiers/player_notifier.dart';
 import 'package:make_a_dream/global/ai_client.dart';
 import 'package:make_a_dream/isar/database.dart';
@@ -51,8 +52,11 @@ class BaseMentorNotifier
         "请按以下内容出一道简单的选择题，并给出正确选项。选择题一共四个选项，其中，只有一个选项是正确的。内容如下: \n$lastContent 。结果以json形式返回，json格式如下：{\"question\": \"问题\", \"options\": [\"选项1\", \"选项2\", \"选项3\", \"选项4\"], \"answer\": \"正确选项\",\"quizType\":\"问题类型\"}。其中，“quizType”包括文学，数学，历史，地理，化学，物理，生物，IT这8类，必须返回这8类中的一种。";
     // savePrompt(prompt);
 
-    final stream = aiClient.stream(
-        [ChatMessage.system(state.role), ChatMessage.humanText(prompt)]);
+    final stream = aiClient.stream([
+      ChatMessage.system(state.role),
+      ChatMessage.humanText(prompt),
+      /* i18n */ ChatMessage.humanText(ref.read(i18nProvider.notifier).t.lang)
+    ]);
 
     stream.listen(
       (v) {

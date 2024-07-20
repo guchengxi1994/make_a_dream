@@ -66,7 +66,9 @@ class _OpeningScreenButtonsState extends ConsumerState<OpeningScreenButtons> {
               },
               child: FittedBox(
                 child: Column(
-                    children: ButtonsNotifier.defaultModels
+                    children: ref
+                        .read(buttonProvider.notifier)
+                        .defaultModels
                         .map((v) => _Button(model: v))
                         .toList()),
               )),

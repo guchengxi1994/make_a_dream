@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 32 (16 per locale)
+/// Strings: 40 (20 per locale)
 ///
-/// Built on 2024-07-20 at 01:23 UTC
+/// Built on 2024-07-20 at 06:53 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -155,6 +155,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsAbilityFormEn ability_form = _StringsAbilityFormEn._(_root);
 	late final _StringsChairEn chair = _StringsChairEn._(_root);
 	late final _StringsTipsEn tips = _StringsTipsEn._(_root);
+	late final _StringsButtonsEn buttons = _StringsButtonsEn._(_root);
 }
 
 // Path: fountain
@@ -226,6 +227,19 @@ class _StringsTipsEn {
 	String get classroom => 'No Running Inside';
 }
 
+// Path: buttons
+class _StringsButtonsEn {
+	_StringsButtonsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get b1 => 'New Game';
+	String get b2 => 'Load Last';
+	String get b3 => 'Settings';
+	String get b4 => 'End';
+}
+
 // Path: <root>
 class _StringsZhCn implements Translations {
 	/// You can call this constructor and build your own translation instance of this locale.
@@ -257,6 +271,7 @@ class _StringsZhCn implements Translations {
 	@override late final _StringsAbilityFormZhCn ability_form = _StringsAbilityFormZhCn._(_root);
 	@override late final _StringsChairZhCn chair = _StringsChairZhCn._(_root);
 	@override late final _StringsTipsZhCn tips = _StringsTipsZhCn._(_root);
+	@override late final _StringsButtonsZhCn buttons = _StringsButtonsZhCn._(_root);
 }
 
 // Path: fountain
@@ -328,6 +343,19 @@ class _StringsTipsZhCn implements _StringsTipsEn {
 	@override String get classroom => '室内禁止奔跑';
 }
 
+// Path: buttons
+class _StringsButtonsZhCn implements _StringsButtonsEn {
+	_StringsButtonsZhCn._(this._root);
+
+	@override final _StringsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override String get b1 => '起';
+	@override String get b2 => '承';
+	@override String get b3 => '转';
+	@override String get b4 => '合';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 
@@ -350,6 +378,10 @@ extension on Translations {
 			case 'tips.cars': return 'Caution: Watch for Traffic';
 			case 'tips.scarecrow': return 'Still as death';
 			case 'tips.classroom': return 'No Running Inside';
+			case 'buttons.b1': return 'New Game';
+			case 'buttons.b2': return 'Load Last';
+			case 'buttons.b3': return 'Settings';
+			case 'buttons.b4': return 'End';
 			default: return null;
 		}
 	}
@@ -374,6 +406,10 @@ extension on _StringsZhCn {
 			case 'tips.cars': return '注意来往车辆';
 			case 'tips.scarecrow': return '一动不动，宛如死物';
 			case 'tips.classroom': return '室内禁止奔跑';
+			case 'buttons.b1': return '起';
+			case 'buttons.b2': return '承';
+			case 'buttons.b3': return '转';
+			case 'buttons.b4': return '合';
 			default: return null;
 		}
 	}
