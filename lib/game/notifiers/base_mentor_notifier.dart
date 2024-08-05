@@ -137,8 +137,10 @@ class BaseMentorNotifier
 
   String getAllHistory() {
     String s = "";
-    for (final i in state.npc.history) {
-      s += i.content;
+    if (state.npc.history.isNotEmpty) {
+      for (final i in state.npc.history) {
+        s += i.content;
+      }
     }
 
     return s;

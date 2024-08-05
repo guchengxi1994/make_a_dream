@@ -73,7 +73,7 @@ class MentorNpcNotifier extends AutoDisposeNotifier<MentorNpcState> {
             SystemChatMessage(
                 content: "玩家的名字是${ref.read(playerProvider).current?.name}"),
             ChatMessage.system(state.role),
-            ChatMessage.humanText("请介绍一下游戏内容。")
+            ChatMessage.humanText("请以“我是这个游戏的管理者”开头，介绍一下游戏内容。")
           ]);
 
           stream.listen(

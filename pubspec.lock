@@ -133,10 +133,10 @@ packages:
     dependency: "direct main"
     description:
       name: bonfire
-      sha256: "0ebf17580b66ffbc682cc471cfaaec705ac4034938ee6408eb63cfb06264099a"
+      sha256: "50812db7de528bf5e1989bcf09d6331789f97a29d35d959868952afa3ea728b6"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.9.7"
+    version: "3.9.8"
   boolean_selector:
     dependency: transitive
     description:

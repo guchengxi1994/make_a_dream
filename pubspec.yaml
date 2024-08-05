@@ -15,7 +15,7 @@ dependencies:
   audioplayers: ^6.0.0
   badges: ^3.1.2
   blur: ^4.0.0
-  bonfire: ^3.9.7
+  bonfire: ^3.9.8
   cupertino_icons: ^1.0.6
   date_time_format: ^2.0.1
   extended_image: ^8.2.1
